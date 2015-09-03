@@ -1,13 +1,21 @@
 // alive.ctrl.js
 'use strict';
 
-bughunter.controller("bugsCtrl", function($scope, $rootScope, $http){
+/**
+ * Controleur de la liste des bugs et des filtres
+ */
+bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal){
 	$scope.bugsList		= [];
 	$scope.priorities	= [];
 	$scope.listKilled	= false;
 	$scope.search	 = {'title':"", 'priority':"", 'FK_label_ID':"", 'FK_dev_ID':""};
 	$scope.orderProp = 'priority';
 	$scope.orderRev  = true;
+	getBugsList();
+
+	$scope.resetFilter = function(){
+		$scope.search = {'title':"", 'priority':"", 'FK_label_ID':"", 'FK_dev_ID':""};
+	};
 
 	function getBugsList (type) {
 		if (!type) type = 0;
@@ -23,8 +31,6 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http){
 		);
 	}
 
-	getBugsList();
-
 	$scope.$on('showbugsAlive', function(){
 		$scope.bugsList		= [];
 		getBugsList(0);
@@ -36,7 +42,30 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http){
 		$scope.listKilled	= true;
 	});
 
-	$scope.resetFilter = function(){
-		$scope.search = {'title':"", 'priority':"", 'FK_label_ID':"", 'FK_dev_ID':""};
+	$scope.openBug = function(bug){
+		var modalInstance = $modal.open({
+			templateUrl: 'pages/bugModal.php?v='+ new Date().getTime(),
+			controller: 'bugModalCtrl',
+			backdrop: 'static',
+			windowClass: '',
+			resolve: { bug: function() { return bug; } }
+		});
+		modalInstance.result.then(function (R) {
+			console.log(R);
+		});
+	};
+});
+
+
+/**
+ * Controleur de la modale de bug
+ */
+bughunter.controller('bugModalCtrl', function($scope, $modalInstance, bug){
+	console.log(bug);
+	$scope.bug = angular.copy(bug);
+	$scope.bug.description = angular.copy(nl2br(bug.description));
+
+	$scope.closeBugModal = function(){
+		$modalInstance.dismiss();
 	};
 });

@@ -54,13 +54,13 @@ $devs	= $l->getListe('t_devs');
 <table class="list-bugs">
 	<thead>
 		<tr>
-			<th class="row-id"		 ng-click="orderProp='id';			  orderRev=!orderRev;">id</th>
-			<th class="row-priority" ng-click="orderProp='priority';	  orderRev=!orderRev;">priority</th>
-			<th class="row-title"	 ng-click="orderProp='title';		  orderRev=!orderRev;">title</th>
-			<th class="row-comments" ng-click="orderProp='FK_comment_ID'; orderRev=!orderRev;">comments</th>
-			<th class="row-description" ng-click="orderProp='description';orderRev=!orderRev;">description</th>
-			<th class="row-label"	 ng-click="orderProp='FK_label_ID';	  orderRev=!orderRev;">label</th>
-			<th class="row-assignee" ng-click="orderProp='FK_dev_ID';	  orderRev=!orderRev;">assignee</th>
+			<th class="row-id"			ng-click="orderProp='id';			orderRev=!orderRev;">id</th>
+			<th class="row-priority"	ng-click="orderProp='priority';		orderRev=!orderRev;">priority</th>
+			<th class="row-title"		ng-click="orderProp='title';		orderRev=!orderRev;">title</th>
+			<th class="row-comments"	ng-click="orderProp='FK_comment_ID';orderRev=!orderRev;">comments</th>
+			<th class="row-description" ng-click="orderProp='description';	orderRev=!orderRev;">description</th>
+			<th class="row-label"		ng-click="orderProp='FK_label_ID';	orderRev=!orderRev;">label</th>
+			<th class="row-assignee"	ng-click="orderProp='FK_dev_ID';	orderRev=!orderRev;">assignee</th>
 			<th class="row-action">action</th>
 		</tr>
 	</thead>
@@ -77,7 +77,7 @@ $devs	= $l->getListe('t_devs');
 					</select>
 				</div>
 			</td>
-			<td>
+			<td ng-click="openBug(bug)">
 				{{bug.title}}<br/>
 				<span>By <em>{{bug.author}}</em> | {{bug.date}}</span>
 			</td>
@@ -98,9 +98,10 @@ $devs	= $l->getListe('t_devs');
 			<td>
 				<div class="wrapper-sl-label">
 					<div class="triangle-down"></div>
-					<select class="sl-assignee" ng-style="{'background-color': '#FFFFFF'}" ng-model="bug.dev.id"><?php
-						foreach($devs as $dev): ?>
-							<option style="background-color: #FFFFFF;" value="<?php echo $dev['id']; ?>"><?php echo $dev['pseudo']; ?></option><?php
+					<select class="sl-assignee" ng-style="{'background-color': (bug.dev.id == 0) ?'#CCC':'#FFF'}" ng-model="bug.dev.id"><?php
+						foreach($devs as $dev):
+							if ($dev["id"] === '-1') continue; ?>
+							<option style="background-color: #FFF;" value="<?php echo $dev['id']; ?>"><?php echo $dev['pseudo']; ?></option><?php
 						endforeach; ?>
 					</select>
 				</div>

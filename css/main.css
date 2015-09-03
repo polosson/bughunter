@@ -47,6 +47,7 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	background-color: #F1F1F1;
 	overflow-y: scroll;
+	font-size: 16px;
 }
 body .hideThis {
     display: none;
@@ -85,6 +86,7 @@ body #filter-bug .search-box #reset {
 body #filter-bug .filter {
 	color: #4A4A4A;
 	display: inline;
+	font-size: 1.5em;
 }
 body #filter-bug .all-filter {
 	display: inline-block;
@@ -897,18 +899,19 @@ header .cl-effect-13 a:focus {
 
 /*MODAL OPEN BUG
 ================*/
-.modal-content, .modal-content-addbug {
-	max-height: 90%;
-	overflow: auto; }
+.modal-dialog {
+	width: 80%;
+}
 
 #modal-openbug, #modal-openlogin, #modal-addbug {
-	display: none;
-	position: absolute;
+	/*display: none;*/
+/*	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5); }
+	background-color: rgba(0, 0, 0, 0.5);*/
+}
 #modal-openbug.active, #modal-openlogin.active, #modal-addbug.active {
     display: block; }
 
@@ -942,15 +945,6 @@ header .cl-effect-13 a:focus {
 .modal-content .group-btn .btn-action:hover, .modal-content .edit-img .btn-action:hover {
     background-color: #28528F; }
 
-.modal-content, .modal-content-addbug {
-	display: none;
-	position: fixed;
-	z-index: 200;
-	/*HEADER INFORMATION*/
-	/*CONTENT TEXT MODAL*/
-	/*BUG'S ASSOCIATED SCREENSHOT*/
-	/*TEXTAREA ANSWER FOR ANSWER
-	===============================*/ }
 .modal-content.active, .modal-content-addbug.active {
     display: block;
     margin: 0 auto;
@@ -1073,14 +1067,16 @@ header .cl-effect-13 a:focus {
 	padding: 5px; }
 .modal-content .header-modal .modal-container ul li span:nth-of-type(2), .modal-content-addbug .header-modal .modal-container ul li span:nth-of-type(2) {
 	font-weight: 400;
-	margin-top: 1%; }
+	margin-top: 1%;
+}
 .modal-content .header-modal .modal-container h2, .modal-content-addbug .header-modal .modal-container h2 {
 	color: #4A4A4A;
 	font-size: 1.8em;
 	font-weight: 700;
 	width: 100%;
-	margin-top: -10px;
-	padding-top: 20px; }
+	margin-top: -20px;
+	padding-top: 0px;
+}
 @media screen and (max-width: 960px) {
 	.modal-content .header-modal .modal-container h2, .modal-content-addbug .header-modal .modal-container h2 {
 		font-size: 1.3em;
@@ -1091,7 +1087,7 @@ header .cl-effect-13 a:focus {
     width: 100%;
     padding: 0 2%;
     padding-top: 0; }
-.modal-content .modal-container-text div:first-child, .modal-content .modal-container-text-addbug div:first-child, .modal-content-addbug .modal-container-text div:first-child, .modal-content-addbug .modal-container-text-addbug div:first-child {
+.modal-content .modal-container-text-addbug div:first-child, .modal-content-addbug .modal-container-text div:first-child, .modal-content-addbug .modal-container-text-addbug div:first-child {
 	margin-top: 2%; }
 .modal-content .modal-container-text #bug-author, .modal-content .modal-container-text-addbug #bug-author, .modal-content-addbug .modal-container-text #bug-author, .modal-content-addbug .modal-container-text-addbug #bug-author {
 	font-weight: 600; }
@@ -1125,7 +1121,7 @@ header .cl-effect-13 a:focus {
     color: #4A4A4A;
     margin-bottom: 2%; }
 .modal-content .last_action .title_action, .modal-content-addbug .last_action .title_action {
-	display: block;
+	display: inline-block;
 	text-transform: uppercase;
 	font-weight: 600;
 	margin-bottom: 1%; }

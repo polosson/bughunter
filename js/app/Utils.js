@@ -56,10 +56,7 @@ function basename(path) {
 function dirname(path) {
     return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');;
 }
-
-function relPath(absPath) {
-	if (typeof absPath !== 'string')
-			return;
-	var relPath = absPath.substring(rootPathLength);
-	return "../"+relPath;
+// Utile pour transformer des \n en <br />
+function nl2br (str) {
+    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br />' + '$2');
 }

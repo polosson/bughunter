@@ -4,7 +4,7 @@
 /**
  * Déclaration de l'appli bughunter
  */
-var bughunter = angular.module('bughunter', ['ui.bootstrap']);
+var bughunter = angular.module('bughunter', ['ui.bootstrap', 'ngSanitize']);
 
 
 /* * * * * * * * * * * * *  DIRECTIVES GÉNÉRIQUES ET CONFIGURATION * * * * * * * * * * * * * * */

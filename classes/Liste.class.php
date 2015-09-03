@@ -104,7 +104,7 @@ class Liste {
 						if (!is_array($valArr)) continue;
 						$resultOK[$k] = $valArr;
 					}												// Remplacement par la Foreign Key le cas échéant
-					if ($withFK && $v && preg_match("/^".FOREIGNKEYS_PREFIX."/", $k)) {
+					if ($withFK && preg_match("/^".FOREIGNKEYS_PREFIX."/", $k)) {
 						$fk = $this->getForeignKey($k, $v);
 						if (!is_array($fk)) continue;
 						$resultOK[$fk[0]] = $fk[1];
@@ -254,8 +254,22 @@ class Liste {
 		if ($nbResults == 0)
 			return false;
 		if (is_array($vArr) && count($vArr) > 0)
-			return Array($rel['alias'], $q->fetchAll(PDO::FETCH_ASSOC));
-		return Array($rel['alias'], $q->fetch(PDO::FETCH_ASSOC));
+			$retour = $q->fetchAll(PDO::FETCH_ASSOC);
+		else
+			$retour = $q->fetch(PDO::FETCH_ASSOC);
+		$resultOK = $retour;
+		foreach($retour as $i => $entry) {
+			if (!is_array($entry)) continue;
+			foreach($entry as $kb => $vb) {
+				$resultOK[$i]['debug'] = $kb;
+				if (preg_match("/^".FOREIGNKEYS_PREFIX."/", $kb)) {
+					$fkb = $this->getForeignKey($kb, $vb);
+					if (!is_array($fkb)) continue;
+					$resultOK[$i][$fkb[0]] = $fkb[1];
+				}
+			}
+		}
+		return Array($rel['alias'], $resultOK);
 	}
 
 	///////////////////////////////////////////////////////////// METHODES STATIQUES /////////////////////////////////////////////////////

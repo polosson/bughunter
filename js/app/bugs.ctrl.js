@@ -5,6 +5,9 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http){
 	$scope.bugsList		= [];
 	$scope.priorities	= [];
 	$scope.listKilled	= false;
+	$scope.search	 = {'title':"", 'priority':"", 'FK_label_ID':"", 'FK_dev_ID':""};
+	$scope.orderProp = 'priority';
+	$scope.orderRev  = true;
 
 	function getBugsList (type) {
 		if (!type) type = 0;
@@ -33,4 +36,7 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http){
 		$scope.listKilled	= true;
 	});
 
+	$scope.resetFilter = function(){
+		$scope.search = {'title':"", 'priority':"", 'FK_label_ID':"", 'FK_dev_ID':""};
+	};
 });

@@ -9,7 +9,7 @@ try {
 		$type = 0;
 
     $l = new Liste();
-	$data['bugsList'] = $l->getListe('t_bugs', "*", "priority", "DESC", "closed", "=", $type);
+	$data['bugsList'] = $l->getListe('t_bugs', "*", "priority", "DESC", "closed", "=", $type, 40);
 	$data['priorities'] = $PRIORITIES;
 }
 catch (Exception $e) {

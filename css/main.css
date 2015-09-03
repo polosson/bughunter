@@ -80,6 +80,7 @@ body #filter-bug .search-box #search {
 }
 body #filter-bug .search-box #reset {
 	vertical-align: middle;
+	font-size: 0.9em;
 }
 body #filter-bug .filter {
 	color: #4A4A4A;

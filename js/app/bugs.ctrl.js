@@ -5,8 +5,11 @@
  * Controleur de la liste des bugs et des filtres
  */
 bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal){
+	$scope.modeAdmin	= true;
 	$scope.bugsList		= [];
 	$scope.priorities	= [];
+	$scope.labels		= [];
+	$scope.devs			= [];
 	$scope.listKilled	= false;
 	$scope.search	 = {'title':"", 'priority':"", 'FK_label_ID':"", 'FK_dev_ID':""};
 	$scope.orderProp = 'priority';
@@ -25,6 +28,8 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal){
 			function(R){
 				$scope.bugsList		= R.data.bugsList;
 				$scope.priorities	= R.data.priorities;
+				$scope.labels		= R.data.labels;
+				$scope.devs			= R.data.devs;
 				$rootScope.$broadcast('updateBugCount', {'type':type, 'count':R.data.bugsList.length});
 			},
 			function(errMsg) { console.log("error", errMsg); $('#msg').html(errMsg).addClass('msg_error'); }
@@ -48,24 +53,44 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal){
 			controller: 'bugModalCtrl',
 			backdrop: 'static',
 			windowClass: '',
-			resolve: { bug: function() { return bug; } }
+			resolve: {
+				priorities: function() { return $scope.priorities; },
+				labels:		function() { return $scope.labels; },
+				devs:		function() { return $scope.devs; },
+				bug:		function() { return bug; }
+			}
 		});
 		modalInstance.result.then(function (R) {
 			console.log(R);
 		});
 	};
+
+	$scope.getLabelColor = function(labelID){
+		var zeLabel = $.grep($scope.labels, function(e){ return e.id === labelID; });
+		return zeLabel[0].color;
+	};
+
 });
 
 
 /**
  * Controleur de la modale de bug
  */
-bughunter.controller('bugModalCtrl', function($scope, $modalInstance, bug){
-	console.log(bug);
-	$scope.bug = angular.copy(bug);
+bughunter.controller('bugModalCtrl', function($scope, $modalInstance, priorities, labels, devs, bug){
+	$scope.modeAdmin  = true;
+	$scope.priorities = angular.copy(priorities);
+	$scope.labels	  = angular.copy(labels);
+	$scope.devs		  = angular.copy(devs);
+	$scope.bug		  = angular.copy(bug);
 	$scope.bug.description = angular.copy(nl2br(bug.description));
+	console.log(bug);
 
 	$scope.closeBugModal = function(){
 		$modalInstance.dismiss();
+	};
+
+	$scope.getLabelColor = function(labelID){
+		var zeLabel = $.grep($scope.labels, function(e){ return e.id === labelID; });
+		return zeLabel[0].color;
 	};
 });

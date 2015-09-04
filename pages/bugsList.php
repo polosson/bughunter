@@ -1,11 +1,4 @@
-<?php
-require_once('init.php');
 
-$l = new Liste();
-$labels = $l->getListe('t_labels');
-$devs	= $l->getListe('t_devs');
-
-?>
 <div id="filter-bug" class="clearfix">
 	<div class="search-box">
 		<input type="text" placeholder="search bug title..." ng-model="search.title" />
@@ -18,31 +11,24 @@ $devs	= $l->getListe('t_devs');
 		<div class="select-filter">
 			Priority<br />
 			<select filter="priority" class="filtrage" ng-model="search.priority">
-				<option value="">all</option><?php
-				foreach ($PRIORITIES as $prio) : ?>
-					<option style="background-color:<?php echo $prio['color'] ?>" value="<?php echo $prio['priority']; ?>"><?php echo $prio['priority']; ?></option><?php
-				endforeach; ?>
+				<option value="">all</option>
+				<option ng-repeat="prio in priorities" ng-style="{'background-color': prio.color}" ng-value="{{prio.priority}}">{{prio.priority}}</option>
 			</select>
 		</div>
 
 		<div class="select-filter">
 			Label<br />
 			<select filter="label" class="filtrage" ng-model="search.FK_label_ID">
-				<option value="">all</option><?php
-				foreach ($labels as $label): ?>
-					<option value="<?php echo $label["id"]; ?>"><?php echo $label["name"]; ?></option><?php
-				endforeach; ?>
+				<option value="">all</option>
+				<option ng-repeat="label in labels" ng-style="{'background-color': label.color}" ng-value="{{label.id}}">{{label.name}}</option>
 			</select>
 		</div>
 
 		<div class="select-filter">
 			Assignee<br />
 			<select filter="assignee" class="filtrage" ng-model="search.FK_dev_ID">
-				<option value="">all</option><?php
-				foreach($devs as $dev) :
-					if ($dev["id"] === '-1') continue; ?>
-					<option value="<?php echo $dev["id"]; ?>"><?php echo $dev["pseudo"]; ?></option><?php
-				endforeach; ?>
+				<option value="" style="background-color: #CCC;">all</option>
+				<option ng-repeat="dev in devs" style="background-color: #FFF;" ng-value="{{dev.id}}">{{dev.pseudo}}</option>
 			</select>
 		</div>
 
@@ -61,21 +47,22 @@ $devs	= $l->getListe('t_devs');
 			<th class="row-description" ng-click="orderProp='description';	orderRev=!orderRev;">description</th>
 			<th class="row-label"		ng-click="orderProp='FK_label_ID';	orderRev=!orderRev;">label</th>
 			<th class="row-assignee"	ng-click="orderProp='FK_dev_ID';	orderRev=!orderRev;">assignee</th>
-			<th class="row-action">action</th>
+			<th class="row-action" ng-show="modeAdmin">action</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="bug in bugsList | filter:search | orderBy:orderProp : orderRev">
 			<td>{{bug.id}}</td>
 			<td>
-				<div class="wrapper-sl">
+				<div class="wrapper-sl" ng-show="modeAdmin">
 					<div class="triangle-down"></div>
-					<select class="sl-priority" ng-style="{'background-color': priorities[bug.priority].color}" ng-model="bug.priority"><?php
-						foreach($PRIORITIES as $prio): ?>
-							<option style="background-color: <?php echo $prio['color']; ?>" value="<?php echo $prio['priority']; ?>"><?php echo $prio['priority']; ?></option><?php
-						endforeach; ?>
+					<select class="sl-priority" ng-style="{'background-color': priorities[bug.priority].color}" ng-model="bug.priority">
+						<option ng-repeat="prio in priorities" ng-style="{'background-color': prio.color}" ng-value="{{prio.priority}}">{{prio.priority}}</option>
 					</select>
 				</div>
+				<span ng-class="{'highest':bug.priority == '4', 'high':bug.priority == '3', 'middle':bug.priority == '2', 'low':bug.priority == '1'}" ng-hide="modeAdmin">
+					{{bug.priority}}
+				</span>
 			</td>
 			<td ng-click="openBug(bug)">
 				{{bug.title}}<br/>
@@ -86,27 +73,26 @@ $devs	= $l->getListe('t_devs');
 			</td>
 			<td>{{bug.description}}</td>
 			<td>
-				<div class="wrapper-sl-label">
+				<div class="wrapper-sl-label" ng-show="modeAdmin">
 					<div class="triangle-down"></div>
-					<select class="sl-label" ng-style="{'background-color': bug.label.color}" ng-model="bug.label.id"><?php
-						foreach($labels as $label): ?>
-							<option style="background-color: <?php echo $label['color']; ?>" value="<?php echo $label['id']; ?>"><?php echo $label['name']; ?></option><?php
-						endforeach; ?>
+					<select class="sl-label" ng-style="{'background-color': getLabelColor(bug.FK_label_ID)}" ng-model="bug.FK_label_ID"
+							ng-options="label.id as label.name for label in labels">
 					</select>
 				</div>
+				<span ng-style="{'background-color': bug.label.color}" ng-hide="modeAdmin">{{bug.label.name}}</span>
 			</td>
 			<td>
-				<div class="wrapper-sl-label">
+				<div class="wrapper-sl-label" ng-show="modeAdmin">
 					<div class="triangle-down"></div>
-					<select class="sl-assignee" ng-style="{'background-color': (bug.dev.id == 0) ?'#CCC':'#FFF'}" ng-model="bug.dev.id"><?php
-						foreach($devs as $dev):
-							if ($dev["id"] === '-1') continue; ?>
-							<option style="background-color: #FFF;" value="<?php echo $dev['id']; ?>"><?php echo $dev['pseudo']; ?></option><?php
-						endforeach; ?>
+					<select class="sl-assignee" ng-style="{'background-color': (bug.FK_dev_ID == 0) ?'#CCC':'#FFF'}" ng-model="bug.FK_dev_ID"
+							ng-options="dev.id as dev.pseudo for dev in devs">
 					</select>
 				</div>
+				<div style="display: inline-block; width: 80%; padding: 4px 2px;"
+					 ng-style="{'background-color': (bug.dev.id > 0)? '#FFF' : '#CCC'}"
+					 ng-hide="modeAdmin">{{bug.dev.pseudo}}</div>
 			</td>
-			<td>
+			<td ng-show="modeAdmin">
 				<span class="btn-action" ng-show="listKilled">Remove</span>
 				<span class="btn-action" ng-hide="listKilled">Kill bug</span>
 			</td>

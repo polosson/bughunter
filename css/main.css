@@ -520,9 +520,17 @@ body input:focus, body textarea:focus {
 	}
 
 	select.sl-label {
-		max-width: 80px;
-		min-width: 80px;
+		width: 90px;
 		color: white;
+		font-weight: bold;
+	}
+
+	select.sl-label option {
+		background-color: #FFF;
+		color: #000;
+		padding: 3px;
+		outline: 0;
+		font-weight: normal;
 	}
 
 	.wrapper-sl-label .triangle-down {
@@ -899,6 +907,10 @@ header .cl-effect-13 a:focus {
 
 /*MODAL OPEN BUG
 ================*/
+.modal-open {
+	overflow-y: scroll;
+}
+
 .modal-dialog {
 	width: 80%;
 }

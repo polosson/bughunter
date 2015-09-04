@@ -32,6 +32,7 @@ bughunter.config(function($httpProvider) {
  * Controleur du menu principal
  */
 bughunter.controller("menuCtrl", function($scope, $rootScope, $http){
+	$scope.modeAdmin   = false;
 	$scope.page		   = 'alive';
 	$scope.countKilled = startCountKilled;
 	$scope.countAlive  = startCountAlive;
@@ -76,4 +77,3 @@ bughunter.directive('hitenter', function() {
 		});
 	};
 });
-

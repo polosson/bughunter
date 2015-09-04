@@ -44,13 +44,13 @@ $countKilled = $l->countResults();
 				<img src="gfx/logo.png" alt="logo_bughunter"/>
 			</div>
 			<ul>
-				<li>
+				<li ng-show="modeAdmin">
 					<a href="#" ng-click="disconnect()">disconnect</a>
 				</li>
 				<li>
 					<a href="#">login</a>
 				</li>
-				<li ng-class="{'on': page === 'settings'}">
+				<li ng-class="{'on': page === 'settings'}" ng-show="modeAdmin">
 					<a href="#" ng-click="showPage('settings')">settings</a>
 				</li>
 				<li ng-class="{'on': page === 'killed'}">

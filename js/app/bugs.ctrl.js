@@ -78,11 +78,14 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal){
  */
 bughunter.controller('bugModalCtrl', function($scope, $modalInstance, priorities, labels, devs, bug){
 	$scope.modeAdmin  = true;
+	$scope.editInfos  = false;
+	$scope.editDescr  = false;
+	$scope.editComment= false;
 	$scope.priorities = angular.copy(priorities);
 	$scope.labels	  = angular.copy(labels);
 	$scope.devs		  = angular.copy(devs);
 	$scope.bug		  = angular.copy(bug);
-	$scope.bug.description = angular.copy(nl2br(bug.description));
+	$scope.bug.descriptionHtml = angular.copy(nl2br(bug.description));
 	console.log(bug);
 
 	$scope.closeBugModal = function(){
@@ -92,5 +95,39 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, priorities
 	$scope.getLabelColor = function(labelID){
 		var zeLabel = $.grep($scope.labels, function(e){ return e.id === labelID; });
 		return zeLabel[0].color;
+	};
+
+	$scope.initEdit = function(){
+		$scope.editInfos  = true;
+	};
+	$scope.saveEdit = function(){
+		$scope.editInfos  = false;
+	};
+	$scope.cancelEdit = function(){
+		$scope.editInfos  = false;
+	};
+
+	$scope.initUpdDescr = function(){
+		$scope.editDescr  = true;
+	};
+	$scope.saveUpdDescr  = function(){
+		$scope.editDescr  = false;
+	};
+	$scope.cancelUpdDescr  = function(){
+		$scope.editDescr  = false;
+	};
+
+	$scope.initUpdComment = function(idComm){
+		$scope.editComment  = idComm;
+	};
+	$scope.saveUpdComment = function(){
+		$scope.editComment  = false;
+	};
+	$scope.cancelUpdComment = function(){
+		$scope.editComment  = false;
+	};
+	$scope.deleteComment = function(idComm){
+		if (!confirm("Delete this comment? Sure?"))
+			return;
 	};
 });

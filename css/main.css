@@ -211,8 +211,7 @@ body .btn-delete {
 body .btn-delete:hover {
 	background-color: #D20A0D;
 }
-body .btn-success {
-    background-color: #79AE3A;
+body .btn-success, body .btn-warning {
     color: white;
     padding: 10px;
     text-transform: uppercase;
@@ -227,8 +226,17 @@ body .btn-success {
     -webkit-box-shadow: inset 0 -3px 0px rgba(0, 0, 0, 0.2);
     box-shadow: inset 0 -3px 0px rgba(0, 0, 0, 0.2);
 }
+body .btn-success {
+    background-color: #79AE3A;
+}
 body .btn-success:hover {
 	background-color: #608832;
+}
+body .btn-warning {
+    background-color: #F0AD4E;
+}
+body .btn-warning:hover {
+	background-color: #EC971F;
 }
 body textarea {
     color: #4A4A4A;
@@ -937,17 +945,18 @@ header .cl-effect-13 a:focus {
 	left: 0; }
 
 .modal-content .group-btn, .modal-content .edit-img {
-	position: absolute;
-	top: -22px;
-	right: 0;
-	background-color: #E1DFE0; }
-.modal-content .group-btn .btn-delete, .modal-content .group-btn .btn-action, .modal-content .edit-img .btn-delete, .modal-content .edit-img .btn-action {
-    padding: 2px;
-    background-color: #E1DFE0;
-    color: #4A4A4A;
+	margin-right: 20px;
+}
+.modal-content .group-btn button, .modal-content .edit-img button {
+    padding: 1px 3px;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
-    box-shadow: none; }
+    box-shadow: none;
+}
+.modal-content .group-btn .btn-delete, .modal-content .group-btn .btn-action {
+    background-color: #E1DFE0;
+    color: #4A4A4A;
+}
 .modal-content .group-btn .btn-delete:hover, .modal-content .group-btn .btn-action:hover, .modal-content .edit-img .btn-delete:hover, .modal-content .edit-img .btn-action:hover {
     background-color: #D20A0D;
     color: #FFFFFF;
@@ -974,10 +983,10 @@ header .cl-effect-13 a:focus {
     width: 100%;
     padding-bottom: 2%;
     margin-bottom: 10px; }
-.modal-content .header-modal span.edit-info, .modal-content-addbug .header-modal span.edit-info {
+.modal-content .header-modal .edit-info, .modal-content-addbug .header-modal .edit-info {
 	position: absolute;
 	top: 0px;
-	left: 2.5%; }
+	left: 3%; }
 .modal-content .header-modal span.edit-info .btn-success, .modal-content .header-modal span.edit-info .btn-action:last-child, .modal-content-addbug .header-modal span.edit-info .btn-success, .modal-content-addbug .header-modal span.edit-info .btn-action:last-child {
 	display: none; }
 .modal-content .header-modal input, .modal-content-addbug .header-modal input {
@@ -1104,7 +1113,9 @@ header .cl-effect-13 a:focus {
 .modal-content .modal-container-text #bug-author, .modal-content .modal-container-text-addbug #bug-author, .modal-content-addbug .modal-container-text #bug-author, .modal-content-addbug .modal-container-text-addbug #bug-author {
 	font-weight: 600; }
 .modal-content .modal-container-text .author, .modal-content .modal-container-text-addbug .author, .modal-content-addbug .modal-container-text .author, .modal-content-addbug .modal-container-text-addbug .author {
-	display: inline-block; }
+	display: inline-block;
+	margin-right: 20px;
+}
 .modal-content .modal-container-text p, .modal-content .modal-container-text-addbug p, .modal-content-addbug .modal-container-text p, .modal-content-addbug .modal-container-text-addbug p {
 	position: relative;
 	padding: 1%;

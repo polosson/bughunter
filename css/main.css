@@ -503,7 +503,6 @@ body input:focus, body textarea:focus {
 		top: 26px;
 		left: 52px;
 	}
-
 	select#sl-mod-priority {
 		margin-left: 7px;
 		margin-top: -4px;
@@ -511,36 +510,22 @@ body input:focus, body textarea:focus {
 
 	/*SL Label
 	==============*/
-	/*label ici*/
 	select.sl-label {
 		-moz-appearance: none;
-		/* Firefox */
 		-webkit-appearance: none;
-		/* Safari and Chrome */
 		appearance: none;
 		border: none;
 		text-transform: uppercase;
-		outline: 0;
-	}
-
-	#content table tr td:nth-child(6) {
-		min-width: 140px;
-	}
-
-	select.sl-label {
 		width: 90px;
-		color: white;
-		font-weight: bold;
+		color: rgba(0, 0, 0, 0.8);
+		/*font-weight: bold;*/
 	}
-
 	select.sl-label option {
 		background-color: #FFF;
 		color: #000;
 		padding: 3px;
-		outline: 0;
 		font-weight: normal;
 	}
-
 	.wrapper-sl-label .triangle-down {
 		top: 20px;
 		left: 73%;
@@ -550,77 +535,52 @@ body input:focus, body textarea:focus {
 			left: 80%;
 		}
 	}
-
 	select.sl-label {
-		padding: 5px 0;
+		padding: 4px 0;
 	}
 
 	/*SL ASSIGNEE
 	==============*/
-	/*label ici*/
 	select.sl-assignee {
 		-moz-appearance: none;
-		/* Firefox */
 		-webkit-appearance: none;
-		/* Safari and Chrome */
 		appearance: none;
 		border: none;
 		text-transform: uppercase;
-		max-width: 80px;
-		min-width: 80px;
-		color: rgba(0, 0, 0, 0.5);
-		outline: 0;
+		width: 90px;
+		color: rgba(0, 0, 0, 0.8);
 	}
-
-	#content table tr td:nth-child(7) {
-		min-width: 140px;
-	}
-
 	.wrapper-sl-assignee .triangle-down {
 		top: 20px;
 		left: 125px;
 	}
-
 	select.sl-assignee {
-		padding: 5px 0;
+		padding: 4px 0;
 	}
-
-	select.sl-priority {
-		padding-right: 14px;
+	select.sl-assignee option {
+		color: #000;
+		padding: 3px;
+		outline: 0;
+		font-weight: normal;
 	}
 
 	#sl-mod-priority {
 		padding: 9px 15px 10px 13px;
 	}
+	#sl-mod-label, #sl-mod-assignee {
+		width: 130px;
+	}
 
-	#label .triangle-down {
+	select.sl-priority {
+		padding-right: 14px;
+	}
+	#label .triangle-down, #assignee .triangle-down {
 		left: 112px;
 		top: 26px;
 	}
-
-	#sl-mod-label {
-		min-width: 110px;
-		max-width: 110px;
-	}
-
 	.wrapper-sl-assignee .triangle-down {
 		left: 135px;
 		top: 20px;
-	}
-
-	#sl-mod-label {
-		min-width: 110px;
-		max-width: 110px;
-	}
-
-	#sl-mod-assignee {
-		min-width: 110px;
-		max-width: 110px;
-	}
-
-	#assignee .triangle-down {
-		left: 112px;
-		top: 26px;
 	}
 }
 .effect2 {
@@ -666,8 +626,12 @@ input, textarea {
 	color: rgba(0, 0, 0, 0.8); }
 
 select {
-	background-color: rgba(1, 1, 1, 0.1); }
-
+	background-color: rgba(1, 1, 1, 0.1);
+}
+select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
 /*FORM ADDBUG
 ===============*/
 #add_new_bug input[name="title"] {
@@ -780,15 +744,15 @@ header .cl-effect-13 a:focus {
 }
 
 #content {
-	/*addbug button*/
 	padding: 2%;
 	max-width: 99%;
 	margin: 0 auto;
-	/*END TABLE*/ }
+}
 #content > button.btn-action:first-child {
     display: block;
     margin-left: auto;
-    margin-right: auto; }
+    margin-right: auto;
+}
 #content table {
     table-layout: fixed;
     padding: 10px;
@@ -797,10 +761,12 @@ header .cl-effect-13 a:focus {
     width: 100%;
     white-space: nowrap;
     border: 2px solid #E9E7E8;
-    font-size: 0.8em; }
+    font-size: 0.8em;
+}
 #content table.list-bugs tr:hover {
 	background-color: rgba(0, 0, 0, 0.1);
-	transition: 0.3s ease-out; }
+	transition: 0.3s ease-out;
+}
 #content table .row-id {
 	width: 30px; }
 #content table .row-priority {
@@ -808,7 +774,7 @@ header .cl-effect-13 a:focus {
 #content table .row-title {
 	width: 15%; }
 #content table .row-comments {
-	width: 90px; }
+	width: 100px; }
 #content table .row-description {
 	width: auto; }
 #content table .row-label {
@@ -816,19 +782,21 @@ header .cl-effect-13 a:focus {
 #content table .row-assignee {
 	width: 7%; }
 #content table .row-action {
-	width: 7%; }
-#content table.admin th:last-child {
-	cursor: default !important; }
-#content table.admin th:last-child .tablesorter-header-inner {
-	cursor: default !important; }
+	width: 7%;
+}
+#content table.list-bugs tr th:last-child {
+	cursor: default;
+	text-align: center;
+}
 #content table.list-bugs tr td {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-#content table th {
+#content table tr th {
 	text-transform: uppercase;
 	color: #FFFFFF;
+	cursor: pointer;
 	border-left: 1px solid white;
 	border-right: 1px solid white;
 	background-color: #4A4A4A;
@@ -836,113 +804,87 @@ header .cl-effect-13 a:focus {
 	font-size: 0.9em;
 	padding: 5px 2px;
 	transition: background-color 0.3s ease-out;
-	text-align: left; }
+	text-align: left;
+}
 @media screen and (max-width: 1400px) {
-	#content table th {
-		font-size: 0.8em; } }
-#content table th.sort {
-	background-image: url("../img/design/bg.gif");
-	background-repeat: no-repeat;
-	background-position: center right;
-	cursor: pointer; }
-#content table th.sort:hover {
-	background-color: rgba(1, 1, 1, 0.5);
-	cursor: pointer; }
+	#content table tr th {
+		font-size: 0.8em;
+	}
+}
 @media screen and (max-width: 1000px) {
-	#content table th:nth-child(5) {
-		display: none; } }
-#content table th.sort:nth-child(3) {
-	background-image: url("../img/design/calendar.png"), url("../img/design/bg.gif");
-	background-position: 88%, 100%;
-	background-repeat: no-repeat; }
+	#content table tr th:nth-child(5) {
+		display: none;
+	}
+}
 #content table tr {
-	text-align: center;
 	border: 1px #F1F1F1 solid;
 	border-left: 0;
-	border-right: 0; }
+	border-right: 0;
+}
 #content table tr:nth-child(odd) {
 	background-color: #E1DFE0; }
 #content table tr:nth-child(even) {
 	background-color: #E9E7E8; }
 #content table tr.error_display {
 	background-color: #ffabab;
-	color: white; }
+	color: white;
+}
 #content table tr.error_display td {
 	padding: 25px 0;
-	font-size: 1.4em; }
+	font-size: 1.4em;
+}
 #content table tr td {
 	text-align: center;
 	font-size: 0.9em;
-	/*TD TITLE*/
-	/*TD PRIORITY*/
-	/*TD TITLE*/
-	/*TD DESCRIPTION*/
-	/*TD LABEL*/ }
+}
 #content table tr td .nbr-com {
 	background-color: red;
 	display: inline-block;
 	width: 50px;
 	height: 50px;
 	line-height: 50px;
-	background: url("../gfx/cmts.png") no-repeat; }
+	background: url("../gfx/cmts.png") no-repeat;
+}
 #content table tr td:nth-child(3) {
 	font-weight: 600;
 	text-align: left;
-	font-size: 1.1em; }
+	font-size: 1.1em;
+}
 #content table tr td:nth-child(3) span {
 	font-size: 0.7em;
-	font-weight: 300; }
+	font-weight: 300;
+}
 #content table tr td:nth-child(3):hover {
-	cursor: pointer; }
+	cursor: pointer;
+}
 #content table tr td:nth-child(3):hover tr {
 	background-color: green; }
 #content table tr td:nth-child(5) {
-	text-align: left; }
+	text-align: left;
+}
 @media screen and (max-width: 1000px) {
 	#content table tr td:nth-child(5) {
-		display: none; } }
+		display: none;
+	}
+}
 #content table tr td:nth-child(6) {
-	text-transform: uppercase; }
+	text-transform: uppercase;
+}
 #content table tr td:nth-child(6) span {
 	display: block;
 	margin: 0 auto;
 	color: #FFFFFF;
-	padding: 4px; }
-#content table tr td:last-child {
-	z-index: 1000; }
-#content td:hover td {
-    background-color: green; }
+	padding: 4px;
+}
 
 /*MODAL OPEN BUG
 ================*/
 .modal-open {
 	overflow-y: scroll;
 }
-
 .modal-dialog {
 	width: 80%;
 }
-
-#modal-openbug, #modal-openlogin, #modal-addbug {
-	/*display: none;*/
-/*	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5);*/
-}
-#modal-openbug.active, #modal-openlogin.active, #modal-addbug.active {
-    display: block; }
-
-/*POUR AVOIR L'OVERLAY NOIR TJS JUSQU AU BOUT DE LA DIV*/
-#modal-openbug, .openImg, #modal-addbug {
-	position: fixed !important;
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0; }
 
 .modal-content .group-btn, .modal-content .edit-img {
 	margin-right: 20px;
@@ -1075,16 +1017,20 @@ header .cl-effect-13 a:focus {
 	text-align: center;
 	min-width: 100px; }
 .modal-content .header-modal .modal-container ul li#label span:nth-of-type(2), .modal-content-addbug .header-modal .modal-container ul li#label span:nth-of-type(2) {
-	color: #FFFFFF;
 	line-height: 30px;
+	width: 130px;
 	font-size: 1.2em;
 	text-transform: uppercase;
+	text-align: center;
 	font-weight: 600;
 	padding: 5px; }
 .modal-content .header-modal .modal-container ul li#assignee span:nth-of-type(2), .modal-content-addbug .header-modal .modal-container ul li#assignee span:nth-of-type(2) {
-	font-weight: 600;
-	font-size: 1.5em;
+	line-height: 30px;
+	width: 130px;
+	font-size: 1.2em;
+	text-transform: uppercase;
 	text-align: center;
+	font-weight: 600;
 	padding: 5px; }
 .modal-content .header-modal .modal-container ul li span:nth-of-type(2), .modal-content-addbug .header-modal .modal-container ul li span:nth-of-type(2) {
 	font-weight: 400;

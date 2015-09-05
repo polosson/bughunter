@@ -40,61 +40,82 @@
 <table class="list-bugs">
 	<thead>
 		<tr>
-			<th class="row-id"			ng-click="orderProp='id';			orderRev=!orderRev;">id</th>
-			<th class="row-priority"	ng-click="orderProp='priority';		orderRev=!orderRev;">priority</th>
-			<th class="row-title"		ng-click="orderProp='title';		orderRev=!orderRev;">title</th>
-			<th class="row-comments"	ng-click="orderProp='FK_comment_ID';orderRev=!orderRev;">comments</th>
-			<th class="row-description" ng-click="orderProp='description';	orderRev=!orderRev;">description</th>
-			<th class="row-label"		ng-click="orderProp='FK_label_ID';	orderRev=!orderRev;">label</th>
-			<th class="row-assignee"	ng-click="orderProp='FK_dev_ID';	orderRev=!orderRev;">assignee</th>
-			<th class="row-action" ng-show="modeAdmin">action</th>
+			<th class="row-id"			ng-click="orderProp='id';			orderRev=!orderRev;">
+				 id &nbsp;<i class="fa fa-sort"></i>
+			</th>
+			<th class="row-priority"	ng-click="orderProp='priority';		orderRev=!orderRev;">
+				priority &nbsp;<i class="fa fa-sort"></i>
+			</th>
+			<th class="row-title">
+				<div class="pull-right" ng-click="orderProp='date'; orderRev=!orderRev;">
+					<i class="fa fa-calendar-o"></i> &nbsp;<i class="fa fa-sort"></i> &nbsp;&nbsp;
+				</div>
+				<div ng-click="orderProp='title'; orderRev=!orderRev;">
+					title &nbsp;<i class="fa fa-sort"></i>
+				</div>
+			</th>
+			<th class="row-comments"	ng-click="orderProp='FK_comment_ID';orderRev=!orderRev;">
+				comments &nbsp;<i class="fa fa-sort"></i>
+			</th>
+			<th class="row-description" ng-click="orderProp='description';	orderRev=!orderRev;">
+				description &nbsp;<i class="fa fa-sort"></i>
+			</th>
+			<th class="row-label"		ng-click="orderProp='FK_label_ID';	orderRev=!orderRev;">
+				label &nbsp;<i class="fa fa-sort"></i>
+			</th>
+			<th class="row-assignee"	ng-click="orderProp='FK_dev_ID';	orderRev=!orderRev;">
+				assignee &nbsp;<i class="fa fa-sort"></i>
+			</th>
+			<th class="row-action"		ng-show="modeAdmin">
+				action
+			</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="bug in bugsList | filter:search | orderBy:orderProp : orderRev">
 			<td>{{bug.id}}</td>
 			<td>
-				<div class="wrapper-sl" ng-show="modeAdmin">
+				<div class="wrapper-sl" ng-show="modeAdmin && bug.closed === '0'">
 					<div class="triangle-down"></div>
 					<select class="sl-priority" ng-style="{'background-color': priorities[bug.priority].color}" ng-model="bug.priority">
 						<option ng-repeat="prio in priorities" ng-style="{'background-color': prio.color}" ng-value="{{prio.priority}}">{{prio.priority}}</option>
 					</select>
 				</div>
-				<span ng-class="{'highest':bug.priority == '4', 'high':bug.priority == '3', 'middle':bug.priority == '2', 'low':bug.priority == '1'}" ng-hide="modeAdmin">
+				<span ng-class="{'highest':bug.priority == '4', 'high':bug.priority == '3', 'middle':bug.priority == '2', 'low':bug.priority == '1'}" ng-hide="modeAdmin && bug.closed === '0'">
 					{{bug.priority}}
 				</span>
 			</td>
 			<td ng-click="openBug(bug)">
 				{{bug.title}}<br/>
-				<span>By <em>{{bug.author}}</em> | {{bug.date}}</span>
+				<span>By <em>{{bug.author}}</em> | {{bug.date | date: 'yyyy, MMM dd, HH:mm'}}</span>
 			</td>
 			<td>
 				<span class="nbr-com">{{bug.comment.length || "0"}}</span>
 			</td>
 			<td>{{bug.description}}</td>
 			<td>
-				<div class="wrapper-sl-label" ng-show="modeAdmin">
+				<div class="wrapper-sl-label" ng-show="modeAdmin && bug.closed === '0'">
 					<div class="triangle-down"></div>
 					<select class="sl-label" ng-style="{'background-color': getLabelColor(bug.FK_label_ID)}" ng-model="bug.FK_label_ID"
 							ng-options="label.id as label.name for label in labels">
 					</select>
 				</div>
-				<span ng-style="{'background-color': bug.label.color}" ng-hide="modeAdmin">{{bug.label.name}}</span>
+				<span ng-style="{'background-color': getLabelColor(bug.FK_label_ID)}" ng-hide="modeAdmin && bug.closed === '0'">{{bug.label.name}}</span>
 			</td>
 			<td>
-				<div class="wrapper-sl-label" ng-show="modeAdmin">
+				<div class="wrapper-sl-label" ng-show="modeAdmin && bug.closed === '0'">
 					<div class="triangle-down"></div>
-					<select class="sl-assignee" ng-style="{'background-color': (bug.FK_dev_ID == 0) ?'#CCC':'#FFF'}" ng-model="bug.FK_dev_ID"
+					<select class="sl-assignee" ng-style="{'background-color': (bug.FK_dev_ID == 0) ?'#DDD':'#FFF'}" ng-model="bug.FK_dev_ID"
 							ng-options="dev.id as dev.pseudo for dev in devs">
 					</select>
 				</div>
 				<div style="display: inline-block; width: 80%; padding: 4px 2px;"
-					 ng-style="{'background-color': (bug.dev.id > 0)? '#FFF' : '#CCC'}"
-					 ng-hide="modeAdmin">{{bug.dev.pseudo}}</div>
+					 ng-style="{'background-color': (bug.dev.id > 0)? '#FFF' : '#DDD'}"
+					 ng-hide="modeAdmin && bug.closed === '0'">{{bug.dev.pseudo}}</div>
 			</td>
 			<td ng-show="modeAdmin">
-				<span class="btn-action" ng-show="listKilled">Remove</span>
-				<span class="btn-action" ng-hide="listKilled">Kill bug</span>
+				<span class="btn-delete" ng-show="bug.closed === '1'">Remove</span>
+				<span class="btn-action" ng-hide="bug.closed === '1'">Kill bug</span>
 			</td>
 		</tr>
 	</tbody>

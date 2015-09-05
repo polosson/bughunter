@@ -26,7 +26,8 @@ $countKilled = $l->countResults();
 	<script src="js/Angular-bootstrap.min.js"></script>
 	<script src="js/app/Utils.js"></script>
 	<script src="js/app/bughunter.app.js"></script>
-	<script src="js/app/bugs.ctrl.js"></script>
+	<script src="js/app/bugModal.ctrl.js"></script>
+	<script src="js/app/bugsList.ctrl.js"></script>
 	<script>
 		var startCountAlive  = <?php echo $countAlive; ?>;
 		var startCountKilled = <?php echo $countKilled; ?>;

@@ -57,7 +57,8 @@ class Liste {
 	 * @param BOOLEAN $decodeJson TRUE pour décoder les champs contenant du JSON automatiquement. FALSE pour avoir les champs JSON au format STRING (default TRUE)
 	 * @return ARRAY Le tableau des résultats, ou FALSE si aucune donnée
 	 */
-	public function getListe ($table, $want='*', $tri='id', $ordre='ASC', $filtre_key=false, $filtre_comp='=', $filtre=null, $limit=false, $withFK=true, $decodeJson=true) {
+	public function getListe ($table, $want='*', $tri='id', $ordre='ASC', $filtre_key=false, $filtre_comp='=', $filtre=null, $limit=false, $withFK=true, $decodeJson=true, $parseDatesJS=true) {
+		global $DATE_FIELDS;
 		$this->table = $table;
 		$this->what  = $want;
 		$this->tri	 = $tri;
@@ -105,9 +106,13 @@ class Liste {
 						$resultOK[$k] = $valArr;
 					}												// Remplacement par la Foreign Key le cas échéant
 					if ($withFK && preg_match("/^".FOREIGNKEYS_PREFIX."/", $k)) {
-						$fk = $this->getForeignKey($k, $v);
+						$fk = $this->getForeignKey($k, $v, $decodeJson, $parseDatesJS);
 						if (!is_array($fk)) continue;
 						$resultOK[$fk[0]] = $fk[1];
+					}
+					if (is_array(@$DATE_FIELDS) && $parseDatesJS) {
+						if (in_array($k, $DATE_FIELDS))
+							$resultOK[$k] = date("c", strtotime($v));	// Formattage de la date au format ISO 8601 (pour que JS puisse la parser)
 					}
 				}
 				if (count($resultOK) == 1)							// Si une seule valeur demandée, pas besoin d'une dimension en plus
@@ -230,8 +235,9 @@ class Liste {
 	 * @param INT $v La valeur à rechercher (ID de la destination)
 	 * @return ARRAY Une paire (clé, valeur) de la jointure trouvée, FALSE si aucune jointure trouvée
 	 */
-	protected function getForeignKey ($k, $v) {
+	protected function getForeignKey ($k, $v, $decodeJson=true, $parseDatesJS=true) {
 		global $RELATIONS;
+		global $DATE_FIELDS;
 		if (!isset($RELATIONS))
 			return false;
 		$rel = $RELATIONS[$k];
@@ -261,11 +267,19 @@ class Liste {
 		foreach($retour as $i => $entry) {
 			if (!is_array($entry)) continue;
 			foreach($entry as $kb => $vb) {
-				$resultOK[$i]['debug'] = $kb;
+				if ($decodeJson && is_string($vb) && preg_match('/((^\[)*(]$))|((^\{")*(}$))/', $vb)) {
+					$valArr = json_decode($vb, true);
+					if (!is_array($valArr)) continue;
+					$resultOK[$i][$kb] = $valArr;
+				}
 				if (preg_match("/^".FOREIGNKEYS_PREFIX."/", $kb)) {
 					$fkb = $this->getForeignKey($kb, $vb);
 					if (!is_array($fkb)) continue;
 					$resultOK[$i][$fkb[0]] = $fkb[1];
+				}
+				if (is_array(@$DATE_FIELDS) && $parseDatesJS) {
+					if (in_array($kb, @$DATE_FIELDS))
+						$resultOK[$i][$kb] = date("c", strtotime($vb));
 				}
 			}
 		}

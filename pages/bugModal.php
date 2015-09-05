@@ -17,7 +17,7 @@
 			</div>
 			<div id="app-url">
 				<span class='info'>link: </span>
-				<span ng-hide="editInfos">{{bug.app_url}}</span>
+				<span ng-hide="editInfos"><a ng-href="{{bug.app_url}}">{{bug.app_url}}</a></span>
 				<div ng-show="editInfos">
 					<input id="input-app-url" name="input-app-url" type="text" ng-model="bug.app_url" />
 				</div>
@@ -34,7 +34,7 @@
 				</li>
 				<li id="label">
 					<span>Label</span>
-					<span ng-style="{'background-color': bug.label.color}" ng-hide="modeAdmin">{{bug.label.name}}</span>
+					<span ng-style="{'background-color': getLabelColor(bug.FK_label_ID)}" ng-hide="modeAdmin">{{bug.label.name}}</span>
 
 					<div class="triangle-down" ng-show="modeAdmin"></div>
 					<select class="sl-label" id="sl-mod-label" ng-style="{'background-color': getLabelColor(bug.FK_label_ID)}" ng-model="bug.FK_label_ID" ng-show="modeAdmin"
@@ -43,12 +43,16 @@
 				</li>
 				<li id="assignee">
 					<span>Assignee</span>
-					<span style="background-color: #FFF;" ng-hide="modeAdmin">{{bug.dev.pseudo}}</span>
+					<span ng-style="{'background-color': (bug.dev.id == 0) ?'#DDD':'#FFF'}" ng-hide="modeAdmin">{{bug.dev.pseudo}}</span>
 
 					<div class="triangle-down" ng-show="modeAdmin"></div>
-					<select class="sl-assignee" id="sl-mod-assignee" ng-style="{'background-color': (bug.FK_dev_ID == 0) ?'#CCC':'#FFF'}" ng-model="bug.FK_dev_ID" ng-show="modeAdmin"
+					<select class="sl-assignee" id="sl-mod-assignee" ng-style="{'background-color': (bug.FK_dev_ID == 0) ?'#DDD':'#FFF'}" ng-model="bug.FK_dev_ID" ng-show="modeAdmin"
 							ng-options="dev.id as dev.pseudo for dev in devs">
 					</select>
+				</li>
+				<li id="killing">
+					<button class="btn-action" style="margin-top: 30px;" ng-show="modeAdmin" ng-click="killBug()">KILL BUG</button>
+					<div class="text-danger" style="margin-top: 30px;" ng-show="bug.closed === '1'"><i class="fa fa-bug fa-2x fa-spin"></i> KILLED!</div>
 				</li>
 			</ul>
 		</div>
@@ -60,7 +64,7 @@
 	</div>
 	<div class="modal-container-text">
 		<div class="info-post">
-			<span class="pull-right text-muted">{{bug.date}}</span>
+			<span class="pull-right text-muted">{{bug.date | date: 'dd/MM/yyyy - HH:mm'}}</span>
 			<span class="group-btn" ng-show="modeAdmin">
 				<button class="btn-action"  ng-hide="editInfos || editDescr || editComment"  ng-click="initUpdDescr()">edit</button>
 				<button class="btn-warning" ng-show="editDescr" ng-click="cancelUpdDescr()">cancel</button>
@@ -73,7 +77,7 @@
 			<textarea ng-model="bug.description" ng-show="editDescr"></textarea>
 		</div>
 		<div class="info-post" ng-repeat="comment in bug.comment">
-			<span class="pull-right text-muted">{{comment.date}}</span>
+			<span class="pull-right text-muted">{{comment.date | date: 'dd/MM/yyyy - HH:mm'}}</span>
 			<span class="group-btn" ng-show="modeAdmin">
 				<button class="btn-action"  ng-hide="editInfos || editDescr || editComment" ng-click="initUpdComment(comment.id)">edit</button>
 				<button class="btn-delete"  ng-hide="editComment" ng-click="deleteComment(comment.id)">delete</button>
@@ -94,6 +98,6 @@
 	<div class="last_action">
 		<span class="title_action">Last action:</span>
 		<span ng-hide="bug.last_action" class="text-muted">??</span>
-		{{bug.last_action}}
+		{{bug.last_action | date: 'dd/MM/yyyy - HH:mm'}}
 	</div>
 </div>

@@ -31,7 +31,7 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal){
 				$scope.devs			= R.data.devs;
 				$rootScope.$broadcast('updateBugCount', {'type':type, 'count':R.data.bugsList.length});
 			},
-			function(errMsg) { console.log("error", errMsg); $('#msg').html(errMsg).addClass('msg_error').show(); }
+			function(errMsg) { msgSrv.showMsg(errMsg, 'error'); }
 		);
 	}
 

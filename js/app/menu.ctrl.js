@@ -4,7 +4,7 @@
 /**
  * Controleur du menu principal
  */
-bughunter.controller("menuCtrl", function($scope, $rootScope, $modal, $http){
+bughunter.controller("menuCtrl", function($scope, $rootScope, $modal, $http, msgSrv){
 	$scope.modeAdmin   = false;
 	$scope.page		   = 'alive';
 	$scope.countKilled = startCountKilled;
@@ -48,8 +48,9 @@ bughunter.controller("menuCtrl", function($scope, $rootScope, $modal, $http){
 			function(){
 				$scope.modeAdmin   = false;
 				$rootScope.$broadcast('modeAdminUnset');
+				msgSrv.showMsg('See you, dear Admin!', 'success');
 			},
-			function(errMsg) { console.log(errMsg); $('#msg').html(errMsg).addClass('msg_error').show(); }
+			function(errMsg) { msgSrv.showMsg(errMsg, 'error'); }
 		);
 	};
 });
@@ -57,7 +58,7 @@ bughunter.controller("menuCtrl", function($scope, $rootScope, $modal, $http){
 /**
  * Controleur de la modale de connexion
  */
-bughunter.controller("loginModalCtrl", function($scope, $modalInstance, $http, $timeout){
+bughunter.controller("loginModalCtrl", function($scope, $modalInstance, $http, msgSrv){
 	$scope.password = '';
 	$scope.message	= '';
 
@@ -71,14 +72,14 @@ bughunter.controller("loginModalCtrl", function($scope, $modalInstance, $http, $
 			'method': 'POST'
 		}).then(
 			function(R){
-				$scope.message = R.data.message;
 				if (R.data.auth === 'OK') {
-					$('#msg').html(R.data.message).addClass('msg_success').show();
-					$timeout(function(){ $('#msg').fadeOut(600); }, 2000);
+					msgSrv.showMsg(R.data.message, 'success');
 					$modalInstance.close({'AUTH':'OK'});
 				}
+				else
+					$scope.message = R.data.message;
 			},
-			function(errMsg) { console.log(errMsg); $('#msg').html(errMsg).addClass('msg_error').show(); }
+			function(errMsg) { msgSrv.showMsg(errMsg, 'error'); }
 		);
 	};
 

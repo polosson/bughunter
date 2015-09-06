@@ -4,7 +4,7 @@
 /**
  * Controleur de la liste des bugs et des filtres
  */
-bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal, config){
+bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal, msgSrv, config){
 	$scope.bugsList		= [];
 	$scope.priorities	= [];
 	$scope.labels		= [];
@@ -14,12 +14,6 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal, con
 	$scope.orderRev  = true;
 
 	$scope.config	= config.data;
-//	$scope.$on('modeAdminSet', function(){
-//		$scope.modeAdmin	= true;
-//	});
-//	$scope.$on('modeAdminUnset', function(){
-//		$scope.modeAdmin	= false;
-//	});
 
 	getBugsList();
 
@@ -33,11 +27,14 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal, con
 			'url': 'actions/getBugsList.php?type='+type
 		}).then(
 			function(R){
-				$scope.bugsList		= R.data.bugsList;
-				$scope.priorities	= R.data.priorities;
-				$scope.labels		= R.data.labels;
-				$scope.devs			= R.data.devs;
-				$rootScope.$broadcast('updateBugCount', {'type':type, 'count':R.data.bugsList.length});
+				if (R.data.error === "OK") {
+					$scope.bugsList		= R.data.bugsList;
+					$scope.priorities	= R.data.priorities;
+					$scope.labels		= R.data.labels;
+					$scope.devs			= R.data.devs;
+					$rootScope.$broadcast('updateBugCount', {'type':type, 'count':R.data.bugsList.length});
+				}
+				else msgSrv.showMsg(R.data.error, 'error');
 			},
 			function(errMsg) { msgSrv.showMsg(errMsg, 'error'); }
 		);

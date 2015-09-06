@@ -4,11 +4,27 @@
 /**
  * Controleur du menu principal
  */
-bughunter.controller("menuCtrl", function($scope, $rootScope, $modal, $http, msgSrv){
-	$scope.modeAdmin   = false;
+bughunter.controller("menuCtrl", function($scope, $rootScope, $modal, $http, msgSrv, config){
+	$scope.config	   = config.data;
 	$scope.page		   = 'alive';
 	$scope.countKilled = startCountKilled;
 	$scope.countAlive  = startCountAlive;
+
+	$http({
+		'url': 'actions/checkConx.php'
+	}).then(
+		function(R){
+//			console.log(R.data.message);
+			if (R.data.auth === 'authOK') {
+				config.data.authAdmin = true;
+			}
+			else {
+				if (R.data.error === "error")
+					msgSrv.showMsg(R.data.message, 'error');
+			}
+		},
+		function(errMsg) { msgSrv.showMsg(errMsg, 'error'); }
+	);
 
 	$scope.showPage = function(zepage){
 		$scope.page = zepage;
@@ -29,12 +45,12 @@ bughunter.controller("menuCtrl", function($scope, $rootScope, $modal, $http, msg
 		var modalInstance = $modal.open({
 			templateUrl: 'pages/loginModal.php?v='+ new Date().getTime(),
 			controller: 'loginModalCtrl',
-			backdrop: 'static',
+			backdrop: 'static'
 		});
 		modalInstance.result.then(function (R) {
 			if (R.AUTH === 'OK') {
-				$scope.modeAdmin   = true;
-				$rootScope.$broadcast('modeAdminSet');
+				msgSrv.showMsg(R.message, 'success');
+				config.data.authAdmin = true;
 			}
 		});
 	};
@@ -45,10 +61,9 @@ bughunter.controller("menuCtrl", function($scope, $rootScope, $modal, $http, msg
 		$http({
 			'url': 'actions/deconx.php'
 		}).then(
-			function(){
-				$scope.modeAdmin   = false;
-				$rootScope.$broadcast('modeAdminUnset');
-				msgSrv.showMsg('See you, dear Admin!', 'success');
+			function(R){
+				msgSrv.showMsg(R.data.message, 'success');
+				config.data.authAdmin = false;
 			},
 			function(errMsg) { msgSrv.showMsg(errMsg, 'error'); }
 		);
@@ -73,8 +88,7 @@ bughunter.controller("loginModalCtrl", function($scope, $modalInstance, $http, m
 		}).then(
 			function(R){
 				if (R.data.auth === 'OK') {
-					msgSrv.showMsg(R.data.message, 'success');
-					$modalInstance.close({'AUTH':'OK'});
+					$modalInstance.close({AUTH:'OK', message:R.data.message});
 				}
 				else
 					$scope.message = R.data.message;

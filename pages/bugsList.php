@@ -66,7 +66,7 @@
 			<th class="row-assignee"	ng-click="orderProp='FK_dev_ID';	orderRev=!orderRev;">
 				assignee &nbsp;<i class="fa fa-sort"></i>
 			</th>
-			<th class="row-action"		ng-show="modeAdmin">
+			<th class="row-action"		ng-show="config.authAdmin">
 				action
 			</th>
 		</tr>
@@ -75,13 +75,13 @@
 		<tr ng-repeat="bug in bugsList | filter:search | orderBy:orderProp : orderRev">
 			<td>{{bug.id}}</td>
 			<td>
-				<div class="wrapper-sl" ng-show="modeAdmin && bug.closed === '0'">
+				<div class="wrapper-sl" ng-show="config.authAdmin && bug.closed === '0'">
 					<div class="triangle-down"></div>
 					<select class="sl-priority" ng-style="{'background-color': priorities[bug.priority].color}" ng-model="bug.priority">
 						<option ng-repeat="prio in priorities" ng-style="{'background-color': prio.color}" ng-value="{{prio.priority}}">{{prio.priority}}</option>
 					</select>
 				</div>
-				<span ng-class="{'highest':bug.priority == '4', 'high':bug.priority == '3', 'middle':bug.priority == '2', 'low':bug.priority == '1'}" ng-hide="modeAdmin && bug.closed === '0'">
+				<span ng-class="{'highest':bug.priority == '4', 'high':bug.priority == '3', 'middle':bug.priority == '2', 'low':bug.priority == '1'}" ng-hide="config.authAdmin && bug.closed === '0'">
 					{{bug.priority}}
 				</span>
 			</td>
@@ -94,16 +94,16 @@
 			</td>
 			<td>{{bug.description}}</td>
 			<td>
-				<div class="wrapper-sl-label" ng-show="modeAdmin && bug.closed === '0'">
+				<div class="wrapper-sl-label" ng-show="config.authAdmin && bug.closed === '0'">
 					<div class="triangle-down"></div>
 					<select class="sl-label" ng-style="{'background-color': getLabelColor(bug.FK_label_ID)}" ng-model="bug.FK_label_ID"
 							ng-options="label.id as label.name for label in labels">
 					</select>
 				</div>
-				<span ng-style="{'background-color': getLabelColor(bug.FK_label_ID)}" ng-hide="modeAdmin && bug.closed === '0'">{{bug.label.name}}</span>
+				<span ng-style="{'background-color': getLabelColor(bug.FK_label_ID)}" ng-hide="config.authAdmin && bug.closed === '0'">{{bug.label.name}}</span>
 			</td>
 			<td>
-				<div class="wrapper-sl-label" ng-show="modeAdmin && bug.closed === '0'">
+				<div class="wrapper-sl-label" ng-show="config.authAdmin && bug.closed === '0'">
 					<div class="triangle-down"></div>
 					<select class="sl-assignee" ng-style="{'background-color': (bug.FK_dev_ID == 0) ?'#DDD':'#FFF'}" ng-model="bug.FK_dev_ID"
 							ng-options="dev.id as dev.pseudo for dev in devs">
@@ -111,9 +111,9 @@
 				</div>
 				<div style="display: inline-block; width: 80%; padding: 4px 2px;"
 					 ng-style="{'background-color': (bug.dev.id > 0)? '#FFF' : '#DDD'}"
-					 ng-hide="modeAdmin && bug.closed === '0'">{{bug.dev.pseudo}}</div>
+					 ng-hide="config.authAdmin && bug.closed === '0'">{{bug.dev.pseudo}}</div>
 			</td>
-			<td ng-show="modeAdmin">
+			<td ng-show="config.authAdmin">
 				<span class="btn-delete" ng-show="bug.closed === '1'">Remove</span>
 				<span class="btn-action" ng-hide="bug.closed === '1'">Kill bug</span>
 			</td>

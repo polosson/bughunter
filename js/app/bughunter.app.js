@@ -29,10 +29,20 @@ bughunter.config(function($httpProvider) {
 });
 
 /**
+ * Récupération et mise à dispo de la configuration globale
+ */
+bughunter.factory('config', function(){
+	return {
+		data: {
+			authAdmin: false
+		}
+	};
+});
+
+/**
  * Service des messages
  */
 bughunter.service('msgSrv', function($timeout){
-
 	return {
 		showMsg: showMsg,
 		hideMsg: hideMsg
@@ -43,8 +53,8 @@ bughunter.service('msgSrv', function($timeout){
 	 * @param STRING type Le type de message ("error", ou "success") pour la couleur
 	 */
 	function showMsg (msg,type) {
-		console.log(type+' :', msg);
-		$('#msg').html(msg).addClass('msg_'+type).show();
+//		console.log(type+' :', msg);
+		$('#msg').html(msg).removeClass('msg_error msg_success').addClass('msg_'+type).show();
 		var time = 2000;
 		if (type === "error")
 			time = 5000;

@@ -4,8 +4,7 @@
 /**
  * Controleur de la liste des bugs et des filtres
  */
-bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal){
-	$scope.modeAdmin	= false;
+bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal, config){
 	$scope.bugsList		= [];
 	$scope.priorities	= [];
 	$scope.labels		= [];
@@ -13,6 +12,15 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal){
 	$scope.search	 = {'title':"", 'priority':"", 'FK_label_ID':"", 'FK_dev_ID':""};
 	$scope.orderProp = 'priority';
 	$scope.orderRev  = true;
+
+	$scope.config	= config.data;
+//	$scope.$on('modeAdminSet', function(){
+//		$scope.modeAdmin	= true;
+//	});
+//	$scope.$on('modeAdminUnset', function(){
+//		$scope.modeAdmin	= false;
+//	});
+
 	getBugsList();
 
 	$scope.resetFilter = function(){
@@ -43,12 +51,6 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal){
 		$scope.bugsList		= [];
 		getBugsList(1);
 	});
-	$scope.$on('modeAdminSet', function(){
-		$scope.modeAdmin	= true;
-	});
-	$scope.$on('modeAdminUnset', function(){
-		$scope.modeAdmin	= false;
-	});
 
 	$scope.openBug = function(bug){
 		var modalInstance = $modal.open({
@@ -58,7 +60,7 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal){
 			size: 'lg',
 			windowClass: '',
 			resolve: {
-				modeAdmin:	function() { return $scope.modeAdmin; },
+				modeAdmin:	function() { return $scope.config.authAdmin; },
 				priorities: function() { return $scope.priorities; },
 				labels:		function() { return $scope.labels; },
 				devs:		function() { return $scope.devs; },

@@ -46,13 +46,13 @@ $countKilled = $l->countResults();
 				<img src="gfx/logo.png" alt="logo_bughunter"/>
 			</div>
 			<ul>
-				<li ng-show="modeAdmin">
+				<li ng-show="config.authAdmin">
 					<a href="#" ng-click="disconnect()">disconnect</a>
 				</li>
-				<li ng-hide="modeAdmin">
-					<a href="#" ng-click="connectModal()">login</a>
+				<li ng-hide="config.authAdmin">
+					<a href="#" ng-click="connectModal()">Admin</a>
 				</li>
-				<li ng-class="{'on': page === 'settings'}" ng-show="modeAdmin">
+				<li ng-class="{'on': page === 'settings'}" ng-show="config.authAdmin">
 					<a href="#" ng-click="showPage('settings')">settings</a>
 				</li>
 				<li ng-class="{'on': page === 'killed'}">
@@ -64,7 +64,7 @@ $countKilled = $l->countResults();
 			</ul>
 		</nav>
 	</header>
-	<div id="msg" class="msg_success">Welcome dear Admin!</div>
+	<div id="msg"></div>
 
 	<main id="content" ng-controller="bugsCtrl">
 		<?php include('pages/bugsList.php'); ?>

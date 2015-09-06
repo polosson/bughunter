@@ -4,11 +4,11 @@
 /**
  * Controleur de la modale de bug
  */
-bughunter.controller('bugModalCtrl', function($scope, $modalInstance, priorities, labels, devs, bug){
-	$scope.modeAdmin  = true;
+bughunter.controller('bugModalCtrl', function($scope, $modalInstance, modeAdmin, priorities, labels, devs, bug){
 	$scope.editInfos  = false;
 	$scope.editDescr  = false;
 	$scope.editComment= false;
+	$scope.modeAdmin  = angular.copy(modeAdmin);;
 	$scope.priorities = angular.copy(priorities);
 	$scope.labels	  = angular.copy(labels);
 	$scope.devs		  = angular.copy(devs);

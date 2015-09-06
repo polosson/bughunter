@@ -139,10 +139,10 @@ body #loadAjax {
 body #msg {
     position: absolute;
 	display: none;
-	top: 69px;
+	top: 68px;
     width: 100%;
-	padding: 3px 15px 3px 320px;
-	z-index: 9999;
+	padding: 3px 15px;
+	text-align: center;
 	color: #FFF;
 	font-weight: bold;
 }
@@ -882,7 +882,7 @@ header .cl-effect-13 a:focus {
 .modal-open {
 	overflow-y: scroll;
 }
-.modal-dialog {
+.modal-lg {
 	width: 80%;
 }
 

@@ -5,7 +5,7 @@
  * Controleur de la liste des bugs et des filtres
  */
 bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal){
-	$scope.modeAdmin	= true;
+	$scope.modeAdmin	= false;
 	$scope.bugsList		= [];
 	$scope.priorities	= [];
 	$scope.labels		= [];
@@ -31,7 +31,7 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal){
 				$scope.devs			= R.data.devs;
 				$rootScope.$broadcast('updateBugCount', {'type':type, 'count':R.data.bugsList.length});
 			},
-			function(errMsg) { console.log("error", errMsg); $('#msg').html(errMsg).addClass('msg_error'); }
+			function(errMsg) { console.log("error", errMsg); $('#msg').html(errMsg).addClass('msg_error').show(); }
 		);
 	}
 
@@ -43,14 +43,22 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal){
 		$scope.bugsList		= [];
 		getBugsList(1);
 	});
+	$scope.$on('modeAdminSet', function(){
+		$scope.modeAdmin	= true;
+	});
+	$scope.$on('modeAdminUnset', function(){
+		$scope.modeAdmin	= false;
+	});
 
 	$scope.openBug = function(bug){
 		var modalInstance = $modal.open({
 			templateUrl: 'pages/bugModal.php?v='+ new Date().getTime(),
 			controller: 'bugModalCtrl',
 			backdrop: 'static',
+			size: 'lg',
 			windowClass: '',
 			resolve: {
+				modeAdmin:	function() { return $scope.modeAdmin; },
 				priorities: function() { return $scope.priorities; },
 				labels:		function() { return $scope.labels; },
 				devs:		function() { return $scope.devs; },

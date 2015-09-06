@@ -26,6 +26,7 @@ $countKilled = $l->countResults();
 	<script src="js/Angular-bootstrap.min.js"></script>
 	<script src="js/app/Utils.js"></script>
 	<script src="js/app/bughunter.app.js"></script>
+	<script src="js/app/menu.ctrl.js"></script>
 	<script src="js/app/bugModal.ctrl.js"></script>
 	<script src="js/app/bugsList.ctrl.js"></script>
 	<script>
@@ -48,8 +49,8 @@ $countKilled = $l->countResults();
 				<li ng-show="modeAdmin">
 					<a href="#" ng-click="disconnect()">disconnect</a>
 				</li>
-				<li>
-					<a href="#">login</a>
+				<li ng-hide="modeAdmin">
+					<a href="#" ng-click="connectModal()">login</a>
 				</li>
 				<li ng-class="{'on': page === 'settings'}" ng-show="modeAdmin">
 					<a href="#" ng-click="showPage('settings')">settings</a>
@@ -63,7 +64,7 @@ $countKilled = $l->countResults();
 			</ul>
 		</nav>
 	</header>
-	<div id="msg" class=""></div>
+	<div id="msg" class="msg_success">Welcome dear Admin!</div>
 
 	<main id="content" ng-controller="bugsCtrl">
 		<?php include('pages/bugsList.php'); ?>

@@ -77,3 +77,13 @@ bughunter.directive('hitenter', function() {
 		});
 	};
 });
+
+/**
+ * Filtre qui enlève la chaine "http://" devant un URL
+ */
+bughunter.filter('formaturl', function(){
+	return function(url){
+		var reghttp = /^http\:\/\//i;
+		return url.replace(reghttp, '');
+	};
+});

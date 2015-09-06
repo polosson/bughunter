@@ -17,7 +17,7 @@
 			</div>
 			<div id="app-url">
 				<span class='info'>link: </span>
-				<span ng-hide="editInfos"><a ng-href="{{bug.app_url}}">{{bug.app_url}}</a></span>
+				<span ng-hide="editInfos"><a ng-href="{{bug.app_url}}">{{bug.app_url | formaturl}}</a></span>
 				<div ng-show="editInfos">
 					<input id="input-app-url" name="input-app-url" type="text" ng-model="bug.app_url" />
 				</div>

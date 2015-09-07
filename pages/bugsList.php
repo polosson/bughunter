@@ -18,6 +18,7 @@
 ?>
 <div id="filter-bug" class="clearfix">
 	<div class="search-box">
+		<h2>{{config.globalConf.project_name.value}}</h2>
 		<input type="text" placeholder="search bug title..." ng-model="search.title" />
 		<button class="btn-action" id="reset" ng-click="search.title = ''">reset</button>
     </div>

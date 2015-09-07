@@ -1,8 +1,24 @@
+/**
+	Copyright (C) 2015  Azuk & Polosson
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Affero General Public License as
+	published by the Free Software Foundation, either version 3 of the
+	License, or (at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Affero General Public License for more details.
+
+	You should have received a copy of the GNU Affero General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 // bughunter.app.js
 'use strict';
 
 /**
- * Déclaration de l'appli bughunter
+ * BUGHUNTER APPLICATION DECLARATION
  */
 var bughunter = angular.module('bughunter', ['ui.bootstrap', 'ngSanitize']);
 
@@ -10,8 +26,7 @@ var bughunter = angular.module('bughunter', ['ui.bootstrap', 'ngSanitize']);
 /* * * * * * * * * * * * *  DIRECTIVES ET SERVICES GÉNÉRIQUES, ET CONFIGURATION * * * * * * * * * * * * * * */
 
 /**
- * Intercepteur de requetes / réponses Ajax
- * Pour affichage du spinner loading
+ * AJAX request/responses interceptor, to display loading icon
  */
 bughunter.config(function($httpProvider) {
 	$httpProvider.interceptors.push(function($q) {
@@ -29,7 +44,7 @@ bughunter.config(function($httpProvider) {
 });
 
 /**
- * configuration globale
+ * GLOBAL CONFIGURATION factory
  */
 bughunter.factory('config', function(){
 	return {
@@ -44,7 +59,7 @@ bughunter.factory('config', function(){
 });
 
 /**
- * Service des messages
+ * MESSAGES service
  */
 bughunter.service('msgSrv', function($timeout){
 	return {
@@ -52,9 +67,9 @@ bughunter.service('msgSrv', function($timeout){
 		hideMsg: hideMsg
 	};
 	/**
-	 * Affiche le message (il disparait automatiquement après 2 sec pour success, 5 sec pour error)
-	 * @param STRING msg Le message à afficher
-	 * @param STRING type Le type de message ("error", ou "success") pour la couleur
+	 * Display message (hides automatically after 2 sec when success, 5 sec when error)
+	 * @param {String} msg The message to display
+	 * @param {String} type The message type ("error", or "success") for color
 	 */
 	function showMsg (msg,type) {
 		$('#msg').html(msg).removeClass('msg_error msg_success').addClass('msg_'+type).show();
@@ -66,7 +81,7 @@ bughunter.service('msgSrv', function($timeout){
 		}, time);
 	}
 	/**
-	 * Cache le message (fade out 0.8 sec)
+	 * Hides the message (fade out 0.8 sec)
 	 */
 	function hideMsg () {
 		$('#msg').fadeOut(800);
@@ -74,7 +89,7 @@ bughunter.service('msgSrv', function($timeout){
 });
 
 /**
- * Service du compte des bugs
+ * BUG COUNT service
  */
 bughunter.service('countBugs', function(){
 	var countBugs = {alive: 0, killed: 0};
@@ -110,7 +125,7 @@ bughunter.service('countBugs', function(){
 });
 
 /**
- * Appui sur entrée pour éxécuter une fonction
+ * "Hit enter" directive : To allow execution of a function with Enter key.
  */
 bughunter.directive('hitenter', function() {
 	return function(scope, element, attrs) {
@@ -126,7 +141,7 @@ bughunter.directive('hitenter', function() {
 });
 
 /**
- * Filtre qui enlève la chaine "http://" devant un URL
+ * Custom filter to remove string "http://" from the beginning of an URL
  */
 bughunter.filter('formaturl', function(){
 	return function(url){

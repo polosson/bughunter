@@ -67,10 +67,10 @@ class Liste {
 		if (!$this->check_table_exist($table))
 			throw new Exception("Liste::getListe() : La table '$table' n'existe pas");
 		// pour chaque filtre défini par Liste::addFiltre()
-		if (isset($this->filtres) && !empty($this->filtres)) {
+		if (is_array($this->filtres) && count($this->filtres) > 0) {
 			$FM = '' ;
 			foreach ($this->filtres as $f) $FM .= $f;
-			$filtrage_multiple = trim($FM, $this->lastLogiquefiltre);
+			$filtrage_multiple = trim($FM, " $this->lastLogiquefiltre ");
 		}
 		if ($filtre_key && (string)$filtre != null ) {
 			if (Liste::check_col_exist($filtre_key)) {

@@ -34,7 +34,11 @@ bughunter.config(function($httpProvider) {
 bughunter.factory('config', function(){
 	return {
 		data: {
-			authAdmin: false
+			authAdmin: false,
+			priorities: [],
+			labels: [],
+			devs: [],
+			globalConf: {}
 		}
 	};
 });

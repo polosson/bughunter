@@ -595,7 +595,7 @@ select:-moz-focusring {
 #add_new_bug input.btn-success:disabled:hover {
     background-color: #79ae3a; }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="email"], input[type="password"] {
 	color: #4a4a4a;
 	padding: 2px;
 	border: 1px solid #e1dfe0;
@@ -1322,6 +1322,14 @@ header .cl-effect-13 a:focus {
 	margin-right: 5%;
 	width: 24%;
 }
+.settings-content select {
+	color: #4A4A4A;
+	padding: 2px;
+	border: 1px solid #E1DFE0;
+	height: 40px;
+	background-color: #FFF;
+	width: 24%;
+}
 .settings-content button {
 	max-width: 140px;
 }
@@ -1333,6 +1341,12 @@ header .cl-effect-13 a:focus {
     white-space: nowrap;
     border: 2px solid #E9E7E8;
     font-size: 0.8em;
+}
+.settings-content table input {
+	margin: 0;
+	width: 80%;
+	padding: 2px 3px;
+	height: auto;
 }
 .settings-content table tr th {
 	text-transform: uppercase;
@@ -1349,6 +1363,7 @@ header .cl-effect-13 a:focus {
 	padding: 1px 0;
 	text-align: center;
 	font-weight: bold;
+	height: 27px;
 }
 .settings-content table tr td:last-of-type {
 	text-align: left;

@@ -6,9 +6,6 @@
  */
 bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config, countBugs){
 	$scope.bugsList		= [];
-	$scope.priorities	= [];
-	$scope.labels		= [];
-	$scope.devs			= [];
 	$scope.search	 = {'title':"", 'priority':"", 'FK_label_ID':"", 'FK_dev_ID':""};
 	$scope.orderProp = 'priority';
 	$scope.orderRev  = true;
@@ -30,9 +27,6 @@ bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config,
 			function(R){
 				if (R.data.error === "OK") {
 					$scope.bugsList		= R.data.bugsList;
-					$scope.priorities	= R.data.priorities;
-					$scope.labels		= R.data.labels;
-					$scope.devs			= R.data.devs;
 					countBugs.updateCountType(type, R.data.bugsList.length);
 				}
 				else msgSrv.showMsg(R.data.error, 'error');
@@ -60,10 +54,7 @@ bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config,
 			size: 'lg',
 			windowClass: '',
 			resolve: {
-				modeAdmin:	function() { return $scope.config.authAdmin; },
-				priorities: function() { return $scope.priorities; },
-				labels:		function() { return $scope.labels; },
-				devs:		function() { return $scope.devs; },
+				passConf:	function() { return $scope.config; },
 				bug:		function() { return bug; }
 			}
 		});
@@ -77,7 +68,7 @@ bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config,
 	});
 
 	$scope.getLabelColor = function(labelID){
-		var zeLabel = $.grep($scope.labels, function(e){ return e.id === labelID; });
+		var zeLabel = $.grep($scope.config.labels, function(e){ return e.id === labelID; });
 		if (zeLabel[0].id == 0)
 			return '#DDDDDD';
 		return zeLabel[0].color;

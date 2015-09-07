@@ -24,9 +24,9 @@ bughunter.controller("menuCtrl", function($scope, $rootScope, $modal, $http, msg
 		function(errMsg) { msgSrv.showMsg(errMsg, 'error'); }
 	);
 
-	// Récupération du nombre de bugs
+	// Récupération de la config générale et du compte des bugs
 	$http({
-		'url': 'actions/getBugCount.php'
+		'url': 'actions/getConfig.php'
 	}).then(
 		function(R){
 			if (R.data.error === "OK") {
@@ -34,6 +34,10 @@ bughunter.controller("menuCtrl", function($scope, $rootScope, $modal, $http, msg
 					killed: R.data.countKilled,
 					alive: R.data.countAlive
 				});
+				config.data.priorities	= R.data.priorities;
+				config.data.labels		= R.data.labels;
+				config.data.devs		= R.data.devs;
+				config.data.globalConf	= R.data.globalConf;
 			}
 			else msgSrv.showMsg(R.data.error, 'error');
 		},

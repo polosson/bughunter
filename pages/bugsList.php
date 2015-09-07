@@ -12,7 +12,7 @@
 			Priority<br />
 			<select filter="priority" class="filtrage" ng-model="search.priority">
 				<option value="">all</option>
-				<option ng-repeat="prio in priorities" ng-style="{'background-color': prio.color}" ng-value="{{prio.priority}}">{{prio.priority}}</option>
+				<option ng-repeat="prio in config.priorities" ng-style="{'background-color': prio.color}" ng-value="{{prio.priority}}">{{prio.priority}}</option>
 			</select>
 		</div>
 
@@ -20,7 +20,7 @@
 			Label<br />
 			<select filter="label" class="filtrage" ng-model="search.FK_label_ID">
 				<option value="">all</option>
-				<option ng-repeat="label in labels" ng-style="{'background-color': label.color}" ng-value="{{label.id}}">{{label.name}}</option>
+				<option ng-repeat="label in config.labels" ng-style="{'background-color': label.color}" ng-value="{{label.id}}">{{label.name}}</option>
 			</select>
 		</div>
 
@@ -28,7 +28,7 @@
 			Assignee<br />
 			<select filter="assignee" class="filtrage" ng-model="search.FK_dev_ID">
 				<option value="" style="background-color: #CCC;">all</option>
-				<option ng-repeat="dev in devs" style="background-color: #FFF;" ng-value="{{dev.id}}">{{dev.pseudo}}</option>
+				<option ng-repeat="dev in config.devs" style="background-color: #FFF;" ng-value="{{dev.id}}">{{dev.pseudo}}</option>
 			</select>
 		</div>
 
@@ -77,8 +77,8 @@
 			<td>
 				<div class="wrapper-sl" ng-show="config.authAdmin && bug.closed === '0'">
 					<div class="triangle-down"></div>
-					<select class="sl-priority" ng-style="{'background-color': priorities[bug.priority].color}" ng-model="bug.priority">
-						<option ng-repeat="prio in priorities" ng-style="{'background-color': prio.color}" ng-value="{{prio.priority}}">{{prio.priority}}</option>
+					<select class="sl-priority" ng-style="{'background-color': config.priorities[bug.priority].color}" ng-model="bug.priority">
+						<option ng-repeat="prio in config.priorities" ng-style="{'background-color': prio.color}" ng-value="{{prio.priority}}">{{prio.priority}}</option>
 					</select>
 				</div>
 				<span ng-class="{'highest':bug.priority == '4', 'high':bug.priority == '3', 'middle':bug.priority == '2', 'low':bug.priority == '1'}" ng-hide="config.authAdmin && bug.closed === '0'">
@@ -97,7 +97,7 @@
 				<div class="wrapper-sl-label" ng-show="config.authAdmin && bug.closed === '0'">
 					<div class="triangle-down"></div>
 					<select class="sl-label" ng-style="{'background-color': getLabelColor(bug.FK_label_ID)}" ng-model="bug.FK_label_ID"
-							ng-options="label.id as label.name for label in labels">
+							ng-options="label.id as label.name for label in config.labels">
 					</select>
 				</div>
 				<span ng-style="{'background-color': getLabelColor(bug.FK_label_ID)}" ng-hide="config.authAdmin && bug.closed === '0'">{{bug.label.name}}</span>
@@ -106,7 +106,7 @@
 				<div class="wrapper-sl-label" ng-show="config.authAdmin && bug.closed === '0'">
 					<div class="triangle-down"></div>
 					<select class="sl-assignee" ng-style="{'background-color': (bug.FK_dev_ID == 0) ?'#DDD':'#FFF'}" ng-model="bug.FK_dev_ID"
-							ng-options="dev.id as dev.pseudo for dev in devs">
+							ng-options="dev.id as dev.pseudo for dev in config.devs">
 					</select>
 				</div>
 				<div style="display: inline-block; width: 80%; padding: 4px 2px;"

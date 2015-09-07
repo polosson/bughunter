@@ -4,14 +4,14 @@
 /**
  * Controleur de la modale de bug
  */
-bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope, modeAdmin, priorities, labels, devs, bug){
+bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope, passConf, bug){
 	$scope.editInfos  = false;
 	$scope.editDescr  = false;
 	$scope.editComment= false;
-	$scope.modeAdmin  = angular.copy(modeAdmin);;
-	$scope.priorities = angular.copy(priorities);
-	$scope.labels	  = angular.copy(labels);
-	$scope.devs		  = angular.copy(devs);
+	$scope.modeAdmin  = angular.copy(passConf.authAdmin);;
+	$scope.priorities = angular.copy(passConf.priorities);
+	$scope.labels	  = angular.copy(passConf.labels);
+	$scope.devs		  = angular.copy(passConf.devs);
 	$scope.bug		  = angular.copy(bug);
 	$scope.bug.descriptionHtml = angular.copy(nl2br(bug.description));
 	if ($scope.bug.closed === '1')

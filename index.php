@@ -21,6 +21,7 @@
 	<script src="js/app/menu.ctrl.js"></script>
 	<script src="js/app/bugModal.ctrl.js"></script>
 	<script src="js/app/bugsList.ctrl.js"></script>
+	<script src="js/app/settings.ctrl.js"></script>
 </head>
 <body>
 	<header class="clearfix">

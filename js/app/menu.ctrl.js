@@ -41,11 +41,21 @@ bughunter.controller("menuCtrl", function($scope, $rootScope, $modal, $http, msg
 	);
 
 	$scope.showPage = function(zepage){
-		$scope.page = zepage;
-		if (zepage == "alive")
-			$rootScope.$broadcast('showbugsAlive');
-		if (zepage == "killed")
-			$rootScope.$broadcast('showbugsKilled');
+		if (zepage === "settings") {
+			$modal.open({
+				templateUrl: 'pages/settings.php?v='+ new Date().getTime(),
+				controller: 'settingsCtrl',
+				backdrop: 'static',
+				size: 'lg'
+			});
+		}
+		else {
+			$scope.page = zepage;
+			if (zepage === "alive")
+				$rootScope.$broadcast('showbugsAlive');
+			if (zepage === "killed")
+				$rootScope.$broadcast('showbugsKilled');
+		}
 	};
 
 	$scope.connectModal = function(){

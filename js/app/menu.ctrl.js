@@ -54,6 +54,7 @@ bughunter.controller("menuCtrl", function($scope, $rootScope, $modal, $http, msg
 				config.data.labels		= R.data.labels;
 				config.data.devs		= R.data.devs;
 				config.data.globalConf	= R.data.globalConf;
+				document.title = 'BUGHUNTER | '+R.data.globalConf.project_name.value;
 			}
 			else msgSrv.showMsg(R.data.error, 'error');
 		},

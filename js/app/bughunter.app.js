@@ -29,7 +29,7 @@ bughunter.config(function($httpProvider) {
 });
 
 /**
- * Récupération et mise à dispo de la configuration globale
+ * configuration globale
  */
 bughunter.factory('config', function(){
 	return {
@@ -53,7 +53,6 @@ bughunter.service('msgSrv', function($timeout){
 	 * @param STRING type Le type de message ("error", ou "success") pour la couleur
 	 */
 	function showMsg (msg,type) {
-//		console.log(type+' :', msg);
 		$('#msg').html(msg).removeClass('msg_error msg_success').addClass('msg_'+type).show();
 		var time = 2000;
 		if (type === "error")
@@ -67,6 +66,42 @@ bughunter.service('msgSrv', function($timeout){
 	 */
 	function hideMsg () {
 		$('#msg').fadeOut(800);
+	}
+});
+
+/**
+ * Service du compte des bugs
+ */
+bughunter.service('countBugs', function(){
+	var countBugs = {alive: 0, killed: 0};
+
+	return {
+		count: countBugs,
+		updateCount:	 updateCount,
+		updateCountType: updateCountType,
+		bugWasKilled:	 bugWasKilled,
+		bugWasRemoved:	 bugWasRemoved
+	};
+
+	function updateCount (count) {
+		countBugs.alive  = count.alive;
+		countBugs.killed = count.killed;
+	};
+
+	function updateCountType(type, count) {
+		if (type === 0)
+			countBugs.alive  = count;
+		if (type === 1)
+			countBugs.killed  = count;
+	}
+
+	function bugWasKilled() {
+		countBugs.alive  -= 1;
+		countBugs.killed += 1;
+	}
+
+	function bugWasRemoved() {
+		countBugs.killed -= 1;
 	}
 });
 

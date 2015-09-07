@@ -72,8 +72,8 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="bug in bugsList | filter:search | orderBy:orderProp : orderRev">
-			<td>{{bug.id}}</td>
+		<tr ng-repeat="bug in bugsList | filter:search | orderBy:orderProp : orderRev" ng-hide="(bugsType === 0 && bug.closed === '1') || bug.removed">
+			<td style="text-align: left;">#{{bug.id}}</td>
 			<td>
 				<div class="wrapper-sl" ng-show="config.authAdmin && bug.closed === '0'">
 					<div class="triangle-down"></div>
@@ -114,8 +114,8 @@
 					 ng-hide="config.authAdmin && bug.closed === '0'">{{bug.dev.pseudo}}</div>
 			</td>
 			<td ng-show="config.authAdmin">
-				<span class="btn-delete" ng-show="bug.closed === '1'">Remove</span>
-				<span class="btn-action" ng-hide="bug.closed === '1'">Kill bug</span>
+				<span class="btn-action" ng-hide="bug.closed === '1'" ng-click="killBug(bug.id)">Kill bug</span>
+				<span class="btn-delete" ng-show="bug.closed === '1'" ng-click="deleteBug(bug.id)">Remove</span>
 			</td>
 		</tr>
 	</tbody>

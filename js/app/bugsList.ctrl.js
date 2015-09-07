@@ -4,7 +4,7 @@
 /**
  * Controleur de la liste des bugs et des filtres
  */
-bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal, msgSrv, config){
+bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config, countBugs){
 	$scope.bugsList		= [];
 	$scope.priorities	= [];
 	$scope.labels		= [];
@@ -12,6 +12,7 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal, msg
 	$scope.search	 = {'title':"", 'priority':"", 'FK_label_ID':"", 'FK_dev_ID':""};
 	$scope.orderProp = 'priority';
 	$scope.orderRev  = true;
+	$scope.bugsType	 = 0;
 
 	$scope.config	= config.data;
 
@@ -21,8 +22,8 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal, msg
 		$scope.search = {'title':"", 'priority':"", 'FK_label_ID':"", 'FK_dev_ID':""};
 	};
 
-	function getBugsList (type) {
-		if (!type) type = 0;
+	function getBugsList () {
+		var type = $scope.bugsType;
 		$http({
 			'url': 'actions/getBugsList.php?type='+type
 		}).then(
@@ -32,7 +33,7 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal, msg
 					$scope.priorities	= R.data.priorities;
 					$scope.labels		= R.data.labels;
 					$scope.devs			= R.data.devs;
-					$rootScope.$broadcast('updateBugCount', {'type':type, 'count':R.data.bugsList.length});
+					countBugs.updateCountType(type, R.data.bugsList.length);
 				}
 				else msgSrv.showMsg(R.data.error, 'error');
 			},
@@ -41,12 +42,14 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal, msg
 	}
 
 	$scope.$on('showbugsAlive', function(){
-		$scope.bugsList		= [];
-		getBugsList(0);
+		$scope.bugsList	= [];
+		$scope.bugsType	= 0;
+		getBugsList();
 	});
 	$scope.$on('showbugsKilled', function(){
-		$scope.bugsList		= [];
-		getBugsList(1);
+		$scope.bugsList	= [];
+		$scope.bugsType	= 1;
+		getBugsList();
 	});
 
 	$scope.openBug = function(bug){
@@ -69,6 +72,10 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal, msg
 		});
 	};
 
+	$scope.$on('bugKilled', function(e, bugId){
+		$scope.killBug(bugId);
+	});
+
 	$scope.getLabelColor = function(labelID){
 		var zeLabel = $.grep($scope.labels, function(e){ return e.id === labelID; });
 		if (zeLabel[0].id == 0)
@@ -76,4 +83,18 @@ bughunter.controller("bugsCtrl", function($scope, $rootScope, $http, $modal, msg
 		return zeLabel[0].color;
 	};
 
+	$scope.killBug = function(bugId){
+		var zeBug = $.grep($scope.bugsList, function(e){ return e.id === bugId; });
+		zeBug[0].closed = '1';
+		countBugs.bugWasKilled();
+	};
+
+	$scope.deleteBug = function(bugId){
+		var zeBug = $.grep($scope.bugsList, function(e){ return e.id === bugId; });
+		var bugTitle = zeBug[0].title;
+		if (!confirm("Permanently remove the bug titled\n\n      \""+bugTitle+"\"\n\nfrom database? Are you sure?"))
+			return;
+		zeBug[0].removed = true;
+		countBugs.bugWasRemoved();
+	};
 });

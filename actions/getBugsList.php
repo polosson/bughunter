@@ -12,7 +12,7 @@ try {
 	$data['priorities'] = $PRIORITIES;
 	$data['labels']		= $l->getListe('t_labels', "*", 'id', 'ASC');
 	$data['devs']		= $l->getListe('t_devs', "*", 'id', 'ASC', 'id', '>=', '0');
-	$data['bugsList']	= $l->getListe('t_bugs', "*", "priority", "DESC", "closed", "=", $type, 40);
+	$data['bugsList']	= $l->getListe('t_bugs', "*", "priority", "DESC", "closed", "=", $type, 10);
 }
 catch (Exception $e) {
 	$data['error'] = $e->getMessage();

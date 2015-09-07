@@ -1,11 +1,3 @@
-<?php
-require('init.php');
-$l = new Liste();
-$l->getListe('t_bugs', "id", "priority", "DESC", "closed", "=", 0);
-$countAlive = $l->countResults();
-$l->getListe('t_bugs', "id", "priority", "DESC", "closed", "=", 1);
-$countKilled = $l->countResults();
-?>
 <!DOCTYPE html>
 <html lang="en" ng-app="bughunter">
 <head>
@@ -29,10 +21,6 @@ $countKilled = $l->countResults();
 	<script src="js/app/menu.ctrl.js"></script>
 	<script src="js/app/bugModal.ctrl.js"></script>
 	<script src="js/app/bugsList.ctrl.js"></script>
-	<script>
-		var startCountAlive  = <?php echo $countAlive; ?>;
-		var startCountKilled = <?php echo $countKilled; ?>;
-	</script>
 </head>
 <body>
 	<header class="clearfix">
@@ -56,10 +44,10 @@ $countKilled = $l->countResults();
 					<a href="#" ng-click="showPage('settings')">settings</a>
 				</li>
 				<li ng-class="{'on': page === 'killed'}">
-					<a href="#" ng-click="showPage('killed')"><span class="killed circle">{{countKilled}}</span> killed bugs</a>
+					<a href="#" ng-click="showPage('killed')"><span class="killed circle">{{count.count.killed}}</span> killed bugs</a>
 				</li>
 				<li ng-class="{'on': page === 'alive'}">
-					<a href="#" ng-click="showPage('alive')"><span class="alive circle">{{countAlive}}</span> bugs alive</a>
+					<a href="#" ng-click="showPage('alive')"><span class="alive circle">{{count.count.alive}}</span> bugs alive</a>
 				</li>
 			</ul>
 		</nav>

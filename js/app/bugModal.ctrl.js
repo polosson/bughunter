@@ -4,7 +4,7 @@
 /**
  * Controleur de la modale de bug
  */
-bughunter.controller('bugModalCtrl', function($scope, $modalInstance, modeAdmin, priorities, labels, devs, bug){
+bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope, modeAdmin, priorities, labels, devs, bug){
 	$scope.editInfos  = false;
 	$scope.editDescr  = false;
 	$scope.editComment= false;
@@ -16,7 +16,6 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, modeAdmin,
 	$scope.bug.descriptionHtml = angular.copy(nl2br(bug.description));
 	if ($scope.bug.closed === '1')
 		$scope.modeAdmin = false;
-	console.log(bug);
 
 	$scope.closeBugModal = function(){
 		$modalInstance.dismiss();
@@ -34,6 +33,7 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, modeAdmin,
 			return;
 		$scope.bug.closed = '1';
 		$scope.modeAdmin = false;
+		$rootScope.$broadcast('bugKilled', $scope.bug.id);
 	};
 
 	$scope.initEdit = function(){

@@ -79,13 +79,32 @@ bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config,
 		});
 	};
 
+	$scope.openAddBug = function(){
+		var modalInstance = $modal.open({
+			templateUrl: 'pages/addBugModal.php?v='+ new Date().getTime(),
+			controller: 'addBugModalCtrl',
+			backdrop: 'static',
+			size: 'lg',
+			windowClass: '',
+			resolve: {
+				passConf: function() { return $scope.config; }
+			}
+		});
+		modalInstance.result.then(function (R) {
+			console.log(R);
+			msgSrv.showMsg(R.message, 'success');
+			$scope.bugsList.push(R.bug);
+			console.log($scope.bugsList);
+		});
+	};
+
 	$scope.$on('bugKilled', function(e, bugId){
 		$scope.killBug(bugId);
 	});
 
 	$scope.getLabelColor = function(labelID){
 		var zeLabel = $.grep($scope.config.labels, function(e){ return e.id === labelID; });
-		if (zeLabel[0].id == 0)
+		if (!zeLabel[0] || zeLabel[0].id === 0)
 			return '#DDDDDD';
 		return zeLabel[0].color;
 	};

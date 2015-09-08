@@ -597,15 +597,9 @@ select.sl-priority {
 
 input, textarea {
 	background-color: white;
-	color: rgba(0, 0, 0, 0.8); }
+	color: rgba(0, 0, 0, 0.8);
+}
 
-select {
-	background-color: rgba(1, 1, 1, 0.1);
-}
-select:-moz-focusring {
-    color: transparent;
-    text-shadow: 0 0 0 #000;
-}
 /*FORM ADDBUG
 ===============*/
 #add_new_bug input[name="title"] {
@@ -888,20 +882,6 @@ header .cl-effect-13 a:focus {
 .modal-content .group-btn .btn-action:hover, .modal-content .edit-img .btn-action:hover {
     background-color: #28528F; }
 
-.modal-content.active, .modal-content-addbug.active {
-    display: block;
-    margin: 0 auto;
-    width: 80%;
-    top: 2%;
-    left: 10%;
-    background-color: #F1F1F1;
-    min-height: 500px; }
-@media screen and (max-width: 960px) {
-	.modal-content.active, .modal-content-addbug.active {
-        width: 90%;
-        left: 5%;
-	}
-}
 .modal-content .header-modal, .modal-content-addbug .header-modal {
     background-color: #E9E7E8;
     width: 100%;
@@ -1129,17 +1109,6 @@ header .cl-effect-13 a:focus {
 	padding: 0 1%;
 	color: #FFFFFF; }
 
-/*REDIFINE SIZE MODAL ADDBUG
-===============================*/
-.modal-content-addbug.active {
-	margin: 0 auto;
-	top: 5%;
-	left: 10.5%; }
-@media screen and (max-width: 970px) {
-    .modal-content-addbug.active {
-		width: 90%;
-		left: 5%; } }
-
 /*OPEN IMG MODAL*/
 .openImg {
 	width: 100%;
@@ -1229,83 +1198,72 @@ header .cl-effect-13 a:focus {
 	top: 20px;
 	box-sizing: content-box;
 	cursor: pointer;
-	box-sizing: content-box;
-	cursor: pointer;
 	z-index: 800;
 	-moz-transition: 0.2s ease-out;
 	-o-transition: 0.2s ease-out;
 	-webkit-transition: 0.2s ease-out;
-	transition: 0.2s ease-out; }
-.modal-close img {
-    max-width: 100%; }
+	transition: 0.2s ease-out;
+}
 
 .modal-close:hover {
 	-moz-transform: scale(1.2);
 	-o-transform: scale(1.2);
 	-webkit-transform: scale(1.2);
-	transform: scale(1.2); }
+	transform: scale(1.2);
+}
 
 /*MODAL ADD BUG*/
-@media screen and (max-width: 960px) {
-	.modal-content-addbug.active .header-modal {
-		position: relative;
-		padding: 0; }
-    .modal-content-addbug.active .header-modal h2 {
-		font-size: 1.9em;
-		padding: 4% 0; } }
-@media screen and (max-width: 960px) {
-	.modal-content-addbug.active .header-modal .modal-close {
-		position: absolute; } }
-.modal-content-addbug.active .modal-container-text-addbug form {
-	margin: 0 auto;
+.addbug {
 	width: 100%;
 	padding: 2%;
-	color: #4A4A4A; }
-.modal-content-addbug.active .modal-container-text-addbug form fieldset {
+	color: #4A4A4A;
+	background-color: #E9E7E8;
+}
+.addbug fieldset {
     border: 0;
-    margin-bottom: 40px; }
-.modal-content-addbug.active .modal-container-text-addbug form fieldset:first-of-type {
-	border-right: 2px solid #E1DFE0; }
-.modal-content-addbug.active .modal-container-text-addbug form legend {
-    font-weight: bold;
-    text-transform: uppercase;
-    margin-bottom: 25px;
-    font-size: 1.2em;
-    text-align: center; }
-.modal-content-addbug.active .modal-container-text-addbug form label {
-    font-weight: 600; }
-.modal-content-addbug.active .modal-container-text-addbug form .select-add {
-    margin-top: 10px;
-    display: inline-block;
-    margin-left: 25px; }
-.modal-content-addbug.active .modal-container-text-addbug form .select-add label {
-	text-align: center; }
-@media screen and (max-width: 1100px) {
-	.modal-content-addbug.active .modal-container-text-addbug form .select-add {
-        margin-left: 5px; } }
-.modal-content-addbug.active .modal-container-text-addbug form .select-add label {
-	display: block; }
-.modal-content-addbug.active .modal-container-text-addbug form input {
-    display: inline-block;
-    margin: 2px 0px;
-    height: 40px; }
-.modal-content-addbug.active .modal-container-text-addbug form fieldset {
+    margin-bottom: 20px;
     width: 49%;
     display: inline-block;
-    vertical-align: top; }
-.modal-content-addbug.active .modal-container-text-addbug form input[type="submit"] {
-    display: block;
-    margin: 0 auto;
-    width: 40%;
-    margin-top: 1%;
-    text-align: center; }
-.modal-content-addbug.active .modal-container-text-addbug form .btn-action .fileinput-button:hover {
-    cursor: pointer; }
-.modal-content-addbug.active .modal-container-text-addbug form .btn-action .fileinput-button input[type="file"] {
-    width: 100%;
-    padding-bottom: 20px; }
-.modal-content-addbug.active .modal-container-text-addbug form .btn-action .fileinput-button input[type="file"]:hover {
-	cursor: pointer; }
+    vertical-align: top;
+}
+.addbug fieldset:first-of-type {
+	border-right: 2px solid #E1DFE0;
+}
+.addbug legend {
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+.addbug label {
+    font-weight: 600;
+}
+.addbug input {
+    display: inline-block;
+    margin: 2px 0px;
+    height: 40px;
+	width: 50%;
+}
+.addbug textarea {
+	width: 100%;
+}
+.addbug .select-add {
+    margin-top: 10px;
+    display: inline-block;
+    margin-right: 25px;
+}
+.addbug .select-add label {
+	display: block;
+	text-align: center;
+}
+.addbug .select-add select {
+	color: #000;
+}
+@media screen and (max-width: 1100px) {
+	.addbug .select-add {
+        margin-left: 5px;
+	}
+}
 
 /* SETTINGS
 ***********/
@@ -1407,6 +1365,14 @@ header .cl-effect-13 a:focus {
 	width: 20px;
 	height: 20px;
 	border: 1px solid #4A4A4A;
+}
+
+select {
+	background-color: rgba(1, 1, 1, 0.1);
+}
+select:-moz-focusring {
+    color: transparent !important;
+    text-shadow: 0 0 0 #000 !important;
 }
 
 .stripedBG {

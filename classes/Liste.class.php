@@ -76,6 +76,7 @@ class Liste {
 	 */
 	public function getListe ($table, $want='*', $tri='id', $ordre='ASC', $filtre_key=false, $filtre_comp='=', $filtre=null, $limit=false, $withFK=true, $decodeJson=true, $parseDatesJS=true) {
 		global $DATE_FIELDS;
+		$this->listResult = Array();
 		$this->table = $table;
 		$this->what  = $want;
 		$this->tri	 = $tri;
@@ -134,9 +135,8 @@ class Liste {
 				}
 				if (count($resultOK) == 1)							// Si une seule valeur demandée, pas besoin d'une dimension en plus
 					$retour[$i] = reset($resultOK);
-				else {
+				else
 					$retour[$i] = $resultOK;
-				}
 				$i++;
 			}
 			$this->listResult = $retour ;
@@ -145,9 +145,11 @@ class Liste {
 		else return false;
 	}
 	/**
-	 * Retourne le nombre d'entrée trouvées
+	 * Retourne le nombre d'entrées trouvées
 	 */
 	public function countResults () {
+		if (!$this->listResult)
+			return 0;
 		return count($this->listResult);
 	}
 

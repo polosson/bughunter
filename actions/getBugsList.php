@@ -25,7 +25,9 @@ try {
 		$type = 0;
 
     $l = new Liste();
-	$data['bugsList']	= $l->getListe('t_bugs', "*", "priority", "DESC", "closed", "=", $type, 10);
+	$bugList = $l->getListe('t_bugs', "*", "priority", "DESC", "closed", "=", $type, 10);
+	if (!$bugList) $bugList = Array();
+	$data['bugsList'] = $bugList;
 }
 catch (Exception $e) {
 	$data['error'] = $e->getMessage();

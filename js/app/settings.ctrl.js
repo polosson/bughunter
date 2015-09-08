@@ -70,6 +70,14 @@ bughunter.controller('settingsCtrl', function($scope, $rootScope, $http, $modalI
 		$('.passwInput').val('');
 	};
 
+	$scope.resetBughunter = function(){
+		if (!confirm("Reset all current bughunter informations?\n\n"
+				+"This includes project infos, main password, and all bugs.\n"
+				+"You should create a backup of the database before...\n\n"
+				+"Continue anyway?\n\n"))
+			return;
+	};
+
 	$scope.closeSettingsModal = function(){
 		$modalInstance.dismiss();
 	};

@@ -57,12 +57,14 @@ try {
 	if (isset($_SESSION['authAdmin'])) {
 		if ($_SESSION['authAdmin'] === PASSWORD_SALT.$pw)
 			$authAdmin = true;
+//		$data['debugAuth'] = 'SESSION';
 	}
 	elseif (isset($_COOKIE['catch_bug'])) {
-		if ($_COOKIE['catch_bug'] !== PASSWORD_SALT.$pw) {
+		if ($_COOKIE['catch_bug'] === PASSWORD_SALT.$pw) {
 			$_SESSION['authAdmin'] = PASSWORD_SALT.$pw;
 			$authAdmin = true;
 		}
+//		$data['debugAuth'] = 'COOKIE';
 	}
 }
 catch(Exception $e) {  }

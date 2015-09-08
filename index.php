@@ -35,7 +35,11 @@
 	<script src="js/Angular-sanitize.min.js"></script>
 	<script src="js/Angular-bootstrap.min.js"></script>
 	<script src="js/app/Utils.js"></script>
-	<script src="js/app/bughunter.app.js"></script>
+	<script src="js/app/bughunter.app.js"></script><?php
+	if (!is_file('config/config.php')){
+		include('install.php');
+		die();
+	} ?>
 	<script src="js/app/menu.ctrl.js"></script>
 	<script src="js/app/bugModal.ctrl.js"></script>
 	<script src="js/app/bugsList.ctrl.js"></script>

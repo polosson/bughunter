@@ -29,7 +29,7 @@
 define ("HOST", "localhost");				// MySQL host
 define ("USER", "user");					// MySQL user
 define ("PASS", "pass");					// MySQL password
-define ("BASE", "SaAM_bughunter");			// MySQL database name
+define ("BASE", "bughunter");				// MySQL database name
 
 /**
  * FIELD PREFIX USED TO INDICATE THE EXISTENCE OF A RELATIONSHIP (JOIN)

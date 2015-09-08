@@ -67,7 +67,7 @@ bughunter.service('msgSrv', function($timeout){
 		hideMsg: hideMsg
 	};
 	/**
-	 * Display message (hides automatically after 2 sec when success, 5 sec when error)
+	 * Display message (hides automatically after 2 sec when success, 10 sec when error)
 	 * @param {String} msg The message to display
 	 * @param {String} type The message type ("error", or "success") for color
 	 */
@@ -75,7 +75,7 @@ bughunter.service('msgSrv', function($timeout){
 		$('#msg').html(msg).removeClass('msg_error msg_success').addClass('msg_'+type).show();
 		var time = 2000;
 		if (type === "error")
-			time = 5000;
+			time = 10000;
 		$timeout(function(){
 			hideMsg();
 		}, time);

@@ -27,6 +27,8 @@ set_include_path( get_include_path() .
 );
 
 // CONFIG
+if (!is_file("$pathConf/config.php"))
+	die('{"error":"Configuration file is missing! Please check if \'config/config.php\' exists."}');
 require_once("config.php");
 
 // AUTOLOAD
@@ -42,7 +44,7 @@ try {
 	global $bdd;
 }
 catch (Exception $e) {
-	die('<strong style="color:red;">Erreur de connexion PDO : '.$e->getMessage().'</strong>');
+	die('{"error":"PDO connection error: '.$e->getMessage().'"}');
 }
 
 // CHECK IF ADMIN SESSION STILL ACTIVE

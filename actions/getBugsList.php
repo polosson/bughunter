@@ -25,7 +25,7 @@ try {
 		$type = 0;
 
     $l = new Liste();
-	$bugList = $l->getListe('t_bugs', "*", "priority", "DESC", "closed", "=", $type, 10);
+	$bugList = $l->getListe('t_bugs', "*", "priority", "DESC", "closed", "=", $type);
 	if (!$bugList) $bugList = Array();
 	$data['bugsList'] = $bugList;
 }

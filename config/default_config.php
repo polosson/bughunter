@@ -57,7 +57,7 @@ define ("LAST_UPDATE",		"last_action");
 /**
  *  FIELD NAME USED FOR 'CREATION' DATE
  */
-define ("DATE_CREATION",	"date_creation");
+define ("DATE_CREATION",	"date");
 
 /**
  *  FIELDS NAMES THAT SHOULD BE PARSED TO ISO 8601 DATE FORMAT (JS COMPATIBILITY)

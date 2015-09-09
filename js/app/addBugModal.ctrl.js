@@ -55,7 +55,8 @@ bughunter.controller('addBugModalCtrl', function($scope, $modalInstance, $http, 
 		}).then(
 			function(R){
 				$scope.ajaxMsg = R.data.message;
-				$modalInstance.close({message: R.data.message, bug: R.data.bug});
+				if (R.data.error === 'OK')
+					$modalInstance.close({message: R.data.message, bug: R.data.bug});
 			},
 			function(errMsg){ $scope.ajaxMsg = errMsg; }
 		);

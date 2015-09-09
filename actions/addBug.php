@@ -15,6 +15,7 @@
   You should have received a copy of the GNU Affero General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+error_reporting(E_ERROR);
 require('../init.php');
 
 $data['error']	 = "error";
@@ -24,7 +25,15 @@ try {
 	if (!$authAdmin)
 		throw new Exception("Access denied. Please login as an Admin to continue.");
 	
-	$data['bug']	 = Array('id'=>"1000", 'priority'=>"4", 'title'=>'TODO', 'description'=>'This is a fake bug to test.', 'closed'=>'0', 'date'=>'2015-09-09T00:39:02+02:00');
+	$post = json_decode(file_get_contents("php://input"), true);
+	if (!is_array($post))
+		throw new Exception("Missing password postData.");
+	extract($post);
+
+	$b = new Bug();
+	$b->setBugData($bugInfos);
+	$b->save();
+	$data['bug']	 = $b->getBugData();
 	$data['error']	 = "OK";
 	$data['message'] = "Bug added to the list. Thanks for your report.";
 }

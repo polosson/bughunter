@@ -31,7 +31,7 @@ class Infos extends Liste {
 	 */
 	public function __construct($table=false, $pdoInstance=false) {
 		if ($table == false)
-			throw new Exception("Infos::(__construct) : Il anque le nom de la table à utiliser");
+			throw new Exception("Infos::(__construct) : missing table name!");
 		Liste::__construct($pdoInstance);
 		$this->setTable($table);
 	}
@@ -41,7 +41,7 @@ class Infos extends Liste {
 	 */
 	public function setTable ($table) {
 		if (!$this->check_table_exist($table))
-			throw new Exception("Infos::setTable() : La table '$table' n'existe pas");
+			throw new Exception("Infos::setTable() : Table '$table' doesn't exists!");
 		$this->table	= $table;
 		$this->loaded	= false;
 		$this->data		= array();
@@ -57,29 +57,20 @@ class Infos extends Liste {
 	 * Charge une entrée selon un filtrage basique. Renvoie une erreur si plusieurs entrées ont été trouvées.
 	 * @param STRING $filtreKey Le nom de la colonne pour le filtre
 	 * @param STRING $filtreVal La valeur du champ pour le filtre
+	 * @param BOOLEAN $withFK TRUE pour récupérer les données JOINTES (cf config->table relations) (default TRUE)
 	 * @param BOOLEAN $decodeJson TRUE pour décoder les champs contenant du JSON automatiquement. FALSE pour avoir les champs JSON au format STRING (default TRUE)
+	 * @param BOOLEAN $parseDatesJS TRUE pour formater les dates au format ISO 8601 pour javascript (default TRUE)
 	 */
-	public function loadInfos ($filtreKey, $filtreVal, $withFK=true, $decodeJson=true) {
+	public function loadInfos ($filtreKey, $filtreVal, $withFK=true, $decodeJson=true, $parseDatesJS=true) {
 		$this->loaded	= false;
 		$this->data		= array();
-		$result = $this->getListe($this->table, "*", 'id', 'ASC', $filtreKey, "=", $filtreVal, false, false);
+		$result = $this->getListe($this->table, "*", 'id', 'ASC', $filtreKey, "=", $filtreVal, false, $withFK, $decodeJson, $parseDatesJS);
 		if (!is_array($result))
 			return;
 		if (count($result) > 1)
 			throw new Exception("Infos::loadInfos() : Plusieurs entrées (".count($result).") ont été trouvées pour '$filtreKey = $filtreVal' ! Affinez votre filtrage");
-		foreach	(reset($result) as $key=>$val) {
-			if ($decodeJson && is_string($val) && preg_match('/((^\[)*(]$))|((^\{")*(}$))/', $val)) {	// Décodage JSON le cas échéant
-				$valArr = json_decode($val, true);
-				if (is_array($valArr))
-					$val = $valArr;
-			}
-			if ($withFK && $val && preg_match("/^".FOREIGNKEYS_PREFIX."/", $key)) {			// Remplacement par la Foreign Key le cas échéant
-				$fk = $this->getForeignKey($key, $val);
-				if (!is_array($fk)) continue;
-				$this->setInfo($fk[0], $fk[1]);
-			}
+		foreach	(reset($result) as $key=>$val)
 			$this->setInfo($key, $val);
-		}
 		$this->loaded = true;
 	}
 	/**

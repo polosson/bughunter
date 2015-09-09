@@ -49,9 +49,9 @@ bughunter.controller('addBugModalCtrl', function($scope, $modalInstance, $http, 
 		}
 		$scope.ajaxMsg = "Submitting bug informations...";
 		$http({
-			url: 'actions/addBug.php',
+			url: 'actions/adminBug.php',
 			method: 'POST',
-			data: {bugInfos: $scope.bug}
+			data: {action:'addBug', bugInfos: $scope.bug}
 		}).then(
 			function(R){
 				$scope.ajaxMsg = R.data.message;

@@ -91,10 +91,8 @@ bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config,
 			}
 		});
 		modalInstance.result.then(function (R) {
-			console.log(R);
 			msgSrv.showMsg(R.message, 'success');
 			$scope.bugsList.push(R.bug);
-			console.log($scope.bugsList);
 		});
 	};
 
@@ -111,8 +109,20 @@ bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config,
 
 	$scope.killBug = function(bugId){
 		var zeBug = $.grep($scope.bugsList, function(e){ return e.id === bugId; });
-		zeBug[0].closed = '1';
-		countBugs.bugWasKilled();
+		$http({
+			url: 'actions/adminBug.php',
+			method: 'POST',
+			data: {action:'killBug', bugID: bugId}
+		}).then(
+			function(R){
+				if (R.data.error === "OK") {
+					zeBug[0].closed = '1';
+					countBugs.bugWasKilled();
+				}
+				else msgSrv.showMsg(R.data.message, 'error');
+			},
+			function(errMsg){ msgSrv.showMsg(errMsg, 'error'); }
+		);
 	};
 
 	$scope.deleteBug = function(bugId){
@@ -120,7 +130,19 @@ bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config,
 		var bugTitle = zeBug[0].title;
 		if (!confirm("Permanently remove the bug titled\n\n      \""+bugTitle+"\"\n\nfrom database? Are you sure?"))
 			return;
-		zeBug[0].removed = true;
-		countBugs.bugWasRemoved();
+		$http({
+			url: 'actions/adminBug.php',
+			method: 'POST',
+			data: {action:'removeBug', bugID: bugId}
+		}).then(
+			function(R){
+				if (R.data.error === "OK") {
+					zeBug[0].removed = true;
+					countBugs.bugWasRemoved();
+				}
+				else msgSrv.showMsg(R.data.message, 'error');
+			},
+			function(errMsg){ msgSrv.showMsg(errMsg, 'error'); }
+		);
 	};
 });

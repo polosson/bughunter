@@ -71,7 +71,9 @@ class Liste {
 	 * @param STRING $filtre_comp La comparaison à effectuer pour le filtrage (default '=')
 	 * @param STRING $filtre La valeur à utiliser pour filtrer les résultats (default null)
 	 * @param INT $limit Nombre maximum de données à retourner (default FALSE (pas de limite)
+	 * @param BOOLEAN $withFK TRUE pour récupérer les données JOINTES (cf config->table relations) (default TRUE)
 	 * @param BOOLEAN $decodeJson TRUE pour décoder les champs contenant du JSON automatiquement. FALSE pour avoir les champs JSON au format STRING (default TRUE)
+	 * @param BOOLEAN $parseDatesJS TRUE pour formater les dates au format ISO 8601 pour javascript (default TRUE)
 	 * @return ARRAY Le tableau des résultats, ou FALSE si aucune donnée
 	 */
 	public function getListe ($table, $want='*', $tri='id', $ordre='ASC', $filtre_key=false, $filtre_comp='=', $filtre=null, $limit=false, $withFK=true, $decodeJson=true, $parseDatesJS=true) {
@@ -130,7 +132,7 @@ class Liste {
 					}
 					if (is_array(@$DATE_FIELDS) && $parseDatesJS) {
 						if (in_array($k, $DATE_FIELDS))
-							$resultOK[$k] = date("c", strtotime($v));	// Formattage de la date au format ISO 8601 (pour que JS puisse la parser)
+							$resultOK[$k] = date("c", strtotime($v));	// Formatage de la date au format ISO 8601 (pour que JS puisse la parser)
 					}
 				}
 				if (count($resultOK) == 1)							// Si une seule valeur demandée, pas besoin d'une dimension en plus
@@ -252,6 +254,8 @@ class Liste {
 	 *
 	 * @param STRING $k Le nom de la clé dont on veut la jointure (origine)
 	 * @param INT $v La valeur à rechercher (ID de la destination)
+	 * @param BOOLEAN $decodeJson TRUE pour décoder les champs contenant du JSON automatiquement. FALSE pour avoir les champs JSON au format STRING (default TRUE)
+	 * @param BOOLEAN $parseDatesJS TRUE pour formater les dates au format ISO 8601 pour javascript (default TRUE)
 	 * @return ARRAY Une paire (clé, valeur) de la jointure trouvée, FALSE si aucune jointure trouvée
 	 */
 	protected function getForeignKey ($k, $v, $decodeJson=true, $parseDatesJS=true) {

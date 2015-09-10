@@ -20,9 +20,11 @@
 /**
  * SETTINGS controller
  */
-bughunter.controller('settingsCtrl', function($scope, $rootScope, $http, $modalInstance, config){
-	$scope.config  = config.data;
-	$scope.ajaxMsg = "";
+bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, ajaxBug, config){
+	$scope.config	 = config.data;
+	$scope.ajaxMsg	 = "";
+	$scope.newLabel	 = {name:'', color:'#'};
+	$scope.newDev	 = {pseudo:'', mail:''};
 	$scope.editLabel = false;
 	$scope.editDev   = false;
 	$scope.projTypes = ['open-source', 'private'];
@@ -52,6 +54,43 @@ bughunter.controller('settingsCtrl', function($scope, $rootScope, $http, $modalI
 		if (!confirm("Remove '"+(item[0].name || item[0].pseudo)+"' from "+type+"? Sure?"))
 		console.log('delete', type, item[0]);
 
+	};
+
+	$scope.addLabel = function(){
+		$('.settings-message').removeClass('text-success').addClass('text-danger');
+		$scope.ajaxMsg = "Saving new label...";
+		if ($scope.newLabel.name === '')		{ $scope.ajaxMsg = "New label miss a name!"; return; }
+		if ($scope.newLabel.name.length > 10)	{ $scope.ajaxMsg = "New label name is too long! (max 10 characters)"; return; }
+		if ($scope.newLabel.color === '')		{ $scope.ajaxMsg = "New label miss a color!"; return; }
+		if (!checkColor($scope.newLabel.color)) { $scope.ajaxMsg = "New label color is not valid!"; return; }
+		ajaxBug.addLabel($scope.newLabel).then(
+			function(R){
+				$scope.config.labels.push(R.newLabel);
+				$('.settings-message').removeClass('text-danger').addClass('text-success');
+				$scope.newLabel	 = {name:'', color:'#'};
+				$scope.ajaxMsg = R.message;
+				$timeout(function(){ $scope.ajaxMsg = ""; }, 4000);
+			},
+			function(errMsg){ $scope.ajaxMsg = errMsg; }
+		);
+	};
+
+	$scope.addDev = function(){
+		$('.settings-message').removeClass('text-success').addClass('text-danger');
+		$scope.ajaxMsg = "Saving new Dev...";
+		if ($scope.newDev.pseudo === '')	 { $scope.ajaxMsg = "New dev miss a pseudo!"; return; }
+		if ($scope.newDev.pseudo.length < 3) { $scope.ajaxMsg = "New dev pseudo too short! (min 3 characters)"; return; }
+		if (!check_email($scope.newDev.mail)){ $scope.ajaxMsg = "New dev email is not valid!"; return; }
+		ajaxBug.addDev($scope.newDev).then(
+			function(R){
+				$scope.config.devs.push(R.newDev);
+				$('.settings-message').removeClass('text-danger').addClass('text-success');
+				$scope.newDev	= {pseudo:'', mail:''};
+				$scope.ajaxMsg	= R.message;
+				$timeout(function(){ $scope.ajaxMsg = ""; }, 4000);
+			},
+			function(errMsg){ $scope.ajaxMsg = errMsg; }
+		);
 	};
 
 	$scope.changePassword = function(){

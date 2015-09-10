@@ -18,22 +18,18 @@
 ?>
 <div id="modal-settings">
 	<div class="modal-header">
+		<div class="modal-close" ng-click="closeSettingsModal()"><i class="fa fa-close fa-3x"></i></div>
 		<div class="settings-message text-danger">{{ajaxMsg}}</div>
-		<div class="pull-right" style="margin-top: 20px;">
-			<button class="btn-success" ng-show="config.authAdmin">SAVE</button>
-			<button class="btn-warning" ng-click="closeSettingsModal()">CANCEL</button>
-		</div>
 		<h1>SETTINGS</h1>
 	</div>
 	<div class="modal-body wrapper-settings">
-
 		<div class="settings-section effect2">
 			<div class="settings-content">
 				<h2>Labels</h2>
 				<div class="settings-form">
-					<label for="name">Name</label><input id="name" name="name" type="text">
-					<label for="picker">Color #</label><input class="picker" id="picker" name="color" type="text">
-					<button class="btn-success">Add</button>
+					<label for="name">Name</label><input id="name" name="name" type="text" ng-model="newLabel.name" />
+					<label for="picker">Color</label><input class="picker" id="picker" name="color" type="text"  ng-model="newLabel.color" />
+					<button class="btn-success" ng-click="addLabel()">Add</button>
 				</div>
 
 				<table>
@@ -65,9 +61,9 @@
 			<div class="settings-content">
 				<h2>Devs</h2>
 				<div class="settings-form">
-					<label for="dev_input">Pseudo </label> <input id="dev_input" name="pseudo" type="text" />
-					<label for="email">E-mail</label> <input id="email" name="mail" type="email" />
-					<button class="btn-success">Add</button>
+					<label for="dev_input">Pseudo </label> <input id="dev_input" name="pseudo" type="text" ng-model="newDev.pseudo" />
+					<label for="email">E-mail</label> <input id="email" name="mail" type="email" ng-model="newDev.mail" />
+					<button class="btn-success" ng-click="addDev()">Add</button>
 				</div>
 
 				<table>
@@ -105,6 +101,10 @@
 					<br />
 					<label for="project_git">Git repo</label>
 					<input placeholder="git repository url" style="width: 57%;" type="text" id="project_git" ng-model="config.globalConf.git_repo.value" />
+				</div>
+				<div class="text-center">
+					<button class="btn-success" ng-show="config.authAdmin" ng-click="saveProject()">SAVE</button>
+					<button class="btn-warning" ng-show="config.authAdmin" ng-click="cancelProject()">CANCEL</button>
 				</div>
 			</div>
 		</div>

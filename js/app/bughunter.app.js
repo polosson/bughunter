@@ -129,7 +129,7 @@ bughunter.service('ajaxBug', function($http, $q){
 
 	// Ajax Configuration
 	var aCnf = {
-		url: "actions/adminBug.php",
+		url: "",
 		method: "POST",
 		data: {}
 	};
@@ -140,36 +140,60 @@ bughunter.service('ajaxBug', function($http, $q){
 		removeBug:	 removeBug,
 		addComment:  addComment,
 		saveComment: saveComment,
-		delComment:  delComment
+		delComment:  delComment,
+		addLabel:	 addLabel,
+		addDev:		 addDev,
+		updateSetting:updateSetting
 	};
 	// Save existing bug's informations
 	function saveModBug (bug) {
+		aCnf.url = "actions/adminBug.php";
 		aCnf.data = {action: 'modBug', bugID: bug.id, bugInfos: bug};
 		return callAjax();
 	}
 	// Set bug as closed
 	function killBug (bugId) {
+		aCnf.url = "actions/adminBug.php";
 		aCnf.data = {action:'killBug', bugID: bugId};
 		return callAjax();
 	}
 	// Delete bug
 	function removeBug (bugId) {
+		aCnf.url = "actions/adminBug.php";
 		aCnf.data = {action:'removeBug', bugID: bugId};
 		return callAjax();
 	}
 	// Save new comment
 	function addComment (bugId, commentText) {
+		aCnf.url = "actions/adminBug.php";
 		aCnf.data = {action: 'addComm', bugID: bugId, commentText: commentText};
 		return callAjax();
 	}
 	// Save comment text (update existing)
 	function saveComment (bugId, comment) {
+		aCnf.url = "actions/adminBug.php";
 		aCnf.data = {action: 'modComm', bugID: bugId, comment: comment};
 		return callAjax();
 	}
 	// Remove comment from bug
 	function delComment (bugId, commentId) {
+		aCnf.url = "actions/adminBug.php";
 		aCnf.data = {action: 'delComm', bugID: bugId, commID: commentId};
+		return callAjax();
+	}
+	function addLabel (label) {
+		aCnf.url = "actions/adminSettings.php";
+		aCnf.data = {action: 'addLabel', label: label};
+		return callAjax();
+	}
+	function addDev (dev) {
+		aCnf.url = "actions/adminSettings.php";
+		aCnf.data = {action: 'addDev', dev: dev};
+		return callAjax();
+	}
+	function updateSetting (type, setting) {
+		aCnf.url = "actions/adminSettings.php";
+		aCnf.data = {action: 'updateSetting', type: type, setting: setting};
 		return callAjax();
 	}
 

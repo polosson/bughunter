@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `t_devs` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 INSERT INTO `t_devs` (`id`, `pseudo`, `mail`, `last_action`) VALUES
-(-1, 'SaAM team', 'contact@saamanager.net', NULL),
+(-1, 'Admin', 'contact@saamanager.net', NULL),
 (0, 'none', NULL, NULL);
 
 

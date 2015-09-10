@@ -27,46 +27,13 @@ function check_email (email) {
 	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	return re.test(email);
 };
-
 /**
- *  Useful to only accept numbers while keyboard in use
- *
- * @param {Object} evt Event object (keydown, keyup...) to test
- * @param {Boolean} float True to allow dot (.) key
- * @returns {Boolean} True if key is a number
+ * Useful to test if a string is a hex RGB color
  */
-function checkNum (evt, float) {
-	var keyCode = evt.which ? evt.which : evt.keyCode;
-	if ((float && keyCode == 190) || (float && keyCode == 110) )
-		return true;
-	if ((keyCode < 48 || keyCode > 57) && (keyCode < 96 || keyCode > 105 ))
-		return false;
-	return true;
-};
-
-/**
- * Useful to disallow special characters while keyboard in use
- *
- * @param: {Boolean} accents TRUE to allow accents (&éèàù)
- * @param: {Boolean} space	 TRUE to allow spaces ( )
- * @param: {Boolean} punct	 TRUE to allow dot, comma, and quote (.,')
- * @param: {Boolean} email	 TRUE to allow hyphen, underscore, and arobase (-_@)
- */
-function checkChar (evt, accents, space, punct, email) {
-	var keyCode = evt.which ? evt.which : evt.keyCode;
-	if ((accents && keyCode == 48) || (accents && keyCode == 49) || (accents && keyCode == 50) || (accents && keyCode == 55) || (accents && keyCode == 165))
-		return true;
-	if (space && keyCode == 32)
-		return true;
-	if ((punct && keyCode == 110) || (punct && keyCode == 190) || ((keyCode == 59) && evt.shiftKey === true) || (punct && keyCode == 188) || (punct && keyCode == 52))
-		return true;
-	if ((email && keyCode == 54) || (email && keyCode == 56) || (email && keyCode == 109) || (email && keyCode == 225) || (email && keyCode == 48))
-		return true;
-	if ((keyCode >= 65 && keyCode <= 90) || (keyCode >= 96 && keyCode <= 105 ) || ((keyCode >= 48 && keyCode <= 57) && evt.shiftKey === true))
-		return true;
-	return false;
+function checkColor (str) {
+	var regCol = /^#[0-9A-F]{6}$/i;
+	return regCol.test(str);
 }
-
 /**
  *  Useful to get the file name from a path
  *
@@ -75,7 +42,6 @@ function checkChar (evt, accents, space, punct, email) {
 function basename(path) {
     return path.replace(/\\/g, '/').replace( /.*\//, '');
 }
-
 /**
  *  Useful to remove the file name from a path
  *
@@ -84,7 +50,6 @@ function basename(path) {
 function dirname(path) {
     return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');;
 }
-
 /**
  * Useful to transform "\n" in 'br'
  *

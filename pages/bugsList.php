@@ -90,7 +90,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="bug in bugsList | filter:search | orderBy:orderProp : orderRev" ng-hide="(bugsType === 0 && bug.closed === '1') || bug.removed">
+		<tr ng-repeat="bug in bugsList | orderBy:orderProp : orderRev" ng-controller="filtering" ng-hide="filtered()">
 			<td style="text-align: left;">#{{bug.id}}</td>
 			<td>
 				<div class="wrapper-sl" ng-show="config.authAdmin && bug.closed === '0'">

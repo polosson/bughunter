@@ -145,3 +145,28 @@ bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config,
 		);
 	};
 });
+
+/**
+ * Filtering using ng-hide
+ */
+bughunter.controller('filtering', function($scope){
+
+	$scope.filtered = function(){
+		if (($scope.bugsType === 0 && $scope.bug.closed === '1') || $scope.bug.removed)
+			return true;
+		var search = $scope.search.title.toLowerCase();
+		var title  = $scope.bug.title.toLowerCase();
+		if (title.indexOf(search) === -1)
+			return true;
+		var fPrio = $scope.search.priority;
+		if (fPrio !== "" && $scope.bug.priority !== fPrio)
+			return true;
+		var fLabel = $scope.search.FK_label_ID;
+		if (fLabel !== "" && $scope.bug.FK_label_ID != fLabel)
+			return true;
+		var fDev = $scope.search.FK_dev_ID;
+		if (fDev !== "" && $scope.bug.FK_dev_ID != fDev)
+			return true;
+		return false;
+	};
+});

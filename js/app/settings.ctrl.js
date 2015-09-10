@@ -25,26 +25,50 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 	$scope.ajaxMsg	 = "";
 	$scope.newLabel	 = {name:'', color:'#'};
 	$scope.newDev	 = {pseudo:'', mail:''};
+	$scope.bckpItem	 = {};
 	$scope.editLabel = false;
 	$scope.editDev   = false;
 	$scope.projTypes = ['open-source', 'private'];
 
 	$scope.initEdit = function(type, id){
 		var item = $.grep($scope.config[type], function(e){ return e.id === id; });
-		console.log('initEdit', type, item[0]);
+		$scope.bckpItem = angular.copy(item[0]);
 		if (type === "labels")
-			$scope.editLabel = angular.copy(id);
+			$scope.editLabel = id;
 		if (type === "devs")
-			$scope.editDev   = angular.copy(id);
+			$scope.editDev   = id;
 	};
 	$scope.saveEdit = function(type, id){
+		$('.settings-message').removeClass('text-success').addClass('text-danger');
+		$scope.ajaxMsg = "Saving "+type+"...";
 		var item = $.grep($scope.config[type], function(e){ return e.id === id; });
-		console.log('save', type, item[0]);
-
+		if (type === "labels") {
+			if (item[0].name === '')		{ $scope.ajaxMsg = "Label name can't be empty!"; return; }
+			if (item[0].name.length > 10)	{ $scope.ajaxMsg = "Label name is too long! (max 10 characters)"; return; }
+			if (item[0].color === '')		{ $scope.ajaxMsg = "Label color can't be empty!"; return; }
+			if (!checkColor(item[0].color)) { $scope.ajaxMsg = "Label color is not valid!"; return; }
+		}
+		if (type === "devs") {
+			if (item[0].pseudo === '')	   { $scope.ajaxMsg = "Dev pseudo can't be empty!"; return; }
+			if (item[0].pseudo.length < 3) { $scope.ajaxMsg = "Dev pseudo too short! (min 3 characters)"; return; }
+			if (!check_email(item[0].mail)){ $scope.ajaxMsg = "Dev email is not valid!"; return; }
+		}
+		ajaxBug.updateSetting(type, item[0]).then(
+			function(R){
+				$scope.editLabel = false;
+				$scope.editDev   = false;
+				$('.settings-message').removeClass('text-danger').addClass('text-success');
+				$scope.ajaxMsg = R.message;
+				$timeout(function(){ $scope.ajaxMsg = ""; }, 4000);
+			},
+			function(errMsg){ $scope.ajaxMsg = errMsg; }
+		);
 	};
 	$scope.cancelEdit = function(type, id){
 		var item = $.grep($scope.config[type], function(e){ return e.id === id; });
-		console.log('cancel', type, item[0]);
+		$.each($scope.bckpItem, function(prop, val){
+			item[0][prop] = val;
+		});
 		$scope.editLabel = false;
 		$scope.editDev   = false;
 	};

@@ -15,6 +15,7 @@
   You should have received a copy of the GNU Affero General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+error_reporting(E_ERROR);
 require('../init.php');
 
 $data['error'] = "error";
@@ -55,8 +56,11 @@ try {
 
 	if ($action === 'updateSetting') {
 		if (!isset($type))
-			throw new Exception("Missing the type of setting to update (label, dev, password, project?)");
-
+			throw new Exception("Missing the type of setting to update (labels, devs, project?)");
+		$i = new Infos('t_'.$type);
+		$i->loadInfos('id', $item['id']);
+		$i->setAllInfos($item);
+		$i->save('id', 'this', false, false);
 		$data['error'] = "OK";
 		$data['message'] = "$type updated.";
 	}

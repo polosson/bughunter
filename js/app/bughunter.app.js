@@ -192,9 +192,9 @@ bughunter.service('ajaxBug', function($http, $q){
 		aCnf.data = {action: 'addDev', dev: dev};
 		return callAjax();
 	}
-	function updateSetting (type, setting) {
+	function updateSetting (type, item) {
 		aCnf.url = "actions/adminSettings.php";
-		aCnf.data = {action: 'updateSetting', type: type, setting: setting};
+		aCnf.data = {action: 'updateSetting', type: type, item: item};
 		return callAjax();
 	}
 	function updatePW (newPW) {

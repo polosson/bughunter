@@ -95,7 +95,7 @@
 			<td>
 				<div class="wrapper-sl" ng-show="config.authAdmin && bug.closed === '0'">
 					<div class="triangle-down"></div>
-					<select class="sl-priority" ng-style="{'background-color': config.priorities[bug.priority].color}" ng-model="bug.priority">
+					<select class="sl-priority" ng-style="{'background-color': config.priorities[bug.priority].color}" ng-model="bug.priority" ng-change="updateBug(bug.id)">
 						<option ng-repeat="prio in config.priorities" ng-style="{'background-color': prio.color}" ng-value="{{prio.priority}}">{{prio.priority}}</option>
 					</select>
 				</div>
@@ -115,7 +115,7 @@
 				<div class="wrapper-sl-label" ng-show="config.authAdmin && bug.closed === '0'">
 					<div class="triangle-down"></div>
 					<select class="sl-label" ng-style="{'background-color': getLabelColor(bug.FK_label_ID)}" ng-model="bug.FK_label_ID"
-							ng-options="label.id as label.name for label in config.labels">
+							ng-options="label.id as label.name for label in config.labels" ng-change="updateBug(bug.id)">
 					</select>
 				</div>
 				<span ng-style="{'background-color': getLabelColor(bug.FK_label_ID)}" ng-hide="config.authAdmin && bug.closed === '0'">{{bug.label.name}}</span>
@@ -124,7 +124,7 @@
 				<div class="wrapper-sl-label" ng-show="config.authAdmin && bug.closed === '0'">
 					<div class="triangle-down"></div>
 					<select class="sl-assignee" ng-style="{'background-color': (bug.FK_dev_ID == 0) ?'#DDD':'#FFF'}" ng-model="bug.FK_dev_ID"
-							ng-options="dev.id as dev.pseudo for dev in config.devs">
+							ng-options="dev.id as dev.pseudo for dev in config.devs" ng-change="updateBug(bug.id)">
 					</select>
 				</div>
 				<div style="display: inline-block; width: 80%; padding: 4px 2px;"

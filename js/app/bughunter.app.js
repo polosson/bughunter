@@ -136,6 +136,8 @@ bughunter.service('ajaxBug', function($http, $q){
 	// Public methods
 	return {
 		saveModBug:  saveModBug,
+		killBug:	 killBug,
+		removeBug:	 removeBug,
 		addComment:  addComment,
 		saveComment: saveComment,
 		delComment:  delComment
@@ -143,6 +145,16 @@ bughunter.service('ajaxBug', function($http, $q){
 	// Save existing bug's informations
 	function saveModBug (bug) {
 		aCnf.data = {action: 'modBug', bugID: bug.id, bugInfos: bug};
+		return callAjax();
+	}
+	// Set bug as closed
+	function killBug (bugId) {
+		aCnf.data = {action:'killBug', bugID: bugId};
+		return callAjax();
+	}
+	// Delete bug
+	function removeBug (bugId) {
+		aCnf.data = {action:'removeBug', bugID: bugId};
 		return callAjax();
 	}
 	// Save new comment

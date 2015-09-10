@@ -20,7 +20,7 @@
 /**
  * BUGS LIST controller
  */
-bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config, countBugs){
+bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config, countBugs, ajaxBug){
 	$scope.bugsList		= [];
 	$scope.search	 = {'title':"", 'priority':"", 'FK_label_ID':"", 'FK_dev_ID':""};
 	$scope.orderProp = 'priority';
@@ -112,19 +112,13 @@ bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config,
 
 	$scope.killBug = function(bugId){
 		var zeBug = $.grep($scope.bugsList, function(e){ return e.id === bugId; });
-		$http({
-			url: 'actions/adminBug.php',
-			method: 'POST',
-			data: {action:'killBug', bugID: bugId}
-		}).then(
-			function(R){
-				if (R.data.error === "OK") {
-					zeBug[0].closed = '1';
-					countBugs.bugWasKilled();
-				}
-				else msgSrv.showMsg(R.data.message, 'error');
+		ajaxBug.killBug(bugId).then(
+			function(R) {
+				zeBug[0].closed = '1';
+				countBugs.bugWasKilled();
+				msgSrv.showMsg(R.message, 'success');
 			},
-			function(errMsg){ msgSrv.showMsg(errMsg, 'error'); }
+			function(errMsg) { msgSrv.showMsg(errMsg, 'error'); }
 		);
 	};
 
@@ -133,19 +127,21 @@ bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config,
 		var bugTitle = zeBug[0].title;
 		if (!confirm("Permanently remove the bug titled\n\n      \""+bugTitle+"\"\n\nfrom database? Are you sure?"))
 			return;
-		$http({
-			url: 'actions/adminBug.php',
-			method: 'POST',
-			data: {action:'removeBug', bugID: bugId}
-		}).then(
-			function(R){
-				if (R.data.error === "OK") {
-					zeBug[0].removed = true;
-					countBugs.bugWasRemoved();
-				}
-				else msgSrv.showMsg(R.data.message, 'error');
+		ajaxBug.removeBug(bugId).then(
+			function(R) {
+				zeBug[0].removed = true;
+				countBugs.bugWasRemoved();
+				msgSrv.showMsg(R.message, 'success');
 			},
-			function(errMsg){ msgSrv.showMsg(errMsg, 'error'); }
+			function(errMsg) { msgSrv.showMsg(errMsg, 'error'); }
+		);
+	};
+
+	$scope.updateBug = function(bugId){
+		var zeBug = $.grep($scope.bugsList, function(e){ return e.id === bugId; });
+		ajaxBug.saveModBug(zeBug[0]).then(
+			function(R) { msgSrv.showMsg(R.message, 'success'); },
+			function(errMsg) { msgSrv.showMsg(errMsg, 'error'); }
 		);
 	};
 });

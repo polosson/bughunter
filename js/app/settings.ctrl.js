@@ -106,6 +106,10 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 		}
 		if (!confirm("Do you really want to update main password??"))
 			return;
+		ajaxBug.updatePW(pw1).then(
+			function(R){ $scope.ajaxMsg = R.message+" Reloading..."; window.location = "./"; },
+			function(errMsg){ $scope.ajaxMsg = errMsg; }
+		);
 		$('.passwInput').val('');
 	};
 

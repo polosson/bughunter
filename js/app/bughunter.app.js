@@ -143,7 +143,8 @@ bughunter.service('ajaxBug', function($http, $q){
 		delComment:  delComment,
 		addLabel:	 addLabel,
 		addDev:		 addDev,
-		updateSetting:updateSetting
+		updateSetting:updateSetting,
+		updatePW:	 updatePW
 	};
 	// Save existing bug's informations
 	function saveModBug (bug) {
@@ -194,6 +195,11 @@ bughunter.service('ajaxBug', function($http, $q){
 	function updateSetting (type, setting) {
 		aCnf.url = "actions/adminSettings.php";
 		aCnf.data = {action: 'updateSetting', type: type, setting: setting};
+		return callAjax();
+	}
+	function updatePW (newPW) {
+		aCnf.url = "actions/adminSettings.php";
+		aCnf.data = {action: 'updatePW', newPW: newPW};
 		return callAjax();
 	}
 

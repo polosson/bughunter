@@ -61,6 +61,20 @@ try {
 		$data['message'] = "$type updated.";
 	}
 
+	if ($action === 'updatePW') {
+		if (!isset($newPW))
+			throw new Exception("Missing the new password!");
+		if (strlen($newPW) < 4)
+			throw new Exception("New password is too short!");
+		$newPass = md5(PASSWORD_SALT.$newPW);
+		$iC = new Infos('t_config');
+		$iC->loadInfos('nom', 'password_access');
+		$iC->setInfo('value', $newPass);
+		$iC->save('id', 'this', false, false);
+		$data['error'] = "OK";
+		$data['message'] = "Main password updated.";
+	}
+
 } catch (Exception $e) {
 	$data['message'] = $e->getMessage();
 }

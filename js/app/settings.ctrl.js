@@ -73,11 +73,18 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 		$scope.editDev   = false;
 	};
 
-	$scope.deleteItem = function(type, id){
-		var item = $.grep($scope.config[type], function(e){ return e.id === id; });
-		if (!confirm("Remove '"+(item[0].name || item[0].pseudo)+"' from "+type+"? Sure?"))
-		console.log('delete', type, item[0]);
-
+	$scope.deleteItem = function(type, idx){
+		var item = $scope.config[type][idx];
+		if (!confirm("Remove '"+(item.name || item.pseudo)+"' from "+type+"? Sure?")) return;
+		ajaxBug.removeSetting(type, item.id).then(
+			function(R){
+				$scope.config[type].splice(idx, 1);
+				$('.settings-message').removeClass('text-danger').addClass('text-success');
+				$scope.ajaxMsg = R.message;
+				$timeout(function(){ $scope.ajaxMsg = ""; }, 4000);
+			},
+			function(errMsg){ $scope.ajaxMsg = errMsg; }
+		);
 	};
 
 	$scope.addLabel = function(){

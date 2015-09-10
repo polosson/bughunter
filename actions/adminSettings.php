@@ -56,13 +56,23 @@ try {
 
 	if ($action === 'updateSetting') {
 		if (!isset($type))
-			throw new Exception("Missing the type of setting to update (labels, devs, project?)");
+			throw new Exception("Missing the type of setting to update (labels, devs, projectInfo?)");
 		$i = new Infos('t_'.$type);
 		$i->loadInfos('id', $item['id']);
 		$i->setAllInfos($item);
 		$i->save('id', 'this', false, false);
 		$data['error'] = "OK";
 		$data['message'] = "$type updated.";
+	}
+
+	if ($action === 'deleteSetting') {
+		if (!isset($type))
+			throw new Exception("Missing the type of setting to delete (labels, devs, projectInfo?)");
+		$i = new Infos('t_'.$type);
+		$i->loadInfos('id', $itemID);
+		$i->delete();
+		$data['error'] = "OK";
+		$data['message'] = "Item removed from $type.";
 	}
 
 	if ($action === 'updatePW') {

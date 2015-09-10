@@ -144,6 +144,7 @@ bughunter.service('ajaxBug', function($http, $q){
 		addLabel:	 addLabel,
 		addDev:		 addDev,
 		updateSetting:updateSetting,
+		removeSetting:removeSetting,
 		updatePW:	 updatePW
 	};
 	// Save existing bug's informations
@@ -195,6 +196,11 @@ bughunter.service('ajaxBug', function($http, $q){
 	function updateSetting (type, item) {
 		aCnf.url = "actions/adminSettings.php";
 		aCnf.data = {action: 'updateSetting', type: type, item: item};
+		return callAjax();
+	}
+	function removeSetting (type, itemId) {
+		aCnf.url = "actions/adminSettings.php";
+		aCnf.data = {action: 'deleteSetting', type: type, itemID: itemId};
 		return callAjax();
 	}
 	function updatePW (newPW) {

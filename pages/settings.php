@@ -47,7 +47,7 @@
 							</td>
 							<td>
 								<button ng-hide="editLabel" ng-click="initEdit('labels', label.id)" class="btn-action">Edit</button>
-								<button ng-hide="editLabel || label.name === 'none'" ng-click="deleteItem('labels', label.id)" class="btn-delete">Delete</button>
+								<button ng-hide="editLabel || label.name === 'none'" ng-click="deleteItem('labels', $index)" class="btn-delete">Delete</button>
 								<button ng-show="editLabel === label.id" class="btn-success" ng-click="saveEdit('labels', label.id)">Update</button>
 								<button ng-show="editLabel === label.id" class="btn-warning" ng-click="cancelEdit('labels', label.id)">Cancel</button>
 							</td>
@@ -82,7 +82,7 @@
 							</td>
 							<td>
 								<button ng-hide="editDev" ng-click="initEdit('devs', dev.id)" class="btn-action">Edit</button>
-								<button ng-hide="editDev || dev.id === '0'" ng-click="deleteItem('devs', dev.id)" class="btn-delete">Delete</button>
+								<button ng-hide="editDev || dev.id === '0'" ng-click="deleteItem('devs', $index)" class="btn-delete">Delete</button>
 								<button ng-show="editDev === dev.id" class="btn-success" ng-click="saveEdit('devs', dev.id)">Update</button>
 								<button ng-show="editDev === dev.id" class="btn-warning" ng-click="cancelEdit('devs', dev.id)">Cancel</button>
 							</td>

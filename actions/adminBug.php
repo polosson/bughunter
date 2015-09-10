@@ -19,7 +19,7 @@ error_reporting(E_ERROR);
 require('../init.php');
 
 $data['error']	 = "error";
-$data['message'] = "Unknown action! ($action)";
+$data['message'] = "Unknown action!";
 
 try {
 	if (!$authAdmin)
@@ -27,7 +27,7 @@ try {
 
 	$post = json_decode(file_get_contents("php://input"), true);
 	if (!is_array($post))
-		throw new Exception("Missing password postData.");
+		throw new Exception("Missing postData.");
 	extract($post);
 
 	if ($action === 'addBug') {

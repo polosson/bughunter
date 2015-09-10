@@ -47,6 +47,7 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 				$timeout(function(){ $('#ajaxBugMsg').fadeOut(600); }, 3000);
 				$scope.editInfos  = false;
 				$scope.editDescr  = false;
+				$rootScope.$broadcast('bugChanged', R.bug);
 				bug = angular.copy($scope.bug);
 			},
 			function(errMsg) { $('#ajaxBugMsg').html(errMsg).removeClass('text-info').addClass('text-danger').show(); }
@@ -96,6 +97,7 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 				$('#ajaxBugMsg').html(R.message).removeClass('text-info').addClass('text-success').show();
 				$timeout(function(){ $('#ajaxBugMsg').fadeOut(600); }, 3000);
 				$scope.bug.comment.splice(idx, 1);
+				$rootScope.$broadcast('bugChanged', $scope.bug);
 				bug = angular.copy($scope.bug);
 			},
 			function(errMsg) { $('#ajaxBugMsg').html(errMsg).removeClass('text-info').addClass('text-danger').show(); }
@@ -116,6 +118,7 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 				$timeout(function(){ $('#ajaxBugMsg').fadeOut(600); }, 3000);
 				$scope.bug.comment.push(R.newComment);
 				bug = angular.copy($scope.bug);
+				$rootScope.$broadcast('bugChanged', $scope.bug);
 				$scope.newComment = "";
 			},
 			function(errMsg) { $('#ajaxBugMsg').html(errMsg).removeClass('text-info').addClass('text-danger').show(); }

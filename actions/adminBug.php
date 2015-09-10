@@ -45,6 +45,7 @@ try {
 		$b = new Bug((int)$bugID);
 		$b->setBugData($bugInfos);
 		$b->save();
+		$data['bug']	 = $b->getBugData();
 		$data['error']	 = "OK";
 		$data['message'] = "Bug updated.";
 	}

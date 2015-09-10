@@ -63,21 +63,28 @@ bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config,
 	});
 
 	$scope.openBug = function(bug){
-		var modalInstance = $modal.open({
+		$modal.open({
 			templateUrl: 'pages/bugModal.php?v='+ new Date().getTime(),
 			controller: 'bugModalCtrl',
 			backdrop: 'static',
 			size: 'lg',
 			windowClass: '',
 			resolve: {
-				passConf:	function() { return $scope.config; },
-				bug:		function() { return bug; }
+				passConf: function() { return $scope.config; },
+				bug:	  function() { return bug; }
 			}
 		});
-		modalInstance.result.then(function (R) {
-			console.log(R);
-		});
 	};
+
+	$scope.$on('bugKilled', function(e, bugId){
+		$scope.killBug(bugId);
+	});
+	$scope.$on('bugChanged', function(e, bug){
+		var zeBug = $.grep($scope.bugsList, function(e){ return e.id === bug.id; });
+		$.each(bug, function(prop, val){
+			zeBug[0][prop] = val;
+		});
+	});
 
 	$scope.openAddBug = function(){
 		var modalInstance = $modal.open({
@@ -95,10 +102,6 @@ bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config,
 			$scope.bugsList.push(R.bug);
 		});
 	};
-
-	$scope.$on('bugKilled', function(e, bugId){
-		$scope.killBug(bugId);
-	});
 
 	$scope.getLabelColor = function(labelID){
 		var zeLabel = $.grep($scope.config.labels, function(e){ return e.id === labelID; });

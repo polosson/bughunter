@@ -185,12 +185,13 @@ class Infos extends Liste {
 		try { $q->execute(); }
 		catch (Exception $e) {
 			$msg = $e->getMessage();
-			if (strpos($msg, 'SQLSTATE[23000]: Integrity constraint violation', 0) !== false){
+			if ($e->getCode() == 23000){
 				$keyOffset = strrpos($msg, "'", -2);
 				$key = substr($msg, $keyOffset);
-				throw new Exception('Infos::save() : Entrée dupliquée pour '.$key);
+				throw new Exception("Infos::save() : Duplicate entry for '$key' in table '$this->table'.");
 			}
-			throw new Exception('Infos::save() : '.$msg);
+			else
+				throw new Exception("Infos::save(), table '$this->table' -> $msg");
 		}
 		if (@$nextid)
 			$this->data['id'] = (int)$nextid;

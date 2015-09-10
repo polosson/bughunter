@@ -20,7 +20,7 @@
 /**
  * BUG MODAL controller
  */
-bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope, passConf, bug){
+bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope, $timeout, ajaxBug, passConf, bug){
 	$scope.editInfos  = false;
 	$scope.editDescr  = false;
 	$scope.editComment= false;
@@ -29,19 +29,33 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 	$scope.labels	  = angular.copy(passConf.labels);
 	$scope.devs		  = angular.copy(passConf.devs);
 	$scope.bug		  = angular.copy(bug);
-	$scope.bug.descriptionHtml = angular.copy(nl2br(bug.description));
+	$scope.newComment = "";
 	if ($scope.bug.closed === '1')
 		$scope.modeAdmin = false;
 
-	$scope.closeBugModal = function(){
-		$modalInstance.dismiss();
-	};
+	/**
+	 * Bug informations
+	 */
+	$scope.initEdit = function(){ $scope.editInfos = true; };
+	$scope.initUpdDescr = function(){ $scope.editDescr  = true; };
 
-	$scope.getLabelColor = function(labelID){
-		var zeLabel = $.grep($scope.labels, function(e){ return e.id === labelID; });
-		if (zeLabel[0].id == 0)
-			return '#DDDDDD';
-		return zeLabel[0].color;
+	$scope.saveBug = function(){
+		$('#ajaxBugMsg').html("Updating bug...").removeClass('text-info text-danger text-success').addClass('text-info').show();
+		ajaxBug.saveModBug($scope.bug).then(
+			function(R) {
+				$('#ajaxBugMsg').html(R.message).removeClass('text-info').addClass('text-success').show();
+				$timeout(function(){ $('#ajaxBugMsg').fadeOut(600); }, 3000);
+				$scope.editInfos  = false;
+				$scope.editDescr  = false;
+				bug = angular.copy($scope.bug);
+			},
+			function(errMsg) { $('#ajaxBugMsg').html(errMsg).removeClass('text-info').addClass('text-danger').show(); }
+		);
+	};
+	$scope.cancelEdit = function(){
+		$scope.bug = angular.copy(bug);
+		$scope.editInfos  = false;
+		$scope.editDescr  = false;
 	};
 
 	$scope.killBug = function(){
@@ -50,39 +64,78 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 		$scope.bug.closed = '1';
 		$scope.modeAdmin = false;
 		$rootScope.$broadcast('bugKilled', $scope.bug.id);
+		$('#ajaxBugMsg').html('Bug closed.').removeClass('text-danger text-success').addClass('text-success').show();
+		$timeout(function(){ $('#ajaxBugMsg').fadeOut(600); }, 3000);
 	};
 
-	$scope.initEdit = function(){
-		$scope.editInfos  = true;
-	};
-	$scope.saveEdit = function(){
-		$scope.editInfos  = false;
-	};
-	$scope.cancelEdit = function(){
-		$scope.editInfos  = false;
-	};
+	/**
+	 * Bug comments
+	 */
+	$scope.initUpdComment = function(idComm){ $scope.editComment  = idComm; };
 
-	$scope.initUpdDescr = function(){
-		$scope.editDescr  = true;
+	$scope.saveUpdComment = function(idx){
+		ajaxBug.saveComment($scope.bug.id, $scope.bug.comment[idx]).then(
+			function(R) {
+				$('#ajaxBugMsg').html(R.message).removeClass('text-info').addClass('text-success').show();
+				$timeout(function(){ $('#ajaxBugMsg').fadeOut(600); }, 3000);
+				$scope.editComment  = false;
+				bug = angular.copy($scope.bug);
+			},
+			function(errMsg) { $('#ajaxBugMsg').html(errMsg).removeClass('text-info').addClass('text-danger').show(); }
+		);
 	};
-	$scope.saveUpdDescr  = function(){
-		$scope.editDescr  = false;
-	};
-	$scope.cancelUpdDescr  = function(){
-		$scope.editDescr  = false;
-	};
-
-	$scope.initUpdComment = function(idComm){
-		$scope.editComment  = idComm;
-	};
-	$scope.saveUpdComment = function(){
+	$scope.cancelUpdComment = function(idx){
 		$scope.editComment  = false;
+		$scope.bug.comment[idx] = angular.copy(bug.comment[idx]);
 	};
-	$scope.cancelUpdComment = function(){
-		$scope.editComment  = false;
-	};
-	$scope.deleteComment = function(idComm){
+	$scope.deleteComment = function(idx){
 		if (!confirm("Delete this comment? Sure?"))
 			return;
+		ajaxBug.delComment($scope.bug.id, $scope.bug.comment[idx].id).then(
+			function(R) {
+				$('#ajaxBugMsg').html(R.message).removeClass('text-info').addClass('text-success').show();
+				$timeout(function(){ $('#ajaxBugMsg').fadeOut(600); }, 3000);
+				$scope.bug.comment.splice(idx, 1);
+				bug = angular.copy($scope.bug);
+			},
+			function(errMsg) { $('#ajaxBugMsg').html(errMsg).removeClass('text-info').addClass('text-danger').show(); }
+		);
+	};
+	$scope.addComment = function(){
+		if ($scope.newComment === "") return;
+		$('#ajaxBugMsg').html("Adding comment to bug...").removeClass('text-info text-danger text-success').addClass('text-info').show();
+		if (typeof $scope.bug.comment === 'undefined')
+			$scope.bug.comment = [];
+		if ($scope.newComment.length < 3) {
+			$('#ajaxBugMsg').html("Comment too short. 3 characters minimum.").removeClass('text-info').addClass('text-danger').show();
+			return;
+		}
+		ajaxBug.addComment($scope.bug.id, $scope.newComment).then(
+			function(R) {
+				$('#ajaxBugMsg').html(R.message).removeClass('text-info').addClass('text-success').show();
+				$timeout(function(){ $('#ajaxBugMsg').fadeOut(600); }, 3000);
+				$scope.bug.comment.push(R.newComment);
+				bug = angular.copy($scope.bug);
+				$scope.newComment = "";
+			},
+			function(errMsg) { $('#ajaxBugMsg').html(errMsg).removeClass('text-info').addClass('text-danger').show(); }
+		);
+	};
+
+	/**
+	 * OTHER FUNCTIONS
+	 */
+	$scope.closeBugModal = function(){
+		$modalInstance.dismiss();
+	};
+
+	$scope.getLabelColor = function(labelID){
+		var zeLabel = $.grep($scope.labels, function(e){ return e.id === labelID; });
+		if (zeLabel[0].id == 0) return '#DDDDDD';
+		return zeLabel[0].color;
+	};
+
+	$scope.nl2br = function(text){
+		return nl2br(text);
 	};
 });

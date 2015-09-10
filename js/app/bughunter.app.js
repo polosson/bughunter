@@ -124,6 +124,59 @@ bughunter.service('countBugs', function(){
 	}
 });
 
+
+bughunter.service('ajaxBug', function($http, $q){
+
+	// Ajax Configuration
+	var aCnf = {
+		url: "actions/adminBug.php",
+		method: "POST",
+		data: {}
+	};
+	// Public methods
+	return {
+		saveModBug:  saveModBug,
+		addComment:  addComment,
+		saveComment: saveComment,
+		delComment:  delComment
+	};
+	// Save existing bug's informations
+	function saveModBug (bug) {
+		aCnf.data = {action: 'modBug', bugID: bug.id, bugInfos: bug};
+		return callAjax();
+	}
+	// Save new comment
+	function addComment (bugId, commentText) {
+		aCnf.data = {action: 'addComm', bugID: bugId, commentText: commentText};
+		return callAjax();
+	}
+	// Save comment text (update existing)
+	function saveComment (bugId, comment) {
+		aCnf.data = {action: 'modComm', bugID: bugId, comment: comment};
+		return callAjax();
+	}
+	// Remove comment from bug
+	function delComment (bugId, commentId) {
+		aCnf.data = {action: 'delComm', bugID: bugId, commID: commentId};
+		return callAjax();
+	}
+
+	// --- PRIVATE METHODS --- //
+	function callAjax(){
+		var r = $http(aCnf);
+		return r.then(handleSuccess, handleError);
+	};
+	function handleSuccess(response) {
+		if (response.data.error !== "OK")
+			return $q.reject("ERROR : "+response.data.message);
+		return response.data;
+	}
+	function handleError(response) {
+		console.log(response);
+		return $q.reject(""+response.status+" - "+response.statusText+" ("+aCnf.url+")");
+	}
+});
+
 /**
  * "Hit enter" directive : To allow execution of a function with Enter key.
  */

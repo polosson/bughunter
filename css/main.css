@@ -1107,7 +1107,17 @@ header .cl-effect-13 a:focus {
 	margin: 1% auto;
 	background-color: #F85604;
 	padding: 0 1%;
-	color: #FFFFFF; }
+	color: #FFFFFF;
+}
+#ajaxBugMsg {
+	position: absolute;
+	top: 20px;
+	left: 200px; right: 100px;
+	text-align: center;
+	font-weight: 600;
+	font-size: 1.2em;
+}
+
 
 /*OPEN IMG MODAL*/
 .openImg {

@@ -23,20 +23,20 @@
 			<h2 id="modal-title">
 				<span id="id_bug"># {{bug.id}}</span> :
 				<span ng-hide="editInfos">{{bug.title}}</span>
-				<input id="input-bug-title" name="input-bug-title" type="text" ng-show="editInfos" ng-model="bug.title" />
+				<input id="input-bug-title" name="input-bug-title" type="text" ng-show="editInfos" hitenter="saveBug()" ng-model="bug.title" />
 			</h2>
 			<div id="app-version">
 				<span class='info'>software version: </span>
 				<span ng-hide="editInfos">{{bug.app_version}}</span>
 				<div ng-show="editInfos">
-					<input id="input-app-v" name="input-app-v" type="text" ng-model="bug.app_version" />
+					<input id="input-app-v" name="input-app-v" type="text" hitenter="saveBug()" ng-model="bug.app_version" />
 				</div>
 			</div>
 			<div id="app-url">
 				<span class='info'>link: </span>
 				<span ng-hide="editInfos"><a ng-href="{{bug.app_url}}">{{bug.app_url | formaturl}}</a></span>
 				<div ng-show="editInfos">
-					<input id="input-app-url" name="input-app-url" type="text" ng-model="bug.app_url" />
+					<input id="input-app-url" name="input-app-url" type="text" hitenter="saveBug()" ng-model="bug.app_url" />
 				</div>
 			</div>
 			<ul>
@@ -76,41 +76,42 @@
 		<div class="edit-info" ng-show="modeAdmin">
 			<button class="btn-action" ng-hide="editInfos || editDescr || editComment" ng-click="initEdit()">edit info</button>
 			<button class="btn-warning" ng-show="editInfos" ng-click="cancelEdit()">cancel</button>
-			<button class="btn-success" ng-show="editInfos" ng-click="saveEdit()">save</button>
+			<button class="btn-success" ng-show="editInfos" ng-click="saveBug()">save</button>
 		</div>
+		<div id="ajaxBugMsg"></div>
 	</div>
 	<div class="modal-container-text">
 		<div class="info-post">
 			<span class="pull-right text-muted">{{bug.date | date: 'dd/MM/yyyy - HH:mm'}}</span>
 			<span class="group-btn" ng-show="modeAdmin">
 				<button class="btn-action"  ng-hide="editInfos || editDescr || editComment"  ng-click="initUpdDescr()">edit</button>
-				<button class="btn-warning" ng-show="editDescr" ng-click="cancelUpdDescr()">cancel</button>
-				<button class="btn-success" ng-show="editDescr" ng-click="saveUpdDescr()">save</button>
+				<button class="btn-warning" ng-show="editDescr" ng-click="cancelEdit()">cancel</button>
+				<button class="btn-success" ng-show="editDescr" ng-click="saveBug()">save</button>
 			</span>
 			<div class="author">
 				Opened by <span id="bug-author">{{bug.author}}</span>
 			</div>
-			<p id="modal-desc" class="clearfix" ng-bind-html="bug.descriptionHtml" ng-hide="editDescr"></p>
+			<p id="modal-desc" class="clearfix" ng-bind-html="nl2br(bug.description)" ng-hide="editDescr"></p>
 			<textarea ng-model="bug.description" ng-show="editDescr"></textarea>
 		</div>
 		<div class="info-post" ng-repeat="comment in bug.comment">
 			<span class="pull-right text-muted">{{comment.date | date: 'dd/MM/yyyy - HH:mm'}}</span>
 			<span class="group-btn" ng-show="modeAdmin">
 				<button class="btn-action"  ng-hide="editInfos || editDescr || editComment" ng-click="initUpdComment(comment.id)">edit</button>
-				<button class="btn-delete"  ng-hide="editComment" ng-click="deleteComment(comment.id)">delete</button>
-				<button class="btn-warning" ng-show="editComment == comment.id" ng-click="cancelUpdComment()">cancel</button>
-				<button class="btn-success" ng-show="editComment == comment.id" ng-click="saveUpdComment()">save</button>
+				<button class="btn-delete"  ng-hide="editComment" ng-click="deleteComment($index)">delete</button>
+				<button class="btn-warning" ng-show="editComment == comment.id" ng-click="cancelUpdComment($index)">cancel</button>
+				<button class="btn-success" ng-show="editComment == comment.id" ng-click="saveUpdComment($index)">save</button>
 			</span>
 			<div class="author">
 				Answer by <span class="dev">{{comment.dev.pseudo}}</span>
 			</div>
-			<p class="answer" ng-bind-html="comment.message" ng-hide="editComment == comment.id"></p>
+			<p class="answer" ng-bind-html="nl2br(comment.message)" ng-hide="editComment == comment.id"></p>
 			<textarea ng-model="comment.message" ng-show="editComment == comment.id"></textarea>
 		</div>
 	</div>
 	<div class="modal-send-answer" ng-show="modeAdmin">
-		<textarea name="answer_dev" rows="5"></textarea>
-		<button class="btn-action">add comment</button>
+		<textarea name="answer_dev" rows="5" ng-model="newComment" placeholder="Write a comment here..."></textarea>
+		<button class="btn-action" ng-click="addComment()" ng-hide="editInfos || editDescr || editComment">add comment</button>
 	</div>
 	<div class="last_action">
 		<span class="title_action">Last action:</span>

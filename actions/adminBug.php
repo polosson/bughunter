@@ -19,7 +19,7 @@ error_reporting(E_ERROR);
 require('../init.php');
 
 $data['error']	 = "error";
-$data['message'] = "Unknown action!";
+$data['message'] = "Unknown action! ($action)";
 
 try {
 	if (!$authAdmin)
@@ -39,6 +39,15 @@ try {
 		$data['message'] = "Bug added to the list. Thanks for your report.";
 	}
 
+	if ($action === 'modBug') {
+		if (!isset($bugID))
+			throw new Exception("modBug: bug's ID is missing!");
+		$b = new Bug((int)$bugID);
+		$b->setBugData($bugInfos);
+		$b->save();
+		$data['error']	 = "OK";
+		$data['message'] = "Bug updated.";
+	}
 
 	if ($action === 'killBug') {
 		if (!isset($bugID))
@@ -57,9 +66,41 @@ try {
 		$data['error']	 = "OK";
 		$data['message'] = "Bug deleted.";
 	}
+
+	if ($action === 'addComm') {
+		if (!isset($bugID))
+			throw new Exception("addComm: bug's ID is missing!");
+		$b = new Bug((int)$bugID);
+		$data['newComment'] = $b->addComment($commentText);
+		$data['error']	 = "OK";
+		$data['message'] = "Comment added.";
+	}
+
+	if ($action === 'modComm') {
+		if (!isset($bugID))
+			throw new Exception("modComm: bug's ID is missing!");
+		if (!is_array($comment))
+			throw new Exception("modComm: 'comment' is not an array!");
+		$b = new Bug((int)$bugID);
+		$b->updateComment((int)$comment['id'], $comment['message']);
+		$data['error']	 = "OK";
+		$data['message'] = "Comment updated.";
+	}
+
+	if ($action === 'delComm') {
+		if (!isset($bugID))
+			throw new Exception("delComm: bug's ID is missing!");
+		if (!isset($commID))
+			throw new Exception("delComm: Comment ID is missing!");
+		$b = new Bug((int)$bugID);
+		$b->deleteComment((int)$commID);
+		$data['error']	 = "OK";
+		$data['message'] = "Comment deleted.";
+	}
 }
 catch (Exception $e) {
 	$data['message'] = $e->getMessage();
+	$data['trace']	 = $e->getTrace();
 }
 
 header('HTTP/1.1 200 OK');

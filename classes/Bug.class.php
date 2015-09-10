@@ -42,7 +42,6 @@ class Bug {
 		else
 			$this->initNewBug();
 	}
-
 	/**
 	 * Retreive the bug's informations from DB
 	 * @param BOOLEAN $withParsing TRUE to retreive foreign keys, json as arrays, and dates as ISO 8601
@@ -53,7 +52,6 @@ class Bug {
 			$this->bugInfos->loadInfos('id', $this->bugID);
 		return $this->bugInfos->getInfos();
 	}
-
 	/**
 	 * Check if a bug is closed
 	 * @return BOOLEAN True if bug is closed
@@ -63,7 +61,6 @@ class Bug {
 			return true;
 		return false;
 	}
-
 	/**
 	 * Gives a set of informations for the bug
 	 * @param ARRAY $vals some informations to set for the bug
@@ -75,7 +72,6 @@ class Bug {
 			$this->bugData[$col] = $val;
 		$this->bugInfos->setAllInfos($this->bugData);
 	}
-
 	/**
 	 * Set the bug as closed
 	 */
@@ -84,18 +80,81 @@ class Bug {
 		$this->bugInfos->setInfo('closed', 1);
 		$this->save();
 	}
-
 	/**
 	 * Save new bug's informations
 	 */
 	public function save() {
 		$this->bugInfos->save();
 	}
-
+	/**
+	 * Delete a bug in database, and its associated comments
+	 */
 	public function removeBug(){
 		// @TODO: remove comments as well
 		$this->bugInfos->delete();
 	}
+	/**
+	 * Add a new comment to the bug
+	 * @param STRING $text Comment message
+	 */
+	public function addComment($text) {
+		if (strlen($text) < 3)
+			throw new Exception("Bug::addComment() : comment text is too short!");
+		$iC = new Infos('t_comments');
+		$commInfos = Array(
+			'date' => date('Y-m-d H:i:s'),
+			'message' => $text,
+			'FK_dev_ID' => -1,
+			'FK_bug_ID' => (int)$this->bugData['id']
+		);
+		$iC->setAllInfos($commInfos);
+		$iC->save('id', 'this', false, false);
+		$newCommID = $iC->getInfos('id');
+		$commList = json_decode($this->bugData['FK_comment_ID']);
+		$commList[] = $newCommID;
+		$this->bugData['FK_comment_ID'] = json_encode($commList);
+		$this->bugInfos->setInfo('FK_comment_ID', $this->bugData['FK_comment_ID']);
+		$this->save();
+		$iC->loadInfos('id', $newCommID);
+		return $iC->getInfos();
+	}
+	/**
+	 * Update a comment's text
+	 * @param INT $idComm Comment ID
+	 * @param STRING $text Comment message
+	 */
+	public function updateComment($idComm, $text) {
+		if (!is_int($idComm))
+			throw new Exception("Bug::updateComment() : comment ID not a integer!");
+		if (strlen($text) < 3)
+			throw new Exception("Bug::updateComment() : comment text is too short!");
+		$iC = new Infos('t_comments');
+		$iC->loadInfos('id', $idComm, false, false, false);
+		$iC->setInfo('message', $text);
+		$iC->save('id', 'this', false, false);
+	}
+	/**
+	 * Delete a comment and remove it from bug's comment list
+	 * @param INT $idComm Comment ID
+	 */
+	public function deleteComment($idComm) {
+		if (!is_int($idComm))
+			throw new Exception("Bug::updateComment() : comment ID not a integer!");
+		$iC = new Infos('t_comments');
+		$iC->loadInfos('id', $idComm);
+		$iC->delete();
+		$commList = json_decode($this->bugData['FK_comment_ID']);
+		$commListOK = Array();
+		foreach($commList as $comm) {
+			if ($comm == $idComm) continue;
+			$commListOK[] = $comm;
+		}
+		$this->bugData['FK_comment_ID'] = json_encode($commListOK);
+		$this->bugInfos->setInfo('FK_comment_ID', $this->bugData['FK_comment_ID']);
+		$this->save();
+	}
+
+	/***************************************************************************/
 
 	/**
 	 * Populates a new bug's data with all table's columns with defaults

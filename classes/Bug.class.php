@@ -90,7 +90,11 @@ class Bug {
 	 * Delete a bug in database, and its associated comments
 	 */
 	public function removeBug(){
-		// @TODO: remove comments as well
+		foreach(json_decode($this->bugData['FK_comment_ID']) as $commID) {
+			$iC = new Infos('t_comments');
+			$iC->loadInfos('id', $commID);
+			$iC->delete();
+		}
 		$this->bugInfos->delete();
 	}
 	/**

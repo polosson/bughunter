@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `t_bugs` (
   KEY `FK_label_ID` (`FK_label_ID`,`FK_dev_ID`),
   KEY `FK_dev_ID` (`FK_dev_ID`),
   KEY `FK_comment_ID` (`FK_comment_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE IF NOT EXISTS `t_comments` (
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `t_comments` (
   PRIMARY KEY (`id`),
   KEY `dev_ID` (`FK_dev_ID`,`FK_bug_ID`),
   KEY `bug_ID` (`FK_bug_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE IF NOT EXISTS `t_config` (
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `t_config` (
   `nom` varchar(128) NOT NULL,
   `value` varchar(128) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 INSERT INTO `t_config` (`id`, `nom`, `value`) VALUES
 (1, 'password_access', '0a7eb6c98599cb3fe6002f2895fba360'),
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `t_devs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `mail_UNIQUE` (`mail`),
   UNIQUE KEY `pseudo_UNIQUE` (`pseudo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 INSERT INTO `t_devs` (`id`, `pseudo`, `mail`, `last_action`) VALUES
 (-1, 'Admin', 'contact@saamanager.net', NULL),
@@ -95,15 +95,13 @@ INSERT INTO `t_devs` (`id`, `pseudo`, `mail`, `last_action`) VALUES
 CREATE TABLE IF NOT EXISTS `t_labels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `color` varchar(45) NOT NULL,
-  `icon` varchar(45) DEFAULT NULL,
+  `color` varchar(45) NOT NULL
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`),
-  UNIQUE KEY `color_UNIQUE` (`color`),
-  UNIQUE KEY `icon_UNIQUE` (`icon`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  UNIQUE KEY `color_UNIQUE` (`color`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
-INSERT INTO `t_labels` (`id`, `name`, `color`, `icon`) VALUES
-(0, 'none', '#dddddd', NULL),
-(1, 'bug', '#ff0000', NULL),
-(2, 'question', '#8800ff', NULL);
+INSERT INTO `t_labels` (`id`, `name`, `color`) VALUES
+(0, 'none', '#dddddd'),
+(1, 'bug', '#ff0000'),
+(2, 'question', '#8800ff');

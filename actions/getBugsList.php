@@ -31,6 +31,7 @@ try {
 }
 catch (Exception $e) {
 	$data['error'] = $e->getMessage();
+	$data['trace'] = $e->getTrace();
 }
 
 

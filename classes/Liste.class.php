@@ -263,6 +263,8 @@ class Liste {
 		global $DATE_FIELDS;
 		if (!isset($RELATIONS))
 			return false;
+		if ($v == "")
+			return false;
 		$rel = $RELATIONS[$k];
 		$sqlReq = "SELECT * FROM `".$rel['table']."` WHERE";
 		$vArr = json_decode($v);

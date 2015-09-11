@@ -96,11 +96,11 @@
 			<div class="settings-content">
 				<h2>Project infos</h2>
 				<div class="settings-form text-center">
-					<label for="project_name">Name</label> <input placeholder="project name" type="text" id="project_name" ng-model="config.globalConf.project_name.value" />
-					<label for="project_type">Type</label> <select ng-options="type as type for type in projTypes" ng-model="config.globalConf.project_type.value"></select>
+					<label for="project_name">Name</label> <input placeholder="project name" type="text" id="project_name" ng-model="projInfo.project_name" />
+					<label for="project_type">Type</label> <select ng-options="type as type for type in projTypes" ng-model="projInfo.project_type"></select>
 					<br />
 					<label for="project_git">Git repo</label>
-					<input placeholder="git repository url" style="width: 57%;" type="text" id="project_git" ng-model="config.globalConf.git_repo.value" />
+					<input placeholder="git repository url" style="width: 57%;" type="text" id="project_git" ng-model="projInfo.git_repo" />
 				</div>
 				<div class="text-center">
 					<button class="btn-success" ng-show="config.authAdmin" ng-click="saveProject()">SAVE</button>

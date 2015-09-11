@@ -57,10 +57,22 @@ try {
 	if ($action === 'updateSetting') {
 		if (!isset($type))
 			throw new Exception("Missing the type of setting to update (labels, devs, projectInfo?)");
-		$i = new Infos('t_'.$type);
-		$i->loadInfos('id', $item['id']);
-		$i->setAllInfos($item);
-		$i->save('id', 'this', false, false);
+		if ($type === "projectInfo") {
+			$iC = new Infos('t_config');
+			foreach($item as $pInfK => $pInfV) {
+				if ($pInfK === "password_access") continue;
+				if ($pInfK === "api_access") continue;
+				$iC->loadInfos('nom', $pInfK);
+				$iC->setInfo('value', $pInfV);
+				$iC->save('id', 'this', false, false);
+			}
+		}
+		else {
+			$i = new Infos('t_'.$type);
+			$i->loadInfos('id', $item['id']);
+			$i->setAllInfos($item);
+			$i->save('id', 'this', false, false);
+		}
 		$data['error'] = "OK";
 		$data['message'] = "$type updated.";
 	}

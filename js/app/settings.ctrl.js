@@ -28,6 +28,11 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 	$scope.bckpItem	 = {};
 	$scope.editLabel = false;
 	$scope.editDev   = false;
+	$scope.projInfo	 = {
+		project_name: angular.copy(config.data.globalConf.project_name.value),
+		project_type: angular.copy(config.data.globalConf.project_type.value),
+		git_repo:	  angular.copy(config.data.globalConf.git_repo.value)
+	};
 	$scope.projTypes = ['open-source', 'private'];
 
 	$scope.initEdit = function(type, id){
@@ -122,6 +127,28 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 			},
 			function(errMsg){ $scope.ajaxMsg = errMsg; }
 		);
+	};
+
+	$scope.saveProject = function() {
+		ajaxBug.updateSetting('projectInfo', $scope.projInfo).then(
+			function(R){
+				$scope.config.globalConf.project_name.value = angular.copy($scope.projInfo.project_name);
+				$scope.config.globalConf.project_type.value = angular.copy($scope.projInfo.project_type);
+				$scope.config.globalConf.git_repo.value		= angular.copy($scope.projInfo.git_repo);
+				$('.settings-message').removeClass('text-danger').addClass('text-success');
+				$scope.ajaxMsg	= R.message;
+				$timeout(function(){ $scope.ajaxMsg = ""; }, 4000);
+			},
+			function(errMsg){ $scope.ajaxMsg = errMsg; }
+		);
+	};
+
+	$scope.cancelProject = function() {
+		$scope.projInfo	 = {
+			project_name: angular.copy(config.data.globalConf.project_name.value),
+			project_type: angular.copy(config.data.globalConf.project_type.value),
+			git_repo:	  angular.copy(config.data.globalConf.git_repo.value)
+		};
 	};
 
 	$scope.changePassword = function(){

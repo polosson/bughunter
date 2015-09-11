@@ -21,6 +21,11 @@
 		<h2>{{config.globalConf.project_name.value}}</h2>
 		<input type="text" placeholder="search bug title..." ng-model="search.title" />
 		<button class="btn-action" id="reset" ng-click="search.title = ''">reset</button>
+		<div ng-show="config.globalConf.project_type.value === 'open-source' || config.authAdmin">
+			<a ng-href="{{config.globalConf.git_repo.value}}" target="_blank" style="font-size: 0.9em;">
+				<i class="fa fa-github"></i> {{config.globalConf.git_repo.value}}
+			</a>
+		</div>
     </div>
 
     <div class="all-filter">

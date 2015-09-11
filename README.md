@@ -5,9 +5,11 @@ This bug tracker is intented to be used with an **API** to add bugs from your ow
 
 ----
 There is a demo running here : http://bughunter-demo.polosson.com
+
 Admin password is "**admin**". Try it!
 
 ----
 Remaining to do:
+  - Color picker for label settings
   - Screenshots upload and management
   - ext. API

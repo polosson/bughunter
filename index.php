@@ -25,15 +25,17 @@
 	<!-- FAVICON -->
 	<link rel="icon" type="image/png" href="gfx/favicon.png" />
 	<!-- CSS STYLES-->
-	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-	<link rel="stylesheet" href="css/normalize.css" type="text/css">
-	<link rel="stylesheet" href="css/main.css" type="text/css">
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+	<link rel="stylesheet" href="css/normalize.css" type="text/css"/>
+	<link rel="stylesheet" href="css/main.css" type="text/css"/>
 	<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css"/>
+	<link rel="stylesheet" href="css/colorpicker.min.css" type="text/css"/>
 	<!-- JAVASCRIPT-->
 	<script src="js/Jquery-2.0.1.min.js"></script>
 	<script src="js/Angular.min.js"></script>
 	<script src="js/Angular-sanitize.min.js"></script>
 	<script src="js/Angular-bootstrap.min.js"></script>
+	<script src="js/bootstrap-colorpicker-module.min.js"></script>
 	<script src="js/app/Utils.js"></script>
 	<script src="js/app/bughunter.app.js"></script><?php
 	if (!is_file('config/config.php')){

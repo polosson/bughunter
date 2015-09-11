@@ -28,7 +28,7 @@
 				<h2>Labels</h2>
 				<div class="settings-form">
 					<label for="name">Name</label><input id="name" name="name" type="text" ng-model="newLabel.name" />
-					<label for="picker">Color</label><input class="picker" id="picker" name="color" type="text"  ng-model="newLabel.color" />
+					<label for="picker">Color</label><input class="picker" id="picker" name="color" type="text" colorpicker="hex" ng-model="newLabel.color" />
 					<button class="btn-success" ng-click="addLabel()">Add</button>
 				</div>
 
@@ -42,7 +42,7 @@
 							<td>
 								<div ng-style="{'background-color': label.color}" class="color-sample"></div>
 								<span ng-hide="editLabel === label.id">{{label.color}}</span>
-								<input type="text" ng-show="editLabel === label.id" class="picker" ng-model="label.color" />
+								<input type="text" ng-show="editLabel === label.id" class="picker" colorpicker="hex" ng-model="label.color" />
 								<div style="clear: both;"></div>
 							</td>
 							<td>

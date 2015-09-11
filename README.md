@@ -10,6 +10,5 @@ Admin password is "**admin**". Try it!
 
 ----
 Remaining to do:
-  - Color picker for label settings
   - Screenshots upload and management
   - ext. API

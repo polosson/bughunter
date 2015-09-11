@@ -56,7 +56,7 @@
 		</div>
 
 		<button class="btn-action" id="reset-filter" ng-click="resetFilter()">reset</button>
-		<button class="btn-success add_newbug" ng-click="openAddBug()">add bug</button>
+		<button class="btn-success add_newbug" ng-click="openAddBug()" ng-show="config.authAdmin">add bug</button>
     </div>
 </div>
 

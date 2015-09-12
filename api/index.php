@@ -96,7 +96,7 @@ try {
 			"app_version" => $app_version,
 			"title" => trim(strip_tags($title)),
 			"description" => trim($description),
-			"img" => "[]",
+			"img" => get_uploaded_files(@$files),
 			"priority" => (int)$priority,
 			"closed" => 0,
 			"FK_label_ID" => 0,
@@ -106,6 +106,7 @@ try {
 		$b = new Bug();
 		$b->setBugData($bugInfos);
 		$b->save();
+		$response['images']	 = $bugInfos['img'];
 		$response['error']	 = "OK";
 		$response['message'] = "Bug inserted. Thanks for your report, our devs will take a look at it soon!";
 	}
@@ -119,3 +120,29 @@ header('Content-type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Origin: *');					// Allows cross-domain requests
 echo ")]}',\n";												// Security against JSONP-injection
 echo json_encode($response, JSON_UNESCAPED_UNICODE);
+
+/**
+ * Save uploaded images (base64 encoded) and get a json array of images filenames
+ * @param ARRAY $files An array ('name','type','content') of files to save ('type' must be a mimetype, and 'content' must be a string of base64 encoded image)
+ * @return string Json encoded list of filenames save to disk
+ */
+function get_uploaded_files ($files) {
+	if (!is_array($files))
+		$files = json_decode($files);
+	if (!is_array($files))
+		return "[]";
+	$images = Array();
+	foreach ($files as $file) {
+		if (!preg_match('/image/', $file['type']))
+			throw new Exception("API::insert_bug : Only images should be send to the Bughunter (preferred format: JPEG).");
+		if (file_exists(DATA_PATH.$file['name']))
+			$file['name'] = date('Ymd-His').'_'.$file['name'];
+		$img = base64_decode($file['content']);
+		if (!$img)
+			throw new Exception("API::insert_bug : Images file seems to be corrupted (base64 decode failure).");
+		if (!file_put_contents(DATA_PATH.$file['name'], $img))
+			throw new Exception("API::insert_bug : Can't write image file to bughunter data path.");
+		$images[] = $file['name'];
+	}
+	return json_encode($images);
+}

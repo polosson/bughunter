@@ -25,6 +25,8 @@ set_include_path( get_include_path() .
 	PATH_SEPARATOR . $pathClass .
 	PATH_SEPARATOR . $pathConf
 );
+// DATA PATH (for uploaded images storage)
+define('DATA_PATH', INSTALL_PATH."data/screens/");
 
 // CONFIG
 if (!is_file("$pathConf/config.php"))
@@ -66,5 +68,7 @@ try {
 		}
 //		$data['debugAuth'] = 'COOKIE';
 	}
+	$iC->loadInfos('nom', 'api_access');
+	$api_access = $iC->getInfos('value');
 }
 catch(Exception $e) {  }

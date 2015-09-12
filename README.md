@@ -11,4 +11,3 @@ Admin password is "**admin**". Try it!
 ----
 Remaining to do:
   - Screenshots upload and management
-  - ext. API

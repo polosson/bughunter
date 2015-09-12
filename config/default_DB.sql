@@ -95,7 +95,7 @@ INSERT INTO `t_devs` (`id`, `pseudo`, `mail`, `last_action`) VALUES
 CREATE TABLE IF NOT EXISTS `t_labels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `color` varchar(45) NOT NULL
+  `color` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`),
   UNIQUE KEY `color_UNIQUE` (`color`)

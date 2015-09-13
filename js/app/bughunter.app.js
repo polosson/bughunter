@@ -20,7 +20,7 @@
 /**
  * BUGHUNTER APPLICATION DECLARATION
  */
-var bughunter = angular.module('bughunter', ['ui.bootstrap', 'ngSanitize', 'colorpicker.module']);
+var bughunter = angular.module('bughunter', ['ui.bootstrap', 'ngSanitize', 'colorpicker.module', 'angularFileUpload']);
 
 
 /* * * * * * * * * * * * *  DIRECTIVES ET SERVICES GÉNÉRIQUES, ET CONFIGURATION * * * * * * * * * * * * * * */

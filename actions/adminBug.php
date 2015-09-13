@@ -27,6 +27,8 @@ try {
 
 	$post = json_decode(file_get_contents("php://input"), true);
 	if (!is_array($post))
+		$post = $_POST;
+	if (!is_array($post))
 		throw new Exception("Missing postData.");
 	extract($post);
 
@@ -108,6 +110,19 @@ try {
 		$b->deleteImage($imgName);
 		$data['error']	 = "OK";
 		$data['message'] = "Image deleted.";
+	}
+
+	if ($action == 'uploadImg') {
+		if (!isset($bugID))
+			throw new Exception("uploadImg: bug's ID is missing!");
+		$fname = $_FILES['file']['name'];
+		if (!move_uploaded_file($_FILES['file']['tmp_name'], DATA_PATH.$fname))
+			throw new Exception("Le fichier n'a pas pu être envoyé.");
+		$b = new Bug((int)$bugID);
+		$b->addImage($fname);
+		$data['img']	 = $fname;
+		$data['error']	 = "OK";
+		$data['message'] = "Image added.";
 	}
 }
 catch (Exception $e) {

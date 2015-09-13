@@ -110,13 +110,14 @@
 			<textarea ng-model="comment.message" ng-show="editComment == comment.id"></textarea>
 		</div>
 	</div>
-	<div class="wrapper-img">
+	<div class="wrapper-img onDrag" nv-file-drop uploader="uploader">
+		<input type="file" class="hide" nv-file-select uploader="uploader" id="uploadInput" />
 		<div class="prev-img" ng-show="modeAdmin">
-			<button class="btn-action" title="or drag & drop image file here">Add image</button>
+			<button class="btn-action" onClick="$('#uploadInput').click()" title="or drag & drop image file here">Add image</button>
 		</div>
 		<div class="prev-img" ng-repeat="img in bug.img">
 			<span class="edit-img" ng-show="modeAdmin" ng-click="deleteImg(img)"><span class="btn-delete">delete</span></span>
-			<img src="data/screens/{{img}}" title="{{img}} | click to enlarge" ng-click="showImg(img)" />
+			<img ng-src="data/screens/{{img}}" title="{{img}} | click to enlarge" ng-click="showImg(img)" />
 		</div>
 	</div>
 	<div class="modal-send-answer" ng-show="modeAdmin">

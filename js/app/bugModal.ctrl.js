@@ -20,7 +20,7 @@
 /**
  * BUG MODAL controller
  */
-bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope, $timeout, ajaxBug, passConf, bug){
+bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope, $timeout, FileUploader, ajaxBug, passConf, bug){
 	$scope.editInfos  = false;
 	$scope.editDescr  = false;
 	$scope.editComment= false;
@@ -32,6 +32,27 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 	$scope.newComment = "";
 	if ($scope.bug.closed === '1')
 		$scope.modeAdmin = false;
+
+	/**
+	 * Screenshots upload
+	 */
+	$scope.uploader = new FileUploader({
+		url: "actions/adminBug.php",
+		autoUpload: true,
+		formData: [{action: 'uploadImg', bugID: $scope.bug.id}],
+		onAfterAddingFile: function(item){
+			$('#ajaxBugMsg').html("<i class='fa fa-spinner fa-spin'></i> Uploading image file, please wait...").removeClass('text-danger text-success').addClass('text-info').show();
+		},
+		onCompleteItem: function(item, R){
+			if (R.error === "OK") {
+				$scope.bug.img.push(R.img);
+				$rootScope.$broadcast('bugChanged', $scope.bug);
+				$('#ajaxBugMsg').html(R.message).removeClass('text-info text-danger').addClass('text-success').show();
+				$timeout(function(){ $('#ajaxBugMsg').fadeOut(600); }, 3000);
+			}
+			else $('#ajaxBugMsg').html(R.message).removeClass('text-info text-success').addClass('text-danger').show();
+		}
+	});
 
 	/**
 	 * Bug informations

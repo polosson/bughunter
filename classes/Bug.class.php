@@ -158,7 +158,19 @@ class Bug {
 		$this->save();
 	}
 	/**
-	 * Remove an image frome bug's images list
+	 * Add an image to bug's images list
+	 * @param STRING $imgName The image filename to add to the bug's images list
+	 */
+	public function addImage($imgName) {
+		$imgs = json_decode($this->bugData['img']);
+		if (!is_array($imgs))
+			$imgs = Array();
+		$imgs[] = $imgName;
+		$this->bugInfos->setInfo('img', json_encode($imgs));
+		$this->save();
+	}
+	/**
+	 * Remove an image from bug's images list
 	 * @param STRING $imgName The image filename to remove from bug's images list
 	 */
 	public function deleteImage($imgName) {

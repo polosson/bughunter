@@ -36,6 +36,7 @@
 	<script src="js/Angular-sanitize.min.js"></script>
 	<script src="js/Angular-bootstrap.min.js"></script>
 	<script src="js/bootstrap-colorpicker-module.min.js"></script>
+	<script src="js/angular-file-upload.min.js"></script>
 	<script src="js/app/Utils.js"></script>
 	<script src="js/app/bughunter.app.js"></script><?php
 	if (!is_file('config/config.php')){

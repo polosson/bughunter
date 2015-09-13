@@ -40,6 +40,7 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 		url: "actions/adminBug.php",
 		autoUpload: true,
 		formData: [{action: 'uploadImg', bugID: $scope.bug.id}],
+		filters: [{name: 'isAdmin', fn: function(){ return $scope.modeAdmin; }}],
 		onAfterAddingFile: function(item){
 			$('#ajaxBugMsg').html("<i class='fa fa-spinner fa-spin'></i> Uploading image file, please wait...").removeClass('text-danger text-success').addClass('text-info').show();
 		},

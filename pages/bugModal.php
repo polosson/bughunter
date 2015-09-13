@@ -81,7 +81,7 @@
 		</div>
 		<div id="ajaxBugMsg"></div>
 	</div>
-	<div class="modal-container-text">
+	<div class="modal-container-text" style="width: 66%;">
 		<div class="info-post">
 			<span class="pull-right text-muted">{{bug.date | date: 'dd/MM/yyyy - HH:mm'}}</span>
 			<span class="group-btn" ng-show="modeAdmin">
@@ -108,6 +108,15 @@
 			</div>
 			<p class="answer" ng-bind-html="nl2br(comment.message)" ng-hide="editComment == comment.id"></p>
 			<textarea ng-model="comment.message" ng-show="editComment == comment.id"></textarea>
+		</div>
+	</div>
+	<div class="wrapper-img">
+		<div class="prev-img">
+			<button class="btn-action" title="or drag & drop image file here">Add image</button>
+		</div>
+		<div class="prev-img" ng-repeat="img in bug.img" ng-click="showImg(img)">
+			<span class="edit-img"><span class="btn-delete">delete</span></span>
+			<img src="data/screens/{{img}}" />
 		</div>
 	</div>
 	<div class="modal-send-answer" ng-show="modeAdmin">

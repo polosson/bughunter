@@ -128,6 +128,11 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 	/**
 	 * OTHER FUNCTIONS
 	 */
+	$scope.showImg = function(img){
+		$('.openImg').fadeIn();
+		$('.openImg .helper').html('<img src="data/screens/'+img+'" alt="screenshot not found" />');
+	};
+
 	$scope.closeBugModal = function(){
 		$modalInstance.dismiss();
 	};

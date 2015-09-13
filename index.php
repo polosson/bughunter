@@ -84,5 +84,8 @@
 		<?php include('pages/bugsList.php'); ?>
 	</main>
 
+	<div class="openImg" onclick="$('.openImg').fadeOut()" title="click to close">
+		<span class="helper"></span>
+	</div>
 </body>
 </html>

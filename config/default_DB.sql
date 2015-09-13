@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `t_config` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 INSERT INTO `t_config` (`id`, `nom`, `value`) VALUES
-(1, 'password_access', '0a7eb6c98599cb3fe6002f2895fba360'),
+(1, 'password_access', 'ab4740708f1c0c5c14bd9755deaefe3a'),
 (2, 'api_access', '462adc7f9e51ad62f62ff914a61d6a01e0c8c484bc56321227a37924f3a56aa0'),
 (3, 'project_name', 'Your project'),
 (4, 'git_repo', 'git://your/git/repo/url.git'),

@@ -10,4 +10,5 @@ Admin password is "**admin**". Try it!
 
 ----
 Remaining to do:
+  - Email Notification system
   - auto resize uploaded image if too big

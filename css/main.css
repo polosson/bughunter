@@ -1059,7 +1059,6 @@ header .cl-effect-13 a:focus {
 }
 .modal-content .wrapper-img, .modal-content-addbug .wrapper-img {
     width: 33%;
-    cursor: pointer;
     display: inline-block;
     vertical-align: top;
     margin: 0 auto;

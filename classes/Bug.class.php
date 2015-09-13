@@ -157,6 +157,25 @@ class Bug {
 		$this->bugInfos->setInfo('FK_comment_ID', $this->bugData['FK_comment_ID']);
 		$this->save();
 	}
+	/**
+	 * Remove an image frome bug's images list
+	 * @param STRING $imgName The image filename to remove from bug's images list
+	 */
+	public function deleteImage($imgName) {
+		$imgs = json_decode($this->bugData['img']);
+		if (!is_array($imgs))
+			return;
+		$imgFile = INSTALL_PATH."data/screens/$imgName";
+		if (is_file($imgFile))
+			unlink($imgFile);
+		$imgsOK = Array();
+		foreach($imgs as $img) {
+			if ($img == $imgName) continue;
+			$imgsOK[] = $img;
+		}
+		$this->bugInfos->setInfo('img', json_encode($imgsOK));
+		$this->save();
+	}
 
 	/***************************************************************************/
 

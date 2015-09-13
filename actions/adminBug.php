@@ -98,6 +98,17 @@ try {
 		$data['error']	 = "OK";
 		$data['message'] = "Comment deleted.";
 	}
+
+	if ($action == 'delImg') {
+		if (!isset($bugID))
+			throw new Exception("delImg: bug's ID is missing!");
+		if (!isset($imgName))
+			throw new Exception("delImg: Image filename is missing!");
+		$b = new Bug((int)$bugID);
+		$b->deleteImage($imgName);
+		$data['error']	 = "OK";
+		$data['message'] = "Image deleted.";
+	}
 }
 catch (Exception $e) {
 	$data['message'] = $e->getMessage();

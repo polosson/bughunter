@@ -114,9 +114,9 @@
 		<div class="prev-img" ng-show="modeAdmin">
 			<button class="btn-action" title="or drag & drop image file here">Add image</button>
 		</div>
-		<div class="prev-img" ng-repeat="img in bug.img" ng-click="showImg(img)">
-			<span class="edit-img" ng-show="modeAdmin"><span class="btn-delete">delete</span></span>
-			<img src="data/screens/{{img}}" />
+		<div class="prev-img" ng-repeat="img in bug.img">
+			<span class="edit-img" ng-show="modeAdmin" ng-click="deleteImg(img)"><span class="btn-delete">delete</span></span>
+			<img src="data/screens/{{img}}" title="{{img}} | click to enlarge" ng-click="showImg(img)" />
 		</div>
 	</div>
 	<div class="modal-send-answer" ng-show="modeAdmin">

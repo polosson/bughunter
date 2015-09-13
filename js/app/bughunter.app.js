@@ -141,6 +141,7 @@ bughunter.service('ajaxBug', function($http, $q){
 		addComment:  addComment,
 		saveComment: saveComment,
 		delComment:  delComment,
+		deleteImage: deleteImage,
 		addLabel:	 addLabel,
 		addDev:		 addDev,
 		updateSetting:updateSetting,
@@ -183,26 +184,37 @@ bughunter.service('ajaxBug', function($http, $q){
 		aCnf.data = {action: 'delComm', bugID: bugId, commID: commentId};
 		return callAjax();
 	}
+	// Delete an image associated to a bug
+	function deleteImage (bugId, img) {
+		aCnf.url = "actions/adminBug.php";
+		aCnf.data = {action: 'delImg', bugID: bugId, imgName: img};
+		return callAjax();
+	}
+	// Add a label
 	function addLabel (label) {
 		aCnf.url = "actions/adminSettings.php";
 		aCnf.data = {action: 'addLabel', label: label};
 		return callAjax();
 	}
+	// Add a dev
 	function addDev (dev) {
 		aCnf.url = "actions/adminSettings.php";
 		aCnf.data = {action: 'addDev', dev: dev};
 		return callAjax();
 	}
+	// Update setting (dev, label, projectInfo)
 	function updateSetting (type, item) {
 		aCnf.url = "actions/adminSettings.php";
 		aCnf.data = {action: 'updateSetting', type: type, item: item};
 		return callAjax();
 	}
+	// Delete a label or a dev
 	function removeSetting (type, itemId) {
 		aCnf.url = "actions/adminSettings.php";
 		aCnf.data = {action: 'deleteSetting', type: type, itemID: itemId};
 		return callAjax();
 	}
+	// Update password
 	function updatePW (newPW) {
 		aCnf.url = "actions/adminSettings.php";
 		aCnf.data = {action: 'updatePW', newPW: newPW};

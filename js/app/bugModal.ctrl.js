@@ -126,13 +126,30 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 	};
 
 	/**
-	 * OTHER FUNCTIONS
+	 * Images functions
 	 */
 	$scope.showImg = function(img){
 		$('.openImg').fadeIn();
 		$('.openImg .helper').html('<img src="data/screens/'+img+'" alt="screenshot not found" />');
 	};
 
+	$scope.deleteImg = function(img) {
+		if (!confirm("Delete this image '"+img+"'? Sure?"))
+			return;
+		ajaxBug.deleteImage($scope.bug.id, img).then(
+			function(R) {
+				$('#ajaxBugMsg').html(R.message).removeClass('text-info').addClass('text-success').show();
+				$timeout(function(){ $('#ajaxBugMsg').fadeOut(600); }, 3000);
+				var imgIdx = $scope.bug.img.indexOf(img);
+				$scope.bug.img.splice(imgIdx, 1);
+			},
+			function(errMsg) { $('#ajaxBugMsg').html(errMsg).removeClass('text-info').addClass('text-danger').show(); }
+		);
+	};
+
+	/**
+	 * OTHER FUNCTIONS
+	 */
 	$scope.closeBugModal = function(){
 		$modalInstance.dismiss();
 	};

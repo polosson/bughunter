@@ -62,7 +62,7 @@
 
 		<fieldset>
 			<legend>Bug's screenshots</legend>
-			<div class="onDrag" nv-file-drop uploader="uploader">
+			<div class="addBugUpload onDrag" nv-file-drop uploader="uploader">
 				<div class="fileupload-buttonbar">
 					<div class="pull-right">
 						<button class="btn-success btn-xs" ng-click="uploader.uploadAll()"><i class="fa fa-upload"></i> Upload all</button>
@@ -122,3 +122,12 @@
 		</fieldset>
 	</div>
 </div>
+
+<script>
+	$(function(){
+		$('.onDrag')
+			.off('dragenter dragleave drop')
+			.on('dragenter', function(){ $(this).addClass('dragTarget'); })
+			.on('dragleave drop', function(){ $(this).removeClass('dragTarget'); });
+	});
+</script>

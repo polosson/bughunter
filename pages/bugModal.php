@@ -130,3 +130,12 @@
 		{{bug.last_action | date: 'dd/MM/yyyy - HH:mm'}}
 	</div>
 </div>
+
+<script>
+	$(function(){
+		$('.onDrag')
+			.off('dragenter dragleave drop')
+			.on('dragenter', function(){ $(this).addClass('dragTarget'); })
+			.on('dragleave drop', function(){ $(this).removeClass('dragTarget'); });
+	});
+</script>

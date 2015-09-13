@@ -116,10 +116,14 @@ try {
 		if (!isset($bugID))
 			throw new Exception("uploadImg: bug's ID is missing!");
 		$fname = $_FILES['file']['name'];
+		if (file_exists(DATA_PATH.$fname))
+			$fname = date('Ymd-His_').$fname;
 		if (!move_uploaded_file($_FILES['file']['tmp_name'], DATA_PATH.$fname))
-			throw new Exception("Le fichier n'a pas pu être envoyé.");
-		$b = new Bug((int)$bugID);
-		$b->addImage($fname);
+			throw new Exception("Uploaded file could not be moved to data folder.");
+		if ($bugID !== "newBug") {
+			$b = new Bug((int)$bugID);
+			$b->addImage($fname);
+		}
 		$data['img']	 = $fname;
 		$data['error']	 = "OK";
 		$data['message'] = "Image added.";

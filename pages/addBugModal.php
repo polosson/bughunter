@@ -62,22 +62,61 @@
 
 		<fieldset>
 			<legend>Bug's screenshots</legend>
-			<div id="fileupload">
+			<div class="onDrag" nv-file-drop uploader="uploader">
 				<div class="fileupload-buttonbar">
-					<button class="btn-action">
+					<div class="pull-right">
+						<button class="btn-success btn-xs" ng-click="uploader.uploadAll()"><i class="fa fa-upload"></i> Upload all</button>
+						<button class="btn-warning btn-xs" ng-click="uploader.cancelAll()"><i class="fa fa-ban"></i> Cancel all</button>
+					</div>
+					<button class="btn-action" onClick="$('#uploadInputAB').click()">
 						<i class="fa fa-plus"></i> <span>Add images</span>
 					</button>
 					<span class="text-muted">&nbsp;&nbsp;or drag & drop images files here</span>
-					<input type="file" name="files[]" multiple accept="image/*" class="hidden" />
+					<input type="file" class="hide" multiple nv-file-select uploader="uploader" id="uploadInputAB" />
 				</div>
-				<div class="fileupload-progress fade">
-					<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-						<div class="progress-bar progress-bar-success" style="width:0%;"></div>
-					</div>
-					<div class="progress-extended">&nbsp;</div>
+				<div class="progress" style="margin: 10px 0;">
+					<div class="progress-bar" role="progressbar" ng-style="{'width': uploader.progress + '%'}"></div>
 				</div>
 				<table role="presentation" class="table table-striped">
-					<tbody class="files"></tbody>
+					<thead ng-show="uploader.queue.length > 0">
+						<tr>
+							<th class="text-center">Name</th>
+							<th class="text-center">Size / Progress / Status</th>
+							<th class="text-center">Actions</th>
+						</tr>
+					</thead>
+					<tbody class="files">
+						<tr ng-repeat="item in uploader.queue">
+							<td class="text-center">
+								<div ng-thumb="{file: item._file, height: 100}"></div>
+							</td>
+							<td class="text-center" style="vertical-align: middle;">
+								<strong>{{item.file.name}}</strong><br />
+								{{item.file.size/1024/1024|number:2}} MB
+								<div>
+									<div class="progress" style="margin-bottom: 0;">
+										<div class="progress-bar" role="progressbar" ng-style="{'width': item.progress + '%'}"></div>
+									</div>
+								</div>
+								<div>
+									<span ng-show="item.isUploading"><i class="fa fa-spinner fa-spin"></i> {{item.progress}}%</span>
+									<span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+									<span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
+									<span ng-show="item.isError"><i class="fa fa-remove"></i></span>
+								</div>
+							<td class="text-center" style="vertical-align: middle;">
+								<button class="btn-success" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess" title="Upload">
+									<i class="fa fa-upload"></i>
+								</button>
+								<button class="btn-warning" ng-click="item.cancel()" ng-disabled="!item.isUploading" title="Cancel">
+									<i class="fa fa-ban"></i>
+								</button>
+								<button class="btn-delete" ng-click="item.remove()" title="Remove">
+									<i class="fa fa-trash"></i>
+								</button>
+							</td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 		</fieldset>

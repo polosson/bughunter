@@ -113,7 +113,7 @@
 	<div class="wrapper-img onDrag" nv-file-drop uploader="uploader">
 		<input type="file" class="hide" nv-file-select uploader="uploader" id="uploadInput" />
 		<div class="prev-img" ng-show="modeAdmin">
-			<button class="btn-action" onClick="$('#uploadInput').click()" title="or drag & drop image file here">Add image</button>
+			<button class="btn-action" onClick="$('#uploadInput').click()" title="or drag & drop image file here"><i class="fa fa-plus"></i> Add image</button>
 		</div>
 		<div class="prev-img" ng-repeat="img in bug.img">
 			<span class="edit-img" ng-show="modeAdmin" ng-click="deleteImg(img)"><span class="btn-delete">delete</span></span>

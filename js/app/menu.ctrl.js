@@ -118,7 +118,7 @@ bughunter.controller("loginModalCtrl", function($scope, $modalInstance, $http, m
 	$scope.connect = function(){
 		if ($scope.password === '')
 			return;
-		$scope.message	= 'Vérification en cours...';
+		$scope.message	= 'Checking password...';
 		$http({
 			'url': 'actions/conx.php',
 			'data': {'passw': $scope.password},

@@ -10,4 +10,4 @@ Admin password is "**admin**". Try it!
 
 ----
 Remaining to do:
-  - Screenshots upload and management
+  - auto resize uploaded image if too big

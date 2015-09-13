@@ -112,8 +112,9 @@
 				{{bug.title}}<br/>
 				<span>By <em>{{bug.author}}</em> | {{bug.date | date: 'yyyy, MMM dd, HH:mm'}}</span>
 			</td>
-			<td>
-				<span class="nbr-com">{{bug.comment.length || "0"}}</span>
+			<td style="text-align: left !important;">
+				<span class="text-center nbr-com">{{bug.comment.length || "0"}}</span>
+				<span class="text-info" ng-show="bug.img.length > 0"><i class="fa fa-picture-o"></i> {{bug.img.length}}</span>
 			</td>
 			<td>{{bug.description}}</td>
 			<td>

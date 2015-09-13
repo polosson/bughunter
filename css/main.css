@@ -843,7 +843,7 @@ header .cl-effect-13 a:focus {
 #content table tr td:nth-child(6) span {
 	display: block;
 	margin: 0 auto;
-	color: #FFFFFF;
+	color: #000;
 	padding: 4px;
 }
 

@@ -1,7 +1,7 @@
 # Bughunter
-### Small, simple and pretty bug tracker for collaborative code projects
+### Small, simple and pretty bug tracker / todo system, for collaborative code projects
 
-This bug tracker is intented to be used with an **API** to add bugs from your own application. There is no users management in it, just an "admin" password allowing you to manage bugs and comment them.
+This bug tracker is intented to be used with an **API** to add bugs from your own application. There is no users management in it, just an "admin" password allowing you to manage bugs (CRUD) and comment them.
 
 ----
 There is a demo running here : http://bughunter-demo.polosson.com
@@ -9,7 +9,16 @@ There is a demo running here : http://bughunter-demo.polosson.com
 Admin password is "**admin**". Try it!
 
 ----
-Remaining to do:
+#### Install process
+  - Clone or download this repo
+  - Copy it to your server into a folder
+  - Create an empty MySQL database on your server
+  - Go to this folder's URL
+  - Follow the installer 3 steps (MySQL connection, database structuration, project's informations)
+  - Done !
+
+----
+#### Remaining to do:
   - Email Notification system
   - auto resize uploaded image if too big
   - nodejs or heartbeat to sync bugs list

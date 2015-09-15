@@ -21,5 +21,7 @@ Admin password is "**admin**". Try it!
 #### Remaining to do:
   - Email Notification system
   - auto resize uploaded image if too big
+  - Download SQL dump ("backup DB" button in settings)
+  - Global reset of the whole Bughunter ("reset" button in settings)
   - nodejs or heartbeat to sync bugs list
   - clean CSS ^^

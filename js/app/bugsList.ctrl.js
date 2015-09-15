@@ -99,6 +99,7 @@ bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config,
 		});
 		modalInstance.result.then(function (R) {
 			msgSrv.showMsg(R.message, 'success');
+			countBugs.bugWasAdded();
 			$scope.bugsList.push(R.bug);
 		});
 	};

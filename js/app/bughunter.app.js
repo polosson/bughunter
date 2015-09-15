@@ -98,6 +98,7 @@ bughunter.service('countBugs', function(){
 		count: countBugs,
 		updateCount:	 updateCount,
 		updateCountType: updateCountType,
+		bugWasAdded:	 bugWasAdded,
 		bugWasKilled:	 bugWasKilled,
 		bugWasRemoved:	 bugWasRemoved
 	};
@@ -112,6 +113,10 @@ bughunter.service('countBugs', function(){
 			countBugs.alive  = count;
 		if (type === 1)
 			countBugs.killed  = count;
+	}
+
+	function bugWasAdded() {
+		countBugs.alive  += 1;
 	}
 
 	function bugWasKilled() {

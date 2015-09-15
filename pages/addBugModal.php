@@ -64,7 +64,7 @@
 			<legend>Bug's screenshots</legend>
 			<div class="addBugUpload onDrag" nv-file-drop uploader="uploader">
 				<div class="fileupload-buttonbar">
-					<div class="pull-right">
+					<div class="pull-right" ng-show="uploader.queue.length > 0">
 						<button class="btn-success btn-xs" ng-click="uploader.uploadAll()"><i class="fa fa-upload"></i> Upload all</button>
 						<button class="btn-warning btn-xs" ng-click="uploader.cancelAll()"><i class="fa fa-ban"></i> Cancel all</button>
 					</div>
@@ -74,7 +74,7 @@
 					<span class="text-muted">&nbsp;&nbsp;or drag & drop images files here</span>
 					<input type="file" class="hide" multiple nv-file-select uploader="uploader" id="uploadInputAB" />
 				</div>
-				<div class="progress" style="margin: 10px 0;">
+				<div class="progress" ng-show="uploader.queue.length > 0" style="margin: 10px 0;">
 					<div class="progress-bar" role="progressbar" ng-style="{'width': uploader.progress + '%'}"></div>
 				</div>
 				<table role="presentation" class="table table-striped">

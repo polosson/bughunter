@@ -87,7 +87,7 @@ class Bug {
 		$this->bugInfos->save();
 	}
 	/**
-	 * Delete a bug in database, and its associated comments
+	 * Delete a bug in database, and its associated comments and image files
 	 */
 	public function removeBug(){
 		foreach(json_decode($this->bugData['FK_comment_ID']) as $commID) {
@@ -95,6 +95,8 @@ class Bug {
 			$iC->loadInfos('id', $commID);
 			$iC->delete();
 		}
+		foreach(json_decode($this->bugData['img']) as $img)
+			@unlink(DATA_PATH.$img);
 		$this->bugInfos->delete();
 	}
 	/**

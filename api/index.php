@@ -108,7 +108,7 @@ try {
 		$b->save();
 		$response['images']	 = $bugInfos['img'];
 		$response['error']	 = "OK";
-		$response['message'] = "Bug inserted. Thanks for your report, our devs will take a look at it soon!";
+		$response['message'] = "Bug saved. Thanks for your report, our devs will take a look at it soon!";
 	}
 }
 catch (Exception $e) {
@@ -118,7 +118,7 @@ catch (Exception $e) {
 header('HTTP/1.1 200 OK');
 header('Content-type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Origin: *');					// Allows cross-domain requests
-echo ")]}',\n";												// Security against JSONP-injection
+
 echo json_encode($response, JSON_UNESCAPED_UNICODE);
 
 /**

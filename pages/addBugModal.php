@@ -71,7 +71,7 @@
 					<button class="btn-action" onClick="$('#uploadInputAB').click()">
 						<i class="fa fa-plus"></i> <span>Add images</span>
 					</button>
-					<span class="text-muted">&nbsp;&nbsp;or drag & drop images files here</span>
+					<span class="text-muted">&nbsp;&nbsp;or drag & drop <span id="imageFileWarning">images files</span> here</span>
 					<input type="file" class="hide" multiple nv-file-select uploader="uploader" id="uploadInputAB" />
 				</div>
 				<div class="progress" ng-show="uploader.queue.length > 0" style="margin: 10px 0;">

@@ -40,6 +40,16 @@ bughunter.controller('addBugModalCtrl', function($scope, $modalInstance, $http, 
 		url: "actions/adminBug.php",
 		autoUpload: false,
 		formData: [{action: 'uploadImg', bugID: 'newBug'}],
+		filters: [{
+			name: 'isImage',
+			fn: function(item){
+				var isImage = item.type.match(/image.*/);
+				$('#imageFileWarning').css({'background':'none', 'font-weight': 'normal'});
+				if (!isImage)
+					$('#imageFileWarning').css({'background-color':'#FF0', 'font-weight': 'bold'});
+				return isImage;
+			}
+		}],
 		onAfterAddingFile: function(){
 			$scope.uploadDone = false;
 		},

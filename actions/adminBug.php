@@ -122,8 +122,10 @@ try {
 			throw new Exception("Uploaded file could not be moved to data folder.");
 
 		$image = new SimpleImage(DATA_PATH.$fname);
-		$image->resizeToWidth(1200);
-		$image->save(DATA_PATH.$fname);
+		if ($image->getWidth() > 1200) {
+			$image->resizeToWidth(1200);
+			$image->save(DATA_PATH.$fname);
+		}
 
 		if ($bugID !== "newBug") {
 			$b = new Bug((int)$bugID);

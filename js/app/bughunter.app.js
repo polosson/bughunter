@@ -151,7 +151,8 @@ bughunter.service('ajaxBug', function($http, $q){
 		addDev:		 addDev,
 		updateSetting:updateSetting,
 		removeSetting:removeSetting,
-		updatePW:	 updatePW
+		updatePW:	 updatePW,
+		getBackup:	 getBackup
 	};
 	// Save existing bug's informations
 	function saveModBug (bug) {
@@ -223,6 +224,11 @@ bughunter.service('ajaxBug', function($http, $q){
 	function updatePW (newPW) {
 		aCnf.url = "actions/adminSettings.php";
 		aCnf.data = {action: 'updatePW', newPW: newPW};
+		return callAjax();
+	}
+	// Get Bughunter's backup archive file
+	function getBackup () {
+		aCnf.url = "actions/backup.php";
 		return callAjax();
 	}
 

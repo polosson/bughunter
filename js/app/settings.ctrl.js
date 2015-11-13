@@ -171,6 +171,13 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 		$('.passwInput').val('');
 	};
 
+	$scope.getBackup = function(){
+		ajaxBug.getBackup().then(
+			function(R){ $scope.ajaxMsg = R.message; window.location = R.dumpfile; },
+			function(errMsg){ $scope.ajaxMsg = errMsg; }
+		);
+	};
+
 	$scope.resetBughunter = function(){
 		if (!confirm("Reset all current bughunter informations?\n\n"
 				+"This includes project infos, main password, and all bugs.\n"

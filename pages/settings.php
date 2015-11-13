@@ -120,7 +120,7 @@
 				<div class="text-center">
 					<hr />
 					<button class="btn-warning" style="max-width: none; width: 45%; padding: 2px;" ng-click="getBackup()"
-							title="Click here to download an SQL backup file of the bughunter database in its current state.">BACKUP DB</button>
+							title="Click here to download an SQL backup file of the bughunter database in its current state.">BACKUP ALL</button>
 					<button class="btn-delete" style="max-width: none; width: 45%; padding: 2px;" ng-click="resetBughunter()"
 							title="Click here to reset project infos, main password, and remove all bugs.">RESET BUGHUNTER</button>
 				</div>

@@ -21,7 +21,7 @@ Admin password is "**admin**". Try it!
 #### Remaining to do:
   - Email Notification system
   - <s>auto resize uploaded image if too big</s>
-  - <s>Download SQL dump ("backup DB" button in settings)</s>
+  - <s>Download SQL dump and images files ("backup" button in settings)</s>
   - Global reset of the whole Bughunter ("reset" button in settings)
   - nodejs or heartbeat to sync bugs list
   - clean CSS ^^

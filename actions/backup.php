@@ -26,9 +26,17 @@ try {
 		throw new Exception("Access denied. Please login as an Admin to continue.");
 
 	$dump = new DumpSQL();
+	$sqlFile = $dump->getDumpFile();
+	$zipFile = 'data/backup.zip';
+	$options = array('remove_all_path'=>true, 'add_path'=>'screens/');
+	$zip = new ZipArchive();
+	$zip->open(INSTALL_PATH.$zipFile, ZipArchive::CREATE|ZipArchive::OVERWRITE);
+	$zip->addFile(INSTALL_PATH.$sqlFile, basename($sqlFile));
+	$zip->addGlob(DATA_PATH.'*', null, $options);
+	$zip->close();
 	$data['error'] = 'OK';
-	$data['message'] = 'SQL dump done.';
-	$data['dumpfile'] = $dump->getDumpFile();
+	$data['message'] = 'Backup done.';
+	$data['dumpfile'] = $zipFile;
 
 } catch (Exception $e) {
 	$data['message'] = $e->getMessage();

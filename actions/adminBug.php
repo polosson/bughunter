@@ -120,6 +120,11 @@ try {
 			$fname = date('Ymd-His_').$fname;
 		if (!move_uploaded_file($_FILES['file']['tmp_name'], DATA_PATH.$fname))
 			throw new Exception("Uploaded file could not be moved to data folder.");
+
+		$image = new SimpleImage(DATA_PATH.$fname);
+		$image->resizeToWidth(1200);
+		$image->save(DATA_PATH.$fname);
+
 		if ($bugID !== "newBug") {
 			$b = new Bug((int)$bugID);
 			$b->addImage($fname);

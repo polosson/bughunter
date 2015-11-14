@@ -23,5 +23,6 @@ Admin password is "**admin**". Try it!
   - <s>auto resize uploaded image if too big</s>
   - <s>Download SQL dump and images files ("backup" button in settings)</s>
   - <s>Global reset of the whole Bughunter ("reset" button in settings)</s>
+  - Language translation
   - nodejs or heartbeat to sync bugs list
   - clean CSS ^^

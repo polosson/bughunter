@@ -27,13 +27,14 @@ try {
 
 	$dump = new DumpSQL();
 	$sqlFile = $dump->getDumpFile();
-	$zipFile = 'data/backup.zip';
+	$zipFile = "data/backup_".BASE."_".date('Y-m-d').".zip";
 	$options = array('remove_all_path'=>true, 'add_path'=>'screens/');
 	$zip = new ZipArchive();
 	$zip->open(INSTALL_PATH.$zipFile, ZipArchive::CREATE|ZipArchive::OVERWRITE);
 	$zip->addFile(INSTALL_PATH.$sqlFile, basename($sqlFile));
 	$zip->addGlob(DATA_PATH.'*', null, $options);
 	$zip->close();
+	unlink(INSTALL_PATH.$sqlFile);
 	$data['error'] = 'OK';
 	$data['message'] = 'Backup done.';
 	$data['dumpfile'] = $zipFile;

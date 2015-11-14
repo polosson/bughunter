@@ -179,11 +179,16 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 	};
 
 	$scope.resetBughunter = function(){
-		if (!confirm("Reset all current bughunter informations?\n\n"
-				+"This includes project infos, main password, and all bugs.\n"
-				+"You should create a backup of the database before...\n\n"
+		if (!confirm("Reset the whole bughunter?\n\n"
+				+"This includes project infos, all bugs, and their comments and images.\n"
+				+"Note that all existing labels and devs will be kept, and current password will still be valid.\n\n"
+				+"You should create a backup of the database before...\n"
 				+"Continue anyway?\n\n"))
 			return;
+		ajaxBug.resetAll().then(
+			function(R){ $scope.ajaxMsg = R.message+" Reloading..."; window.location = './'; },
+			function(errMsg){ $scope.ajaxMsg = errMsg; }
+		);
 	};
 
 	$scope.closeSettingsModal = function(){

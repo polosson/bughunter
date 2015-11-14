@@ -152,7 +152,8 @@ bughunter.service('ajaxBug', function($http, $q){
 		updateSetting:updateSetting,
 		removeSetting:removeSetting,
 		updatePW:	 updatePW,
-		getBackup:	 getBackup
+		getBackup:	 getBackup,
+		resetAll:	 resetAll
 	};
 	// Save existing bug's informations
 	function saveModBug (bug) {
@@ -229,6 +230,11 @@ bughunter.service('ajaxBug', function($http, $q){
 	// Get Bughunter's backup archive file
 	function getBackup () {
 		aCnf.url = "actions/backup.php";
+		return callAjax();
+	}
+	// Reset all bughunter (delete all bugs and project settings)
+	function resetAll () {
+		aCnf.url = "actions/reset.php";
 		return callAjax();
 	}
 

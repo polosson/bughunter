@@ -15,63 +15,64 @@
 	You should have received a copy of the GNU Affero General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+include('../init.php');
 ?>
 <div class="modal-body">
 	<div class="header-modal">
 		<div class="modal-close" ng-click="closeAddBugModal()"><i class="fa fa-close fa-3x"></i></div>
 		<div class='modal-container'>
-			<h2 id="modal-title">Add a new bug</h2>
+			<h2 id="modal-title"><?php echo $LANG['Title_add_bug']; ?></h2>
 		</div>
 	</div>
 	<div class="addbug">
 		<fieldset>
-			<legend>Bug's infos</legend>
-			<label for="bTitle">Title *</label><br />
+			<legend><?php echo $LANG['Add_bug_infos']; ?></legend>
+			<label for="bTitle"><?php echo $LANG['Title']; ?> *</label><br />
 			<input type="text" id="bTitle" ng-model="bug.title" autofocus /><br />
-			<label for="appV">Software version</label><br />
+			<label for="appV"><?php echo $LANG['Software_version']; ?></label><br />
 			<input type="text" id="appV" ng-model="bug.app_url" /><br />
-			<label for="appUrl">Software URL</label><br />
+			<label for="appUrl"><?php echo $LANG['Software_URL']; ?></label><br />
 			<input type="text" id="appUrl" ng-model="bug.app_version" /><br />
 
 			<div class="select-add">
-				<label for="priority">Priority</label>
+				<label for="priority"><?php echo $LANG['Priority']; ?></label>
 				<div class="triangle-down"></div>
 				<select class="sl-priority sl-middle" id="sl-mod-priority" ng-style="{'background-color': priorities[bug.priority].color}" ng-model="bug.priority">
 					<option ng-repeat="prio in priorities" ng-style="{'background-color': prio.color}" ng-value="{{prio.priority}}">{{prio.priority}}</option>
 				</select>
 			</div>
 			<div class="select-add">
-				<label for="name_label">Label</label>
+				<label for="name_label"><?php echo $LANG['Label']; ?></label>
 				<select ng-style="{'background-color': getLabelColor(bug.FK_label_ID)}" ng-model="bug.FK_label_ID"
 						ng-options="label.id as label.name for label in labels">
 				</select>
 			</div>
 			<div class="select-add">
-				<label for="assignee">Assign. dev.</label>
+				<label for="assignee"><?php echo $LANG['Assign_dev']; ?></label>
 				<select ng-style="{'background-color': (bug.FK_dev_ID == 0) ?'#DDD':'#FFF'}" ng-model="bug.FK_dev_ID"
 						ng-options="dev.id as dev.pseudo for dev in devs">
 				</select>
 			</div>
 			<br /><br />
-			<label for="descr">Description *</label><br />
-			<textarea id="descr" rows="6" placeholder="Describe the bug you found... Please be precise!" ng-model="bug.description"></textarea>
+			<label for="descr"><?php echo $LANG['Description']; ?> *</label><br />
+			<textarea id="descr" rows="6" placeholder="<?php echo $LANG['Add_bug_descr']; ?>" ng-model="bug.description"></textarea>
 			<br />
-			<button class="btn-success" style="width: 100%;" ng-click="submitNewBug()">SUBMIT</button>
+			<button class="btn-success" style="width: 100%;" ng-click="submitNewBug()"><?php echo $LANG['Btn_submit']; ?></button>
 			<div class="text-center text-danger" style="padding-top: 5px;"><b>{{ajaxMsg}}</b>&nbsp;</div>
 		</fieldset>
 
 		<fieldset>
-			<legend>Bug's screenshots</legend>
+			<legend><?php echo $LANG['Add_bug_screens']; ?></legend>
 			<div class="addBugUpload onDrag" nv-file-drop uploader="uploader">
 				<div class="fileupload-buttonbar">
 					<div class="pull-right" ng-show="uploader.queue.length > 0">
-						<button class="btn-success btn-xs" ng-click="uploader.uploadAll()"><i class="fa fa-upload"></i> Upload all</button>
-						<button class="btn-warning btn-xs" ng-click="uploader.cancelAll()"><i class="fa fa-ban"></i> Cancel all</button>
+						<button class="btn-success btn-xs" ng-click="uploader.uploadAll()"><i class="fa fa-upload"></i> <?php echo $LANG['Btn_upload_all']; ?></button>
+						<button class="btn-warning btn-xs" ng-click="uploader.cancelAll()"><i class="fa fa-ban"></i> <?php echo $LANG['Btn_cancel_all']; ?></button>
 					</div>
 					<button class="btn-action" onClick="$('#uploadInputAB').click()">
-						<i class="fa fa-plus"></i> <span>Add images</span>
+						<i class="fa fa-plus"></i> <span><?php echo $LANG['Btn_add_images']; ?></span>
 					</button>
-					<span class="text-muted">&nbsp;&nbsp;or drag & drop <span id="imageFileWarning">images files</span> here</span>
+					<span class="text-muted">&nbsp;&nbsp;<?php echo $LANG['Drag_drop']; ?> <span id="imageFileWarning"><?php echo $LANG['Images_files']; ?></span> <?php echo $LANG['Here']; ?></span>
 					<input type="file" class="hide" multiple nv-file-select uploader="uploader" id="uploadInputAB" />
 				</div>
 				<div class="progress" ng-show="uploader.queue.length > 0" style="margin: 10px 0;">
@@ -80,9 +81,9 @@
 				<table role="presentation" class="table table-striped">
 					<thead ng-show="uploader.queue.length > 0">
 						<tr>
-							<th class="text-center">Name</th>
+							<th class="text-center"><?php echo $LANG['Name']; ?></th>
 							<th class="text-center">Size / Progress / Status</th>
-							<th class="text-center">Actions</th>
+							<th class="text-center"><?php echo $LANG['Action']; ?></th>
 						</tr>
 					</thead>
 					<tbody class="files">

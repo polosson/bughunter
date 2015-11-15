@@ -15,16 +15,17 @@
 	You should have received a copy of the GNU Affero General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+include("../init.php");
 ?>
 <div id="modal-login">
 	<div class="modal-close" ng-click="closeLoginModal()"><i class="fa fa-close fa-3x"></i></div>
 	<div class="modal-header">
-		<h2>Bughunter login</h2>
+		<h2><?php echo $LANG['Title_login']; ?></h2>
 	</div>
 	<div class="modal-body">
-		<label for="password">Enter password :</label>
+		<label for="password"><?php echo $LANG['Input_password']; ?> :</label>
 		<input autofocus type="password" name="password" style="margin-left:30px;" hitenter="connect()" ng-model="password">
-		<button class="btn-action" ng-click="connect()">connect</button>
+		<button class="btn-action" ng-click="connect()"><?php echo $LANG['Btn_connect']; ?></button>
 	</div>
 	<div class="modal-footer text-danger">{{message}}</div>
 </div>

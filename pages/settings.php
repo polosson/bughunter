@@ -15,25 +15,26 @@
 	You should have received a copy of the GNU Affero General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+include('../init.php');
 ?>
 <div id="modal-settings">
 	<div class="modal-header">
 		<div class="modal-close" ng-click="closeSettingsModal()"><i class="fa fa-close fa-3x"></i></div>
 		<div class="settings-message text-danger">{{ajaxMsg}}</div>
-		<h1>SETTINGS</h1>
+		<h1><?php echo $LANG['Title_settings']; ?></h1>
 	</div>
 	<div class="modal-body wrapper-settings">
 		<div class="settings-section effect2">
 			<div class="settings-content">
-				<h2>Labels</h2>
+				<h2><?php echo $LANG['Title_labels']; ?></h2>
 				<div class="settings-form">
-					<label for="name">Name</label><input id="name" name="name" type="text" ng-model="newLabel.name" />
-					<label for="picker">Color</label><input class="picker" id="picker" name="color" type="text" colorpicker="hex" ng-model="newLabel.color" />
-					<button class="btn-success" ng-click="addLabel()">Add</button>
+					<label for="name"><?php echo $LANG['Name']; ?></label> <input id="name" name="name" type="text" ng-model="newLabel.name" />
+					<label for="picker"><?php echo $LANG['Color']; ?></label> <input class="picker" id="picker" name="color" type="text" colorpicker="hex" ng-model="newLabel.color" />
+					<button class="btn-success" ng-click="addLabel()"><?php echo $LANG['Btn_add']; ?></button>
 				</div>
 
 				<table>
-					<thead>	<tr> <th>Name</th> <th>Color</th> <th></th> </tr> </thead>
+					<thead>	<tr> <th><?php echo $LANG['Name']; ?></th> <th><?php echo $LANG['Color']; ?></th> <th></th> </tr> </thead>
 					<tbody>
 						<tr ng-repeat="label in config.labels">
 							<td>
@@ -47,9 +48,9 @@
 							</td>
 							<td>
 								<button ng-hide="editLabel" ng-click="initEdit('labels', label.id)" class="btn-action">Edit</button>
-								<button ng-hide="editLabel || label.name === 'none'" ng-click="deleteItem('labels', $index)" class="btn-delete">Delete</button>
-								<button ng-show="editLabel === label.id" class="btn-success" ng-click="saveEdit('labels', label.id)">Update</button>
-								<button ng-show="editLabel === label.id" class="btn-warning" ng-click="cancelEdit('labels', label.id)">Cancel</button>
+								<button ng-hide="editLabel || label.name === 'none'" ng-click="deleteItem('labels', $index)" class="btn-delete"><?php echo $LANG['Btn_delete']; ?></button>
+								<button ng-show="editLabel === label.id" class="btn-success" ng-click="saveEdit('labels', label.id)"><?php echo $LANG['Btn_update']; ?></button>
+								<button ng-show="editLabel === label.id" class="btn-warning" ng-click="cancelEdit('labels', label.id)"><?php echo $LANG['Btn_cancel']; ?></button>
 							</td>
 						</tr>
 					</tbody>
@@ -59,16 +60,16 @@
 
 		<div class="settings-section effect2">
 			<div class="settings-content">
-				<h2>Devs</h2>
+				<h2><?php echo $LANG['Title_devs']; ?></h2>
 				<div class="settings-form">
-					<label for="dev_input">Pseudo </label> <input id="dev_input" name="pseudo" type="text" ng-model="newDev.pseudo" />
-					<label for="email">E-mail</label> <input id="email" name="mail" type="email" ng-model="newDev.mail" />
-					<button class="btn-success" ng-click="addDev()">Add</button>
+					<label for="dev_input"><?php echo $LANG['Pseudo']; ?></label> <input id="dev_input" name="pseudo" type="text" ng-model="newDev.pseudo" />
+					<label for="email"><?php echo $LANG['Email']; ?></label> <input id="email" name="mail" type="email" ng-model="newDev.mail" />
+					<button class="btn-success" ng-click="addDev()"><?php echo $LANG['Btn_add']; ?></button>
 				</div>
 
 				<table>
 					<thead>
-						<tr> <th>Pseudo</th> <th>E-mail</th> <th></th> </tr>
+						<tr> <th><?php echo $LANG['Pseudo']; ?></th> <th><?php echo $LANG['Email']; ?></th> <th></th> </tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="dev in config.devs">
@@ -94,35 +95,44 @@
 
 		<div class="settings-section effect2">
 			<div class="settings-content">
-				<h2>Project infos</h2>
-				<div class="settings-form text-center">
-					<label for="project_name">Name</label> <input placeholder="project name" type="text" id="project_name" ng-model="projInfo.project_name" />
-					<label for="project_type">Type</label> <select ng-options="type as type for type in projTypes" ng-model="projInfo.project_type"></select>
+				<h2><?php echo $LANG['Title_project_infos']; ?></h2>
+				<div class="settings-form">
+					<label for="project_name" style="width: 100px;"><?php echo $LANG['Name']; ?></label>
+					<input placeholder="project name" type="text" id="project_name" ng-model="projInfo.project_name" />
 					<br />
-					<label for="project_git">Git repo</label>
+					<label for="project_type" style="width: 100px;"><?php echo $LANG['Type']; ?></label>
+					<select ng-options="type as type for type in projTypes" ng-model="projInfo.project_type"></select>
+					<br />
+					<label for="project_git" style="width: 100px;"><?php echo $LANG['Git_repo']; ?></label>
 					<input placeholder="git repository url" style="width: 57%;" type="text" id="project_git" ng-model="projInfo.git_repo" />
 				</div>
 				<div class="text-center">
-					<button class="btn-success" ng-show="config.authAdmin" ng-click="saveProject()">SAVE</button>
-					<button class="btn-warning" ng-show="config.authAdmin" ng-click="cancelProject()">CANCEL</button>
+					<button class="btn-success" ng-show="config.authAdmin" ng-click="saveProject()"><?php echo $LANG['Btn_save']; ?></button>
+					<button class="btn-warning" ng-show="config.authAdmin" ng-click="cancelProject()"><?php echo $LANG['Btn_cancel']; ?></button>
 				</div>
 			</div>
 		</div>
 
 		<div class="settings-section effect2">
 			<div class="settings-content">
-				<h2>Password change</h2>
-				<div class="settings-form text-center">
-					<input placeholder="new password" type="password" class="passwInput">
-					<input placeholder="confirm password" type="password" class="passwInput">
-					<button class="btn-success" ng-click="changePassword()">Update PW</button>
+				<h2><?php echo $LANG['Title_admin']; ?></h2>
+				<div class="settings-form">
+					<h4><?php echo $LANG['Title_password_change']; ?></h4>
+					<input placeholder="<?php echo $LANG['Password_change']; ?>" type="password" class="passwInput">
+					<input placeholder="<?php echo $LANG['Password_confirm']; ?>" type="password" class="passwInput">
+					<button class="btn-success" ng-click="changePassword()"><?php echo $LANG['Btn_update_password']; ?></button>
 				</div>
-				<div class="text-center">
-					<hr />
-					<button class="btn-warning" style="max-width: none; width: 45%; padding: 2px;" ng-click="getBackup()"
-							title="Click here to download an SQL backup file of the bughunter database in its current state.">BACKUP ALL</button>
-					<button class="btn-delete" style="max-width: none; width: 45%; padding: 2px;" ng-click="resetBughunter()"
-							title="Click here to reset project infos, main password, and remove all bugs.">RESET BUGHUNTER</button>
+				<div class="settings-form">
+					<h4><?php echo $LANG['Title_language_choice']; ?></h4>
+					<select ng-options="langue as langue for langue in config.av_lang" ng-model="current_lang" style="margin-right: 20px;"></select>
+					<button class="btn-success" ng-show="config.authAdmin" ng-click="saveLanguage()"><?php echo $LANG['Btn_save']; ?></button>
+				</div>
+				<div class="settings-form text-center" style="margin-top: 20px;">
+					<h4 class="text-left"><?php echo $LANG['Title_service']; ?></h4>
+					<button class="btn-warning" style="max-width: none; width: 45%; padding: 3px;" ng-click="getBackup()"
+							title="<?php echo $LANG['Help_backup_all']; ?>"><?php echo $LANG['Btn_backup_all']; ?></button>
+					<button class="btn-delete" style="max-width: none; width: 45%; padding: 3px;" ng-click="resetBughunter()"
+							title="<?php echo $LANG['Help_reset']; ?>"><?php echo $LANG['Btn_reset_BH']; ?></button>
 				</div>
 			</div>
 		</div>

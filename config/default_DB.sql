@@ -74,7 +74,8 @@ INSERT INTO `t_config` (`id`, `nom`, `value`) VALUES
 (2, 'api_access', '462adc7f9e51ad62f62ff914a61d6a01e0c8c484bc56321227a37924f3a56aa0'),
 (3, 'project_name', 'Your project'),
 (4, 'git_repo', 'git://your/git/repo/url.git'),
-(5, 'project_type', 'open-source');
+(5, 'project_type', 'open-source'),
+(6, 'language', 'English');
 
 
 CREATE TABLE IF NOT EXISTS `t_devs` (

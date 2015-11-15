@@ -54,6 +54,8 @@ bughunter.controller("menuCtrl", function($scope, $rootScope, $modal, $http, msg
 				config.data.labels		= R.data.labels;
 				config.data.devs		= R.data.devs;
 				config.data.globalConf	= R.data.globalConf;
+				config.data.av_lang		= R.data.available_languages;
+				config.data.lang		= R.data.LANG;
 				document.title = 'BUGHUNTER | '+R.data.globalConf.project_name.value;
 			}
 			else msgSrv.showMsg(R.data.error, 'error');
@@ -94,7 +96,7 @@ bughunter.controller("menuCtrl", function($scope, $rootScope, $modal, $http, msg
 	};
 
 	$scope.disconnect = function(){
-		if (!confirm("Quit admin mode? Sure?"))
+		if (!confirm(config.data.lang.Confirm_quit))
 			return;
 		$http({
 			'url': 'actions/deconx.php'

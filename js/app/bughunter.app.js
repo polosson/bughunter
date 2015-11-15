@@ -140,20 +140,21 @@ bughunter.service('ajaxBug', function($http, $q){
 	};
 	// Public methods
 	return {
-		saveModBug:  saveModBug,
-		killBug:	 killBug,
-		removeBug:	 removeBug,
-		addComment:  addComment,
-		saveComment: saveComment,
-		delComment:  delComment,
-		deleteImage: deleteImage,
-		addLabel:	 addLabel,
-		addDev:		 addDev,
-		updateSetting:updateSetting,
-		removeSetting:removeSetting,
-		updatePW:	 updatePW,
-		getBackup:	 getBackup,
-		resetAll:	 resetAll
+		saveModBug:		saveModBug,
+		killBug:		killBug,
+		removeBug:		removeBug,
+		addComment:		addComment,
+		saveComment:	saveComment,
+		delComment:		delComment,
+		deleteImage:	deleteImage,
+		addLabel:		addLabel,
+		addDev:			addDev,
+		updateSetting:	updateSetting,
+		removeSetting:	removeSetting,
+		updatePW:		updatePW,
+		getBackup:		getBackup,
+		resetAll:		resetAll,
+		updateLanguage:	updateLanguage
 	};
 	// Save existing bug's informations
 	function saveModBug (bug) {
@@ -225,6 +226,12 @@ bughunter.service('ajaxBug', function($http, $q){
 	function updatePW (newPW) {
 		aCnf.url = "actions/adminSettings.php";
 		aCnf.data = {action: 'updatePW', newPW: newPW};
+		return callAjax();
+	}
+	// Change language
+	function updateLanguage (lang) {
+		aCnf.url = "actions/adminSettings.php";
+		aCnf.data = {action: 'updateLanguage', newLang: lang};
 		return callAjax();
 	}
 	// Get Bughunter's backup archive file

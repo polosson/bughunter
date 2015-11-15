@@ -29,6 +29,7 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 	$scope.labels	  = angular.copy(passConf.labels);
 	$scope.devs		  = angular.copy(passConf.devs);
 	$scope.bug		  = angular.copy(bug);
+	var lang		  = angular.copy(passConf.lang);
 	$scope.newComment = "";
 	if ($scope.bug.closed === '1')
 		$scope.modeAdmin = false;
@@ -53,7 +54,7 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 			}
 		}],
 		onAfterAddingFile: function(item){
-			$('#ajaxBugMsg').html("<i class='fa fa-spinner fa-spin'></i> Uploading image file, please wait...").removeClass('text-danger text-success').addClass('text-info').show();
+			$('#ajaxBugMsg').html("<i class='fa fa-spinner fa-spin'></i> "+lang.Uploading).removeClass('text-danger text-success').addClass('text-info').show();
 		},
 		onCompleteItem: function(item, R){
 			if (R.error === "OK") {
@@ -73,7 +74,7 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 	$scope.initUpdDescr = function(){ $scope.editDescr  = true; };
 
 	$scope.saveBug = function(){
-		$('#ajaxBugMsg').html("Updating bug...").removeClass('text-info text-danger text-success').addClass('text-info').show();
+		$('#ajaxBugMsg').html(lang.Updating_bug).removeClass('text-info text-danger text-success').addClass('text-info').show();
 		ajaxBug.saveModBug($scope.bug).then(
 			function(R) {
 				$('#ajaxBugMsg').html(R.message).removeClass('text-info').addClass('text-success').show();
@@ -93,12 +94,12 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 	};
 
 	$scope.killBug = function(){
-		if (!confirm("Kill this bug? Sure?"))
+		if (!confirm(lang.Confirm_kill_bug))
 			return;
 		$scope.bug.closed = '1';
 		$scope.modeAdmin = false;
 		$rootScope.$broadcast('bugKilled', $scope.bug.id);
-		$('#ajaxBugMsg').html('Bug closed.').removeClass('text-danger text-success').addClass('text-success').show();
+		$('#ajaxBugMsg').html(lang.Kill_bug_OK).removeClass('text-danger text-success').addClass('text-success').show();
 		$timeout(function(){ $('#ajaxBugMsg').fadeOut(600); }, 3000);
 	};
 
@@ -123,7 +124,7 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 		$scope.bug.comment[idx] = angular.copy(bug.comment[idx]);
 	};
 	$scope.deleteComment = function(idx){
-		if (!confirm("Delete this comment? Sure?"))
+		if (!confirm(lang.Confirm_del_comment))
 			return;
 		ajaxBug.delComment($scope.bug.id, $scope.bug.comment[idx].id).then(
 			function(R) {
@@ -138,11 +139,11 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 	};
 	$scope.addComment = function(){
 		if ($scope.newComment === "") return;
-		$('#ajaxBugMsg').html("Adding comment to bug...").removeClass('text-info text-danger text-success').addClass('text-info').show();
+		$('#ajaxBugMsg').html(lang.adding_comment).removeClass('text-info text-danger text-success').addClass('text-info').show();
 		if (typeof $scope.bug.comment === 'undefined')
 			$scope.bug.comment = [];
 		if ($scope.newComment.length < 3) {
-			$('#ajaxBugMsg').html("Comment too short. 3 characters minimum.").removeClass('text-info').addClass('text-danger').show();
+			$('#ajaxBugMsg').html(lang.Err_comment_too_short).removeClass('text-info').addClass('text-danger').show();
 			return;
 		}
 		ajaxBug.addComment($scope.bug.id, $scope.newComment).then(
@@ -167,7 +168,7 @@ bughunter.controller('bugModalCtrl', function($scope, $modalInstance, $rootScope
 	};
 
 	$scope.deleteImg = function(img) {
-		if (!confirm("Delete this image '"+img+"'? Sure?"))
+		if (!confirm(lang.Confirm_del_image+" ('"+img+"')"))
 			return;
 		ajaxBug.deleteImage($scope.bug.id, img).then(
 			function(R) {

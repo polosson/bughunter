@@ -36,7 +36,7 @@ try {
 	$zip->close();
 	unlink(INSTALL_PATH.$sqlFile);
 	$data['error'] = 'OK';
-	$data['message'] = 'Backup done.';
+	$data['message'] = $LANG['Backup_OK'];
 	$data['dumpfile'] = $zipFile;
 
 } catch (Exception $e) {

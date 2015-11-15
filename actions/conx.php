@@ -35,10 +35,10 @@ try {
 		setcookie('catch_bug', PASSWORD_SALT.$pw, time() + 15*24*3600, "/", null, false, false); // Durée du cookie : 15 jours
 
 		$data['auth']	 = 'OK';
-		$data['message'] = "Welcome dear Admin!";
+		$data['message'] = $LANG['Welcome'];
 	}
 	else
-		$data['message'] = "Wrong password. Please try again.";
+		$data['message'] = $LANG['Err_connect_password'];
 }
 catch (Exception $e) {
 	$data['message'] = $e->getMessage();

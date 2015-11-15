@@ -21,9 +21,11 @@ define ("INSTALL_PATH", __DIR__."/");
 // INCLUDES
 $pathClass = INSTALL_PATH."classes";
 $pathConf = INSTALL_PATH."config";
+$pathLang = INSTALL_PATH."language";
 set_include_path( get_include_path() .
 	PATH_SEPARATOR . $pathClass .
-	PATH_SEPARATOR . $pathConf
+	PATH_SEPARATOR . $pathConf  .
+	PATH_SEPARATOR . $pathLang
 );
 // DATA PATH (for uploaded images storage)
 define('DATA_PATH', INSTALL_PATH."data/screens/");
@@ -59,16 +61,20 @@ try {
 	if (isset($_SESSION['authAdmin'])) {
 		if ($_SESSION['authAdmin'] === PASSWORD_SALT.$pw)
 			$authAdmin = true;
-//		$data['debugAuth'] = 'SESSION';
 	}
 	elseif (isset($_COOKIE['catch_bug'])) {
 		if ($_COOKIE['catch_bug'] === PASSWORD_SALT.$pw) {
 			$_SESSION['authAdmin'] = PASSWORD_SALT.$pw;
 			$authAdmin = true;
 		}
-//		$data['debugAuth'] = 'COOKIE';
 	}
 	$iC->loadInfos('nom', 'api_access');
 	$api_access = $iC->getInfos('value');
+	
+	$iC->loadInfos('nom', 'language');
+	$language = $iC->getInfos('value');
+	if (is_file($pathLang."/$language.php"))
+		include("$language.php");
+	else include("English.php");
 }
 catch(Exception $e) {  }

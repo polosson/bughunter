@@ -19,8 +19,8 @@
 <div id="filter-bug" class="clearfix">
 	<div class="search-box">
 		<h2>{{config.globalConf.project_name.value}}</h2>
-		<input type="text" placeholder="search bug title..." ng-model="search.title" />
-		<button class="btn-action" id="reset" ng-click="search.title = ''">reset</button>
+		<input type="text" placeholder="<?php echo $LANG['Search']; ?>" ng-model="search.title" />
+		<button class="btn-action" id="reset" ng-click="search.title = ''"><?php echo $LANG['Btn_reset']; ?></button>
 		<div ng-show="config.globalConf.project_type.value === 'open-source' || config.authAdmin">
 			<a ng-href="{{config.globalConf.git_repo.value}}" target="_blank" style="font-size: 0.9em;">
 				<i class="fa fa-github"></i> {{config.globalConf.git_repo.value}}
@@ -29,10 +29,10 @@
     </div>
 
     <div class="all-filter">
-        <h2 class="filter">filter by:</h2>
+        <h2 class="filter"><?php echo $LANG['Title_filter']; ?>:</h2>
 
 		<div class="select-filter">
-			Priority<br />
+			<?php echo $LANG['Priority']; ?><br />
 			<select filter="priority" class="filtrage" ng-model="search.priority">
 				<option value="">all</option>
 				<option ng-repeat="prio in config.priorities" ng-style="{'background-color': prio.color}" ng-value="{{prio.priority}}">{{prio.priority}}</option>
@@ -40,7 +40,7 @@
 		</div>
 
 		<div class="select-filter">
-			Label<br />
+			<?php echo $LANG['Label']; ?><br />
 			<select filter="label" class="filtrage" ng-model="search.FK_label_ID">
 				<option value="">all</option>
 				<option ng-repeat="label in config.labels" ng-style="{'background-color': label.color}" ng-value="{{label.id}}">{{label.name}}</option>
@@ -48,15 +48,15 @@
 		</div>
 
 		<div class="select-filter">
-			Assignee<br />
+			<?php echo $LANG['Assignee']; ?><br />
 			<select filter="assignee" class="filtrage" ng-model="search.FK_dev_ID">
 				<option value="" style="background-color: #CCC;">all</option>
 				<option ng-repeat="dev in config.devs" style="background-color: #FFF;" ng-value="{{dev.id}}">{{dev.pseudo}}</option>
 			</select>
 		</div>
 
-		<button class="btn-action" id="reset-filter" ng-click="resetFilter()">reset</button>
-		<button class="btn-success add_newbug" ng-click="openAddBug()" ng-show="config.authAdmin">add bug</button>
+		<button class="btn-action" id="reset-filter" ng-click="resetFilter()"><?php echo $LANG['Btn_reset']; ?></button>
+		<button class="btn-success add_newbug" ng-click="openAddBug()" ng-show="config.authAdmin"><?php echo $LANG['Btn_add_bug']; ?></button>
     </div>
 </div>
 
@@ -64,33 +64,33 @@
 	<thead>
 		<tr>
 			<th class="row-id"			ng-click="orderProp='id';			orderRev=!orderRev;">
-				 id &nbsp;<i class="fa fa-sort"></i>
+				id &nbsp;<i class="fa fa-sort"></i>
 			</th>
 			<th class="row-priority"	ng-click="orderProp='priority';		orderRev=!orderRev;">
-				priority &nbsp;<i class="fa fa-sort"></i>
+				<?php echo $LANG['Priority']; ?> &nbsp;<i class="fa fa-sort"></i>
 			</th>
 			<th class="row-title">
 				<div class="pull-right" ng-click="orderProp='date'; orderRev=!orderRev;">
 					<i class="fa fa-calendar-o"></i> &nbsp;<i class="fa fa-sort"></i> &nbsp;&nbsp;
 				</div>
 				<div ng-click="orderProp='title'; orderRev=!orderRev;">
-					title &nbsp;<i class="fa fa-sort"></i>
+					<?php echo $LANG['Title']; ?> &nbsp;<i class="fa fa-sort"></i>
 				</div>
 			</th>
 			<th class="row-comments"	ng-click="orderProp='FK_comment_ID';orderRev=!orderRev;">
-				comments &nbsp;<i class="fa fa-sort"></i>
+				<?php echo $LANG['Comments']; ?> &nbsp;<i class="fa fa-sort"></i>
 			</th>
 			<th class="row-description" ng-click="orderProp='description';	orderRev=!orderRev;">
-				description &nbsp;<i class="fa fa-sort"></i>
+				<?php echo $LANG['Description']; ?> &nbsp;<i class="fa fa-sort"></i>
 			</th>
 			<th class="row-label"		ng-click="orderProp='FK_label_ID';	orderRev=!orderRev;">
-				label &nbsp;<i class="fa fa-sort"></i>
+				<?php echo $LANG['Label']; ?> &nbsp;<i class="fa fa-sort"></i>
 			</th>
 			<th class="row-assignee"	ng-click="orderProp='FK_dev_ID';	orderRev=!orderRev;">
-				assignee &nbsp;<i class="fa fa-sort"></i>
+				<?php echo $LANG['Assignee']; ?> &nbsp;<i class="fa fa-sort"></i>
 			</th>
 			<th class="row-action"		ng-show="config.authAdmin">
-				action
+				<?php echo $LANG['Action']; ?>
 			</th>
 		</tr>
 	</thead>
@@ -138,8 +138,8 @@
 					 ng-hide="config.authAdmin && bug.closed === '0'">{{bug.dev.pseudo}}</div>
 			</td>
 			<td ng-show="config.authAdmin">
-				<span class="btn-action" ng-hide="bug.closed === '1'" ng-click="killBug(bug.id)">Kill bug</span>
-				<span class="btn-delete" ng-show="bug.closed === '1'" ng-click="deleteBug(bug.id)">Remove</span>
+				<span class="btn-action" ng-hide="bug.closed === '1'" ng-click="killBug(bug.id)"><?php echo $LANG['Btn_kill_bug']; ?></span>
+				<span class="btn-delete" ng-show="bug.closed === '1'" ng-click="deleteBug(bug.id)"><?php echo $LANG['Btn_remove']; ?></span>
 			</td>
 		</tr>
 	</tbody>

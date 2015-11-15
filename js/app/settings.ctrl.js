@@ -34,6 +34,7 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 		git_repo:	  angular.copy(config.data.globalConf.git_repo.value)
 	};
 	$scope.projTypes = ['open-source', 'private'];
+	$scope.current_lang = config.data.globalConf.language.value;
 
 	$scope.initEdit = function(type, id){
 		var item = $.grep($scope.config[type], function(e){ return e.id === id; });
@@ -48,15 +49,15 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 		$scope.ajaxMsg = "Saving "+type+"...";
 		var item = $.grep($scope.config[type], function(e){ return e.id === id; });
 		if (type === "labels") {
-			if (item[0].name === '')		{ $scope.ajaxMsg = "Label name can't be empty!"; return; }
-			if (item[0].name.length > 10)	{ $scope.ajaxMsg = "Label name is too long! (max 10 characters)"; return; }
-			if (item[0].color === '')		{ $scope.ajaxMsg = "Label color can't be empty!"; return; }
-			if (!checkColor(item[0].color)) { $scope.ajaxMsg = "Label color is not valid!"; return; }
+			if (item[0].name === '')		{ $scope.ajaxMsg = config.data.lang.Err_label_mod_name; return; }
+			if (item[0].name.length > 10)	{ $scope.ajaxMsg = config.data.lang.Err_label_mod_too_long; return; }
+			if (item[0].color === '')		{ $scope.ajaxMsg = config.data.lang.Err_label_mod_color; return; }
+			if (!checkColor(item[0].color)) { $scope.ajaxMsg = config.data.lang.Err_label_mod_color; return; }
 		}
 		if (type === "devs") {
-			if (item[0].pseudo === '')	   { $scope.ajaxMsg = "Dev pseudo can't be empty!"; return; }
-			if (item[0].pseudo.length < 3) { $scope.ajaxMsg = "Dev pseudo too short! (min 3 characters)"; return; }
-			if (!check_email(item[0].mail)){ $scope.ajaxMsg = "Dev email is not valid!"; return; }
+			if (item[0].pseudo === '')	   { $scope.ajaxMsg = config.data.lang.Err_dev_mod_pseudo; return; }
+			if (item[0].pseudo.length < 3) { $scope.ajaxMsg = config.data.lang.Err_dev_mod_too_short; return; }
+			if (!check_email(item[0].mail)){ $scope.ajaxMsg = config.data.lang.Err_dev_mod_email; return; }
 		}
 		ajaxBug.updateSetting(type, item[0]).then(
 			function(R){
@@ -95,10 +96,10 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 	$scope.addLabel = function(){
 		$('.settings-message').removeClass('text-success').addClass('text-danger');
 		$scope.ajaxMsg = "Saving new label...";
-		if ($scope.newLabel.name === '')		{ $scope.ajaxMsg = "New label miss a name!"; return; }
-		if ($scope.newLabel.name.length > 10)	{ $scope.ajaxMsg = "New label name is too long! (max 10 characters)"; return; }
-		if ($scope.newLabel.color === '')		{ $scope.ajaxMsg = "New label miss a color!"; return; }
-		if (!checkColor($scope.newLabel.color)) { $scope.ajaxMsg = "New label color is not valid!"; return; }
+		if ($scope.newLabel.name === '')		{ $scope.ajaxMsg = config.data.lang.Err_label_name; return; }
+		if ($scope.newLabel.name.length > 10)	{ $scope.ajaxMsg = config.data.lang.Err_label_too_long; return; }
+		if ($scope.newLabel.color === '')		{ $scope.ajaxMsg = config.data.lang.Err_label_color; return; }
+		if (!checkColor($scope.newLabel.color)) { $scope.ajaxMsg = config.data.lang.Err_label_color; return; }
 		ajaxBug.addLabel($scope.newLabel).then(
 			function(R){
 				$scope.config.labels.push(R.newLabel);
@@ -114,9 +115,9 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 	$scope.addDev = function(){
 		$('.settings-message').removeClass('text-success').addClass('text-danger');
 		$scope.ajaxMsg = "Saving new Dev...";
-		if ($scope.newDev.pseudo === '')	 { $scope.ajaxMsg = "New dev miss a pseudo!"; return; }
-		if ($scope.newDev.pseudo.length < 3) { $scope.ajaxMsg = "New dev pseudo too short! (min 3 characters)"; return; }
-		if (!check_email($scope.newDev.mail)){ $scope.ajaxMsg = "New dev email is not valid!"; return; }
+		if ($scope.newDev.pseudo === '')	 { $scope.ajaxMsg = config.data.lang.Err_dev_pseudo; return; }
+		if ($scope.newDev.pseudo.length < 3) { $scope.ajaxMsg = config.data.lang.Err_dev_too_short; return; }
+		if (!check_email($scope.newDev.mail)){ $scope.ajaxMsg = config.data.lang.Err_dev_email; return; }
 		ajaxBug.addDev($scope.newDev).then(
 			function(R){
 				$scope.config.devs.push(R.newDev);
@@ -159,16 +160,23 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 		if (pw1 === "" || pw1.length < 4)
 			return;
 		if (pw2 !== pw1) {
-			$scope.ajaxMsg = "Warning! Passwords don't match in both inputs. Please retry.";
+			$scope.ajaxMsg = config.data.lang.Err_PW_doesnt_match;
 			return;
 		}
-		if (!confirm("Do you really want to update main password??"))
+		if (!confirm(config.data.lang.Confirm_PW_change))
 			return;
 		ajaxBug.updatePW(pw1).then(
 			function(R){ $scope.ajaxMsg = R.message+" Reloading..."; window.location = "./"; },
 			function(errMsg){ $scope.ajaxMsg = errMsg; }
 		);
 		$('.passwInput').val('');
+	};
+
+	$scope.saveLanguage = function(){
+		ajaxBug.updateLanguage($scope.current_lang).then(
+			function(R){ $scope.ajaxMsg = R.message+" Reloading..."; window.location = "./"; },
+			function(errMsg){ $scope.ajaxMsg = errMsg; }
+		);
 	};
 
 	$scope.getBackup = function(){
@@ -179,11 +187,7 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 	};
 
 	$scope.resetBughunter = function(){
-		if (!confirm("Reset the whole bughunter?\n\n"
-				+"This includes project infos, all bugs, and their comments and images.\n"
-				+"Note that all existing labels and devs will be kept, and current password will still be valid.\n\n"
-				+"You should create a backup of the database before...\n"
-				+"Continue anyway?\n\n"))
+		if (!confirm(config.data.lang.Confirm_reset))
 			return;
 		ajaxBug.resetAll().then(
 			function(R){ $scope.ajaxMsg = R.message+" Reloading..."; window.location = './'; },

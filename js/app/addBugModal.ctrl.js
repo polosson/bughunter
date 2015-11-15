@@ -21,6 +21,7 @@ bughunter.controller('addBugModalCtrl', function($scope, $modalInstance, $http, 
 	$scope.priorities = angular.copy(passConf.priorities);
 	$scope.labels	  = angular.copy(passConf.labels);
 	$scope.devs		  = angular.copy(passConf.devs);
+	var lang		  = angular.copy(passConf.lang);
 	$scope.ajaxMsg	  = "";
 	$scope.bug		  = {
 		title: '',
@@ -54,7 +55,7 @@ bughunter.controller('addBugModalCtrl', function($scope, $modalInstance, $http, 
 			$scope.uploadDone = false;
 		},
 		onBeforeUploadItem: function(){
-			$scope.ajaxMsg = "Sending images, please wait...";
+			$scope.ajaxMsg = lang.Uploading;
 		},
 		onCompleteItem: function(item, R){
 			$scope.bug.img.push(R.img);
@@ -68,26 +69,26 @@ bughunter.controller('addBugModalCtrl', function($scope, $modalInstance, $http, 
 	$scope.submitNewBug = function(){
 		$scope.ajaxMsg = "";
 		if ($scope.bug.title.length < 5) {
-			$scope.ajaxMsg = "Bug title too short. 5 characters minimum.";
+			$scope.ajaxMsg = lang.Err_title_too_short;
 			return;
 		}
 		if ($scope.bug.title.length > 90) {
-			$scope.ajaxMsg = "Bug title too long. 90 characters maximum.";
+			$scope.ajaxMsg = lang.Err_title_too_long;
 			return;
 		}
 		if ($scope.bug.description.length < 5) {
-			$scope.ajaxMsg = "Bug description too short. 5 characters minimum.";
+			$scope.ajaxMsg = lang.Err_descr_too_short;
 			return;
 		}
 		if ($scope.uploader.getNotUploadedItems().length > 0) {
-			$scope.ajaxMsg = "Some images are waiting to be sent. Send or cancel them before proceed.";
+			$scope.ajaxMsg = lang.Err_pending_upload;
 			return;
 		}
 		if ($scope.uploadDone === false) {
-			$scope.ajaxMsg = "Upload in progress. Please wait for upload completed before proceed...";
+			$scope.ajaxMsg = lang.Err_upload_progress;
 			return;
 		}
-		$scope.ajaxMsg = "Submitting bug informations...";
+		$scope.ajaxMsg = lang.Submitting;
 		$http({
 			url: 'actions/adminBug.php',
 			method: 'POST',
@@ -112,7 +113,7 @@ bughunter.controller('addBugModalCtrl', function($scope, $modalInstance, $http, 
 	$scope.closeAddBugModal = function(){
 		$scope.uploader.cancelAll();
 		if ($scope.bug.img.length > 0) {
-			if (!confirm("Some images have been uploaded to server.\n\nAre you sure you want to cancel you bug report?"))
+			if (!confirm(lang.Warning_abort_new_bug))
 				return;
 		}
 		$modalInstance.dismiss();

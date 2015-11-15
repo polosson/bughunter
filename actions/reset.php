@@ -41,7 +41,7 @@ try {
 		unlink($screen);
 	}
 	$data['error'] = 'OK';
-	$data['message'] = 'Bughunter reseted.';
+	$data['message'] = $LANG['Reset_OK'];
 
 } catch (Exception $e) {
 	$data['message'] = $e->getMessage();

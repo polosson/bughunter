@@ -39,7 +39,7 @@ try {
 		$iL->save('id', 'this', false, false);
 		$data['newLabel'] = $iL->getInfos();
 		$data['error']	  = "OK";
-		$data['message']  = "Label added.";
+		$data['message']  = $LANG['New_label_OK'];
 	}
 
 	if ($action === 'addDev') {
@@ -51,7 +51,7 @@ try {
 		$iD->save('id', 'this', false, false);
 		$data['newDev']  = $iD->getInfos();
 		$data['error']	 = "OK";
-		$data['message'] = "Dev added.";
+		$data['message'] = $LANG['New_dev_OK'];
 	}
 
 	if ($action === 'updateSetting') {
@@ -74,7 +74,7 @@ try {
 			$i->save('id', 'this', false, false);
 		}
 		$data['error'] = "OK";
-		$data['message'] = "$type updated.";
+		$data['message'] = "OK! '$type' ".$LANG['Updated'];
 	}
 
 	if ($action === 'deleteSetting') {
@@ -84,21 +84,32 @@ try {
 		$i->loadInfos('id', $itemID);
 		$i->delete();
 		$data['error'] = "OK";
-		$data['message'] = "Item removed from $type.";
+		$data['message'] = $LANG['Item_remove_OK']." $type.";
 	}
 
 	if ($action === 'updatePW') {
 		if (!isset($newPW))
 			throw new Exception("Missing the new password!");
 		if (strlen($newPW) < 4)
-			throw new Exception("New password is too short!");
+			throw new Exception($LANG['Err_PW_too_short']);
 		$newPass = md5(PASSWORD_SALT.$newPW);
 		$iC = new Infos('t_config');
 		$iC->loadInfos('nom', 'password_access');
 		$iC->setInfo('value', $newPass);
 		$iC->save('id', 'this', false, false);
 		$data['error'] = "OK";
-		$data['message'] = "Main password updated.";
+		$data['message'] = $LANG['Password_change_OK'];
+	}
+
+	if ($action === 'updateLanguage') {
+		if (!isset($newLang))
+			throw new Exception("Missing language to change!");
+		$iC = new Infos('t_config');
+		$iC->loadInfos('nom', 'language');
+		$iC->setInfo('value', $newLang);
+		$iC->save('id', 'this', false, false);
+		$data['error'] = "OK";
+		$data['message'] = $LANG['Language_change_OK'];
 	}
 
 } catch (Exception $e) {

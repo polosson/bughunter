@@ -34,6 +34,10 @@ try {
 	$l->addFiltre('nom', '!=', 'api_access');
 	$l->getListe('t_config', '*', 'id', 'ASC');
 	$data['globalConf']	 = $l->simplifyList('nom');
+	$data['available_languages'] = Array();
+	foreach (glob($pathLang.'/*') as $langFile)
+		$data['available_languages'][] = preg_replace('/\.php/', '', basename($langFile));
+	$data['LANG'] = $LANG;
 }
 catch (Exception $e) {
 	$data['error']	 = $e->getMessage();

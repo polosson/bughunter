@@ -740,11 +740,11 @@ header .cl-effect-13 a:focus {
 #content table .row-id {
 	width: 30px; }
 #content table .row-priority {
-	width: 6%; }
+	width: 90px; }
 #content table .row-title {
 	width: 15%; }
 #content table .row-comments {
-	width: 100px; }
+	width: 120px; }
 #content table .row-description {
 	width: auto; }
 #content table .row-label {
@@ -1294,7 +1294,7 @@ header .cl-effect-13 a:focus {
 	position: absolute;
 	width: 60%;
 	top: 42px;
-	left: 200px;
+	left: 250px;
 	height: 50px;
 }
 .wrapper-settings h1, .wrapper-settings h2, .wrapper-settings label, .wrapper-settings span {

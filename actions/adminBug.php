@@ -38,7 +38,7 @@ try {
 		$b->save();
 		$data['bug']	 = $b->getBugData();
 		$data['error']	 = "OK";
-		$data['message'] = "Bug added to the list. Thanks for your report.";
+		$data['message'] = $LANG['New_bug_OK'];
 	}
 
 	if ($action === 'modBug') {
@@ -49,7 +49,7 @@ try {
 		$b->save();
 		$data['bug']	 = $b->getBugData();
 		$data['error']	 = "OK";
-		$data['message'] = "Bug updated.";
+		$data['message'] = $LANG['Update_bug_OK'];
 	}
 
 	if ($action === 'killBug') {
@@ -58,7 +58,7 @@ try {
 		$b = new Bug((int)$bugID);
 		$b->killBug();
 		$data['error']	 = "OK";
-		$data['message'] = "Bug closed.";
+		$data['message'] = $LANG['Kill_bug_OK'];
 	}
 
 	if ($action === 'removeBug') {
@@ -67,7 +67,7 @@ try {
 		$b = new Bug((int)$bugID);
 		$b->removeBug();
 		$data['error']	 = "OK";
-		$data['message'] = "Bug deleted.";
+		$data['message'] = $LANG['Delete_bug_OK'];
 	}
 
 	if ($action === 'addComm') {
@@ -76,7 +76,7 @@ try {
 		$b = new Bug((int)$bugID);
 		$data['newComment'] = $b->addComment($commentText);
 		$data['error']	 = "OK";
-		$data['message'] = "Comment added.";
+		$data['message'] = $LANG['New_comment_OK'];
 	}
 
 	if ($action === 'modComm') {
@@ -87,7 +87,7 @@ try {
 		$b = new Bug((int)$bugID);
 		$b->updateComment((int)$comment['id'], $comment['message']);
 		$data['error']	 = "OK";
-		$data['message'] = "Comment updated.";
+		$data['message'] = $LANG['Update_comment_OK'];
 	}
 
 	if ($action === 'delComm') {
@@ -98,7 +98,7 @@ try {
 		$b = new Bug((int)$bugID);
 		$b->deleteComment((int)$commID);
 		$data['error']	 = "OK";
-		$data['message'] = "Comment deleted.";
+		$data['message'] = $LANG['Delete_comment_OK'];
 	}
 
 	if ($action == 'delImg') {
@@ -109,7 +109,7 @@ try {
 		$b = new Bug((int)$bugID);
 		$b->deleteImage($imgName);
 		$data['error']	 = "OK";
-		$data['message'] = "Image deleted.";
+		$data['message'] = $LANG['Image_delete_OK'];
 	}
 
 	if ($action == 'uploadImg') {
@@ -133,7 +133,7 @@ try {
 		}
 		$data['img']	 = $fname;
 		$data['error']	 = "OK";
-		$data['message'] = "Image added.";
+		$data['message'] = $LANG['Image_add_OK'];
 	}
 }
 catch (Exception $e) {

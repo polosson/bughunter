@@ -15,14 +15,14 @@
 	You should have received a copy of the GNU Affero General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-session_start();
+include('../init.php');
 $_SESSION['authAdmin'] = false;
 session_destroy();
 
 unset($_COOKIE['catch_bug']);
 setcookie('catch_bug','', time() - 3600,'/');
 
-$data['message'] = 'See you, dear Admin!';
+$data['message'] = $LANG['Bye'];
 
 header('HTTP/1.1 200 OK');
 header('Content-type: application/json; charset=UTF-8');

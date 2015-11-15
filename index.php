@@ -15,6 +15,7 @@
 	You should have received a copy of the GNU Affero General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+include('init.php');
 ?>
 <!DOCTYPE html>
 <html lang="en" ng-app="bughunter">
@@ -62,19 +63,19 @@
 			</div>
 			<ul>
 				<li ng-show="config.authAdmin">
-					<a href="#" ng-click="disconnect()">disconnect</a>
+					<a href="#" ng-click="disconnect()"><?php echo $LANG['Btn_disconnect']; ?></a>
 				</li>
 				<li ng-hide="config.authAdmin">
-					<a href="#" ng-click="connectModal()">Admin</a>
+					<a href="#" ng-click="connectModal()"><?php echo $LANG['Btn_admin']; ?></a>
 				</li>
 				<li ng-class="{'on': page === 'settings'}" ng-show="config.authAdmin">
-					<a href="#" ng-click="showPage('settings')">settings</a>
+					<a href="#" ng-click="showPage('settings')"><?php echo $LANG['Btn_settings']; ?></a>
 				</li>
 				<li ng-class="{'on': page === 'killed'}">
-					<a href="#" ng-click="showPage('killed')"><span class="killed circle">{{count.count.killed}}</span> killed bugs</a>
+					<a href="#" ng-click="showPage('killed')"><span class="killed circle">{{count.count.killed}}</span> <?php echo $LANG['Btn_killed_bugs']; ?></a>
 				</li>
 				<li ng-class="{'on': page === 'alive'}">
-					<a href="#" ng-click="showPage('alive')"><span class="alive circle">{{count.count.alive}}</span> bugs alive</a>
+					<a href="#" ng-click="showPage('alive')"><span class="alive circle">{{count.count.alive}}</span> <?php echo $LANG['Btn_bugs_alive']; ?></a>
 				</li>
 			</ul>
 		</nav>

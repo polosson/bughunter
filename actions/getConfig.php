@@ -35,8 +35,10 @@ try {
 	$l->getListe('t_config', '*', 'id', 'ASC');
 	$data['globalConf']	 = $l->simplifyList('nom');
 	$data['available_languages'] = Array();
-	foreach (glob($pathLang.'/*') as $langFile)
+	foreach (glob($pathLang.'/*') as $langFile) {
+		if (is_dir($langFile)) continue;
 		$data['available_languages'][] = preg_replace('/\.php/', '', basename($langFile));
+	}
 	$data['LANG'] = $LANG;
 }
 catch (Exception $e) {

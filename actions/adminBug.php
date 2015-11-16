@@ -36,6 +36,7 @@ try {
 		$b = new Bug();
 		$b->setBugData($bugInfos);
 		$b->save();
+		$b->notify('new');
 		$data['bug']	 = $b->getBugData();
 		$data['error']	 = "OK";
 		$data['message'] = $LANG['New_bug_OK'];
@@ -47,6 +48,7 @@ try {
 		$b = new Bug((int)$bugID);
 		$b->setBugData($bugInfos);
 		$b->save();
+		// @TODO : notify if dev assignment has changed
 		$data['bug']	 = $b->getBugData();
 		$data['error']	 = "OK";
 		$data['message'] = $LANG['Update_bug_OK'];
@@ -57,6 +59,7 @@ try {
 			throw new Exception("killBug: bug's ID is missing!");
 		$b = new Bug((int)$bugID);
 		$b->killBug();
+		$b->notify('close');
 		$data['error']	 = "OK";
 		$data['message'] = $LANG['Kill_bug_OK'];
 	}
@@ -75,6 +78,7 @@ try {
 			throw new Exception("addComm: bug's ID is missing!");
 		$b = new Bug((int)$bugID);
 		$data['newComment'] = $b->addComment($commentText);
+		$b->notify('comment');
 		$data['error']	 = "OK";
 		$data['message'] = $LANG['New_comment_OK'];
 	}

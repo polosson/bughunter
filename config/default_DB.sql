@@ -83,6 +83,7 @@ CREATE TABLE IF NOT EXISTS `t_devs` (
   `pseudo` varchar(45) DEFAULT NULL,
   `mail` varchar(45) DEFAULT NULL,
   `last_action` datetime DEFAULT NULL,
+  `notify` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `mail_UNIQUE` (`mail`),
   UNIQUE KEY `pseudo_UNIQUE` (`pseudo`)

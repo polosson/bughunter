@@ -70,7 +70,7 @@ try {
 	}
 	$iC->loadInfos('nom', 'api_access');
 	$api_access = $iC->getInfos('value');
-	
+
 	$iC->loadInfos('nom', 'language');
 	$language = $iC->getInfos('value');
 	if (is_file($pathLang."/$language.php"))
@@ -78,3 +78,20 @@ try {
 	else include("English.php");
 }
 catch(Exception $e) {  }
+
+
+/***************************** MISC FUNCTIONS *********************************/
+
+// GET CURRENT URL OF BUGHUNTER
+function get_url() {
+	$https = !empty($_SERVER['HTTPS']) && strcasecmp($_SERVER['HTTPS'], 'on') === 0 ||
+			!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+			strcasecmp($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') === 0;
+	return
+		($https ? 'https://' : 'http://').
+		(!empty($_SERVER['REMOTE_USER']) ? $_SERVER['REMOTE_USER'].'@' : '').
+		(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ($_SERVER['SERVER_NAME'].
+		($https && $_SERVER['SERVER_PORT'] === 443 ||
+		$_SERVER['SERVER_PORT'] === 80 ? '' : ':'.$_SERVER['SERVER_PORT']))).
+		substr($_SERVER['SCRIPT_NAME'],0, strrpos($_SERVER['SCRIPT_NAME'], '/'));
+}

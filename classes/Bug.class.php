@@ -190,6 +190,85 @@ class Bug {
 		$this->bugInfos->setInfo('img', json_encode($imgsOK));
 		$this->save();
 	}
+	/**
+	 * Send an email notification to devs
+	 * @param STRING $type The type of notification to send ('new', 'close', or 'assign')
+	 * @return INt Number of email actually sent
+	 */
+	public function notify($type) {
+		global $LANG;
+		$iC = new Infos('t_config');
+		$iC->loadInfos('nom', 'project_name');
+		$project_name = $iC->getInfos('value');
+		$iC->loadInfos('nom', 'language');
+		$language = $iC->getInfos('value');
+
+		$mail = new PHPMailer(true);
+		$mail->isMail();
+		if ($language === 'Francais')
+			$mail->setLanguage('fr', INSTALL_PATH.'language/phpMailer/');
+		$mail->CharSet = 'UTF-8';
+		$mail->From = "admin@bughunter.net";
+		$mail->FromName = "Bughunter $project_name";
+		$mail->isHTML(true);
+		switch($type){
+			case "new":
+				$subject = $LANG['Notify_newBug_subject'];
+				$bodyTxt = $LANG['Notify_newBug_body'];
+				break;
+			case "close":
+				$subject = $LANG['Notify_killBug_subject'];
+				$bodyTxt = $LANG['Notify_killBug_body'];
+				break;
+			case "comment":
+				$subject = $LANG['Notify_comment_subject'];
+				$bodyTxt = $LANG['Notify_comment_body'];
+				break;
+			case "assign":
+				$subject = $LANG['Notify_assign_subject'];
+				$bodyTxt = $LANG['Notify_assign_body'];
+				break;
+			default: throw new Exception("Notification type unknown.");
+		}
+		$bugData = $this->getBugData(true);
+		$subject = preg_replace('/\{\{BUG_ID\}\}/',	$bugData['id'], $subject);
+		$mail->Subject = $subject;
+		$template = file_get_contents(INSTALL_PATH.'mails/template.html');
+		$html = preg_replace('/\{\{SUBJECT\}\}/',	$subject, $template);
+		$html = preg_replace('/\{\{BODY\}\}/',		$bodyTxt, $html);
+		$html = preg_replace('/\{\{DATE\}\}/',		date('Y-m-d'), $html);
+		$html = preg_replace('/\{\{PROJECT\}\}/',	$project_name, $html);
+		$html = preg_replace('/\{\{URL_BH\}\}/',	preg_replace('/\/actions$/', '', get_url()), $html);
+		$html = preg_replace('/\{\{REPORTER\}\}/',	$bugData['author'], $html);
+		$html = preg_replace('/\{\{BUG_ID\}\}/',	$bugData['id'], $html);
+		$html = preg_replace('/\{\{BUG_TITLE\}\}/', $bugData['title'], $html);
+		$html = preg_replace('/\{\{BUG_DESCR\}\}/', $bugData['description'], $html);
+		$html = preg_replace('/\{\{BUG_LABEL\}\}/', $bugData['label']['name'], $html);
+		if ($type === "comment") {
+			$comm = end($bugData['comment']);
+			$html = preg_replace('/\{\{COMM_AUTHOR\}\}/',  $comm['dev']['pseudo'], $html);
+			$html = preg_replace('/\{\{COMM_MESSAGE\}\}/', nl2br($comm['message']), $html);
+		}
+		$l = new Liste();
+		$l->addFiltre('id', '>', '0');
+		$l->addFiltre('notify', '=', '1');
+		$l->getListe('t_devs');
+		$devs = $l->simplifyList();
+		if (!$devs)
+			return 0;
+		$countSent = 0;
+		foreach($devs as $dev) {
+			if ($type === "assign" && $bugData['FK_dev_ID'] != $dev['id'])
+				continue;
+			$mail->Body = $html;
+			$mail->addAddress($dev['mail']);
+			if($mail->send())
+				$countSent++;
+			$mail->clearAddresses();
+//			file_put_contents(INSTALL_PATH.'data/debugMail_'.$dev['pseudo'].'.html', $html);
+		}
+		return $countSent;
+	}
 
 	/***************************************************************************/
 

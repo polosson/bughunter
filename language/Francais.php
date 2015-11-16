@@ -151,4 +151,13 @@ $LANG = Array(
     "Warning_abort_new_bug" => "Des fichiers images ont été envoyés vers le serveur.\n\nÊtes-vous certain(e) de vouloir annuler l'ajout de ce bug ?",
 	"Welcome"				=> "Bienvenu(e), chèr(e) Admin!",
     "Write_comment"			=> "Écrivez votre commentaire ici",
+	// EMAIL NOTIFICATIONS
+	"Notify_newBug_subject"	=> "Un nouveau bug a été reporté !",
+	"Notify_newBug_body"	=> "<p>Un nouveau bug a été signalé par <b>{{REPORTER}}</b>, le {{DATE}}.</p>\n<ul><li>Label : <b>{{BUG_LABEL}}</b></li>\n<li>Titre : <b>{{BUG_TITLE}}</b></li>\n<li>Description : <b>{{BUG_DESCR}}</b></li></ul>\n<p>À bientôt !</p>",
+	"Notify_killBug_subject"=> "Le bug #{{BUG_ID}} a été fermé !",
+	"Notify_killBug_body"	=> "<p>Le bug #{{BUG_ID}} (label '<i>{{BUG_LABEL}}</i>') a été fermé le {{DATE}}.</p>\n<p>Titre du bug : <b>{{BUG_TITLE}}</b></p>\n<p>À bientôt !</p>",
+	"Notify_comment_subject"=> "Nouveau commentaire sur le bug #{{BUG_ID}}!",
+	"Notify_comment_body"	=> "<p>Le bug #{{BUG_ID}} a été commenté par <b>{{COMM_AUTHOR}}</b>, le {{DATE}}.</p>\n<p>Titre du bug : <b>{{BUG_TITLE}}</b></p>\n<p>Commentaire : <b>{{COMM_MESSAGE}}</b></p>\n<p>À bientôt !</p>",
+	"Notify_assign_subject"	=> "Vous avez été assigné au bug #{{BUG_ID}}",
+	"Notify_assign_body"	=> "<p>Label du bug : '{{BUG_LABEL}}'.</p>\n<p>Titre du bug : <b>{{BUG_TITLE}}</b></p>\n<p>À bientôt !</p>"
 );

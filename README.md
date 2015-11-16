@@ -19,7 +19,7 @@ Admin password is "**admin**". Try it!
 
 ----
 #### Remaining to do:
-  - <s>Email Notification system : new bug, close bug, new comment,</s> assign bug (todo)
+  - <s>Email Notification system : new bug, close bug, new comment, assign bug</s>
   - <s>auto resize uploaded image if too big</s>
   - <s>Download SQL dump and images files ("backup" button in settings)</s>
   - <s>Global reset of the whole Bughunter ("reset" button in settings)</s>

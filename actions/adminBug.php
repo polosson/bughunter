@@ -46,9 +46,13 @@ try {
 		if (!isset($bugID))
 			throw new Exception("modBug: bug's ID is missing!");
 		$b = new Bug((int)$bugID);
+		$bData = $b->getBugData(false);
+		$oldAssignee = $bData['FK_dev_ID'];
 		$b->setBugData($bugInfos);
 		$b->save();
-		// @TODO : notify if dev assignment has changed
+		$newAssignee = $bugInfos['FK_dev_ID'];
+		if ($oldAssignee != $newAssignee)
+			$b->notify('assign');
 		$data['bug']	 = $b->getBugData();
 		$data['error']	 = "OK";
 		$data['message'] = $LANG['Update_bug_OK'];

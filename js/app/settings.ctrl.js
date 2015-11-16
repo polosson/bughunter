@@ -121,6 +121,7 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 		if (!check_email($scope.newDev.mail)){ $scope.ajaxMsg = config.data.lang.Err_dev_email; return; }
 		ajaxBug.addDev($scope.newDev).then(
 			function(R){
+				R.newDev.notify = 0;
 				$scope.config.devs.push(R.newDev);
 				$('.settings-message').removeClass('text-danger').addClass('text-success');
 				$scope.newDev	= {pseudo:'', mail:''};

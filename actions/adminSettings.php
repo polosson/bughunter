@@ -62,6 +62,7 @@ try {
 			foreach($item as $pInfK => $pInfV) {
 				if ($pInfK === "password_access") continue;
 				if ($pInfK === "api_access") continue;
+				if ($pInfK === "enable_notify") $pInfV = (int)$pInfV;
 				$iC->loadInfos('nom', $pInfK);
 				$iC->setInfo('value', $pInfV);
 				$iC->save('id', 'this', false, false);

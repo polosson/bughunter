@@ -29,9 +29,10 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 	$scope.editLabel = false;
 	$scope.editDev   = false;
 	$scope.projInfo	 = {
-		project_name: angular.copy(config.data.globalConf.project_name.value),
-		project_type: angular.copy(config.data.globalConf.project_type.value),
-		git_repo:	  angular.copy(config.data.globalConf.git_repo.value)
+		project_name:  angular.copy(config.data.globalConf.project_name.value),
+		project_type:  angular.copy(config.data.globalConf.project_type.value),
+		git_repo:	   angular.copy(config.data.globalConf.git_repo.value),
+		enable_notify: (config.data.globalConf.enable_notify.value == 1)
 	};
 	$scope.projTypes = ['open-source', 'private'];
 	$scope.current_lang = config.data.globalConf.language.value;
@@ -136,6 +137,7 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 				$scope.config.globalConf.project_name.value = angular.copy($scope.projInfo.project_name);
 				$scope.config.globalConf.project_type.value = angular.copy($scope.projInfo.project_type);
 				$scope.config.globalConf.git_repo.value		= angular.copy($scope.projInfo.git_repo);
+				$scope.config.globalConf.enable_notify.value= angular.copy($scope.projInfo.enable_notify);
 				$('.settings-message').removeClass('text-danger').addClass('text-success');
 				$scope.ajaxMsg	= R.message;
 				$timeout(function(){ $scope.ajaxMsg = ""; }, 4000);
@@ -148,7 +150,8 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 		$scope.projInfo	 = {
 			project_name: angular.copy(config.data.globalConf.project_name.value),
 			project_type: angular.copy(config.data.globalConf.project_type.value),
-			git_repo:	  angular.copy(config.data.globalConf.git_repo.value)
+			git_repo:	  angular.copy(config.data.globalConf.git_repo.value),
+			enable_notify: (config.data.globalConf.enable_notify.value == 1)
 		};
 	};
 

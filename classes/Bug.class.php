@@ -192,12 +192,15 @@ class Bug {
 	}
 	/**
 	 * Send an email notification to devs
-	 * @param STRING $type The type of notification to send ('new', 'close', or 'assign')
+	 * @param STRING $type The type of notification to send ('new', 'close', 'comment', or 'assign')
 	 * @return INt Number of email actually sent
 	 */
 	public function notify($type) {
 		global $LANG;
 		$iC = new Infos('t_config');
+		$iC->loadInfos('nom', 'enable_notify');
+		if ($iC->getInfos('value') == 0)
+			return 0;
 		$iC->loadInfos('nom', 'project_name');
 		$project_name = $iC->getInfos('value');
 		$iC->loadInfos('nom', 'language');

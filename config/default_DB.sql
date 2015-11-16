@@ -75,7 +75,8 @@ INSERT INTO `t_config` (`id`, `nom`, `value`) VALUES
 (3, 'project_name', 'Your project'),
 (4, 'git_repo', 'git://your/git/repo/url.git'),
 (5, 'project_type', 'open-source'),
-(6, 'language', 'English');
+(6, 'language', 'English'),
+(7, 'enable_notify', '0');
 
 
 CREATE TABLE IF NOT EXISTS `t_devs` (

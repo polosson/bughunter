@@ -97,16 +97,26 @@ include('../init.php');
 			<div class="settings-content">
 				<h2><?php echo $LANG['Title_project_infos']; ?></h2>
 				<div class="settings-form">
-					<label for="project_name" style="width: 100px;"><?php echo $LANG['Name']; ?></label>
+					<label for="project_name" style="width: 120px;"><?php echo $LANG['Name']; ?></label>
 					<input placeholder="project name" type="text" id="project_name" ng-model="projInfo.project_name" />
 					<br />
-					<label for="project_type" style="width: 100px;"><?php echo $LANG['Type']; ?></label>
+					<label for="project_type" style="width: 120px;"><?php echo $LANG['Type']; ?></label>
 					<select ng-options="type as type for type in projTypes" ng-model="projInfo.project_type"></select>
 					<br />
-					<label for="project_git" style="width: 100px;"><?php echo $LANG['Git_repo']; ?></label>
+					<label for="project_git" style="width: 120px;"><?php echo $LANG['Git_repo']; ?></label>
 					<input placeholder="git repository url" style="width: 57%;" type="text" id="project_git" ng-model="projInfo.git_repo" />
+					<br />
+					<label for="enable_notify" style="width: 120px;"><?php echo $LANG['Notify_enable']; ?></label>
+					<div class="btn-group" id="enable_notify" title="<?php echo $LANG['Notify_help']; ?>">
+						<button class="btn" ng-class="{'btn-primary': projInfo.enable_notify,  'btn-default': !projInfo.enable_notify}" ng-click="projInfo.enable_notify = true">
+							<?php echo $LANG['Enabled']; ?>
+						</button>
+						<button class="btn" ng-class="{'btn-primary': !projInfo.enable_notify, 'btn-default': projInfo.enable_notify}" ng-click="projInfo.enable_notify = false">
+							<?php echo $LANG['Disabled']; ?>
+						</button>
+					</div>
 				</div>
-				<div class="text-center">
+				<div class="text-left" style="margin: 15px 0 0 130px;">
 					<button class="btn-success" ng-show="config.authAdmin" ng-click="saveProject()"><?php echo $LANG['Btn_save']; ?></button>
 					<button class="btn-warning" ng-show="config.authAdmin" ng-click="cancelProject()"><?php echo $LANG['Btn_cancel']; ?></button>
 				</div>
@@ -120,7 +130,7 @@ include('../init.php');
 					<h4><?php echo $LANG['Title_password_change']; ?></h4>
 					<input placeholder="<?php echo $LANG['Password_change']; ?>" type="password" class="passwInput">
 					<input placeholder="<?php echo $LANG['Password_confirm']; ?>" type="password" class="passwInput">
-					<button class="btn-success" ng-click="changePassword()"><?php echo $LANG['Btn_update_password']; ?></button>
+					<button class="btn-success" ng-click="changePassword()" style="max-width: 220px;"><?php echo $LANG['Btn_update_password']; ?></button>
 				</div>
 				<div class="settings-form">
 					<h4><?php echo $LANG['Title_language_choice']; ?></h4>

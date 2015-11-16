@@ -119,7 +119,9 @@ $LANG = Array(
     "New_comment_OK"		=> "Comment added.",
     "New_dev_OK"			=> "Dev added.",
     "New_label_OK"			=> "Label added.",
+    "No"					=> "No",
     "None"					=> "None",
+    "Notify"				=> "Notify",
     "Notify_enable"			=> "Notifications",
     "Notify_help"			=> "Enable or disable email notifications when an event occurs (new bug, close bug, new comment, or assign to dev).",
     "Opened_by"				=> "Opened by",
@@ -155,6 +157,7 @@ $LANG = Array(
     "Warning_abort_new_bug"	=> "Some images have been uploaded to server.\n\nAre you sure you want to cancel your bug report?",
     "Welcome"				=> "Welcome dear Admin!",
     "Write_comment"			=> "Write a comment here",
+	"Yes"					=> "Yes",
 	// EMAIL NOTIFICATIONS
 	"Notify_newBug_subject"	=> "A new bug was reported!",
 	"Notify_newBug_body"	=> "<p>A new bug was reported by <b>{{REPORTER}}</b>, on {{DATE}}.</p>\n<ul><li>Label: <b>{{BUG_LABEL}}</b></li>\n<li>Title: <b>{{BUG_TITLE}}</b></li>\n<li>Description: <b>{{BUG_DESCR}}</b></li></ul>\n<p>See you!</p>",

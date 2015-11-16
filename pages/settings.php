@@ -69,7 +69,7 @@ include('../init.php');
 
 				<table>
 					<thead>
-						<tr> <th><?php echo $LANG['Pseudo']; ?></th> <th><?php echo $LANG['Email']; ?></th> <th></th> </tr>
+						<tr> <th><?php echo $LANG['Pseudo']; ?></th> <th><?php echo $LANG['Email']; ?></th> <th style="width: 100px;"><?php echo $LANG['Notify']; ?></th> <th></th> </tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="dev in config.devs">
@@ -80,6 +80,14 @@ include('../init.php');
 							<td ng-class="{'stripedBG': dev.id === '0'}">
 								<span ng-hide="editDev === dev.id">{{dev.mail}}</span>
 								<input type="email" ng-show="editDev === dev.id" ng-model="dev.mail" />
+							</td>
+							<td>
+								<span ng-hide="editDev === dev.id || dev.notify == 0" style="color: #3c763d;"><?php echo $LANG['Yes']; ?></span>
+								<span ng-hide="editDev === dev.id || dev.notify == 1" style="color: #BD4C4A;"><?php echo $LANG['No']; ?></span>
+								<div ng-show="editDev === dev.id" class="btn-group">
+									<button class="btn" ng-class="{'btn-primary': dev.notify == 1, 'btn-default': dev.notify == 0}" ng-click="dev.notify = 1"><?php echo $LANG['Yes']; ?></button>
+									<button class="btn" ng-class="{'btn-primary': dev.notify == 0, 'btn-default': dev.notify == 1}" ng-click="dev.notify = 0"><?php echo $LANG['No']; ?></button>
+								</div>
 							</td>
 							<td>
 								<button ng-hide="editDev" ng-click="initEdit('devs', dev.id)" class="btn-action">Edit</button>

@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `t_devs` (
 
 INSERT INTO `t_devs` (`id`, `pseudo`, `mail`, `last_action`) VALUES
 (-1, 'Admin', 'contact@saamanager.net', NULL),
-(0, 'none', NULL, NULL);
+(0, 'nobody', NULL, NULL);
 
 
 CREATE TABLE IF NOT EXISTS `t_labels` (

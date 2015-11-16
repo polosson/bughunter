@@ -166,5 +166,5 @@ $LANG = Array(
 	"Notify_comment_subject"=> "New comment on bug #{{BUG_ID}}!",
 	"Notify_comment_body"	=> "<p>The bug #{{BUG_ID}} was commented by <b>{{COMM_AUTHOR}}</b>, on {{DATE}}.</p>\n<p>Bug title: <b>{{BUG_TITLE}}</b></p>\n<p>Comment: <b>{{COMM_MESSAGE}}</b></p>\n<p>Cheers!</p>",
 	"Notify_assign_subject"	=> "You've been assigned to bug #{{ID_BUG}}",
-	"Notify_assign_body"	=> "<p>Bug label: '{{BUG_LABEL}}'.</p>\n<p>Bug title: <b>{{BUG_TITLE}}</b></p>\n<p>See you!</p>"
+	"Notify_assign_body"	=> "<p>Bug label: '{{BUG_LABEL}}'.</p>\n<p>Bug title: <b>{{BUG_TITLE}}</b></p>\n<p>Description: <b>{{BUG_DESCR}}</b></p>\n<p>See you!</p>"
 );

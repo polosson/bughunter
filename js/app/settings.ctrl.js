@@ -58,7 +58,7 @@ bughunter.controller('settingsCtrl', function($scope, $timeout, $modalInstance, 
 		if (type === "devs") {
 			if (item[0].pseudo === '')	   { $scope.ajaxMsg = config.data.lang.Err_dev_mod_pseudo; return; }
 			if (item[0].pseudo.length < 3) { $scope.ajaxMsg = config.data.lang.Err_dev_mod_too_short; return; }
-			if (!check_email(item[0].mail)){ $scope.ajaxMsg = config.data.lang.Err_dev_mod_email; return; }
+			if (item[0].id != 0 && !check_email(item[0].mail)){ $scope.ajaxMsg = config.data.lang.Err_dev_mod_email; return; }
 		}
 		ajaxBug.updateSetting(type, item[0]).then(
 			function(R){

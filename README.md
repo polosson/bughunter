@@ -24,6 +24,6 @@ Admin password is "**admin**". Try it!
   - <s>Download SQL dump and images files ("backup" button in settings)</s>
   - <s>Global reset of the whole Bughunter ("reset" button in settings)</s>
   - <s>Language translation (English & French done)</s>
-  - Heartbeat to check bugs list every x minutes
+  - <s>Heartbeat to check bugs list every x minutes</s>
   - Admin connexion with dev pseudo (not only main password)
   - clean CSS ^^

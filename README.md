@@ -25,5 +25,6 @@ Admin password is "**admin**". Try it!
   - <s>Global reset of the whole Bughunter ("reset" button in settings)</s>
   - <s>Language translation (English & French done)</s>
   - <s>Heartbeat to check bugs list every x minutes</s>
+  - Propose an alternative database system (JSON instead of MySQL) during install
   - Admin connexion with dev pseudo (not only main password)
   - clean CSS ^^

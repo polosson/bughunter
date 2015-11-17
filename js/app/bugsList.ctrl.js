@@ -20,7 +20,7 @@
 /**
  * BUGS LIST controller
  */
-bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config, countBugs, ajaxBug){
+bughunter.controller("bugsCtrl", function($scope, $http, $interval, $modal, msgSrv, config, countBugs, ajaxBug){
 	$scope.bugsList		= [];
 	$scope.search	 = {'title':"", 'priority':"", 'FK_label_ID':"", 'FK_dev_ID':""};
 	$scope.orderProp = 'priority';
@@ -30,6 +30,9 @@ bughunter.controller("bugsCtrl", function($scope, $http, $modal, msgSrv, config,
 	$scope.config	= config.data;
 
 	getBugsList();
+	
+	// Heartbeat to check bugs list every 5 minutes
+	$interval(getBugsList, 1000 * 60 * 5);
 
 	$scope.resetFilter = function(){
 		$scope.search = {'title':"", 'priority':"", 'FK_label_ID':"", 'FK_dev_ID':""};
